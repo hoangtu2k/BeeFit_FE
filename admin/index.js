@@ -7,6 +7,10 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "sanpham/index.html",
             controller: SanPhamController,
         })
+        .when("/products/add", {
+            templateUrl: "sanpham/add.html",
+            controller: SanPhamController,
+        })
         .when("/403", {
             templateUrl: "403.html",
         })

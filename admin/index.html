@@ -32,10 +32,13 @@
     <!-- Template Main CSS File -->
     <link href="../assets/css/style.css" rel="stylesheet">
 
+    <!-- CSS File -->
+    <link href="../assets/css/sanpham.css" rel="stylesheet">
+
     <!-- AngularJS Files -->
-    <script src="./assets/js/angular.min.js"></script>
-    <script src="./assets/js/angular-route.js"></script>
-    <script src="./assets/js/sweetalert2.min.js"></script>
+    <script src="../assets/js/angular.min.js"></script>
+    <script src="../assets/js/angular-route.js"></script>
+    <script src="../assets/js/sweetalert2.min.js"></script>
 
     <!-- JS Files -->
     <script src="../assets/js/999051c9de.js" crossorigin="anonymous"></script>
@@ -47,8 +50,8 @@
     <script src="../assets/js/html2pdf.bundle.min.js"></script>
     <script src="../assets/js/moment.min.js"></script>
     <script src="../assets/js/ckeditor.js"></script>
-    <script src="../assets/js/chartjs-plugin-zoom.js"></script>
-    <script src="../assets/js/chartjs-plugin-datalabels.js"></script>
+    <!-- <script src="../assets/js/chartjs-plugin-zoom.js"></script>
+    <script src="../assets/js/chartjs-plugin-datalabels.js"></script> -->
 
   </head>
 
@@ -162,7 +165,7 @@
         <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#forms-nav"
             data-bs-toggle="collapse" href>
-            <i class="bi bi-journal-text"></i><span>Thuộc tính sản phẩm</span><i
+            <i class="fa-solid fa-list"></i><span>Thuộc tính sản phẩm</span><i
               class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="forms-nav" class="nav-content collapse "
@@ -224,7 +227,7 @@
         <li class="nav-item">
           <a class="nav-link collapsed" href="">
             <i class="fa-solid fa-user-tie"></i>
-            <span>Khách hàng</span>
+            <span>Quản lý khách hàng</span>
           </a>
         </li><!-- End customer Page Nav -->
 
@@ -243,6 +246,15 @@
             <span>Quản lý hóa đơn</span>
           </a>
         </li><!-- End bill Page Nav -->
+
+        <li class="nav-heading">Khuyến mại</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="">
+            <i class="fa-solid fa-tags"></i>
+            <span>Quản lý khuyến mại</span>
+          </a>
+        </li><!-- End voucher Page Nav -->
 
         <li class="nav-heading">Hệ thống</li>
 
@@ -287,6 +299,7 @@
 
     <!-- Function AngularJS File -->
     <script src="index.js"></script>
+    <script src="../assets/angularjs/sanpham.js"></script>
 
   </body>
 
