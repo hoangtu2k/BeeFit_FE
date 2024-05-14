@@ -2,4 +2,4 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
 
 
 
-}
+};
