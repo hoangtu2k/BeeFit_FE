@@ -22,20 +22,33 @@
                 </div>
 
                 <div class="row g-3 needs-validation">
+
                   <div class="input-group has-validation">
                     <div class="col-12">
                       <label for="username" class="form-label">Username</label>
-                      <input type="text" class="form-control">
+                      <input type="text" ng-model="username" class="form-control">
+                      <div ng-repeat="err in validationErrors">
+                        <span class="validate" ng-if="err.objectName == 'loginRequest' && err.field == 'username'"
+                          style="color: red;">
+                          {{err.defaultMessage}}
+                        </span>
+                      </div>
                     </div>
 
                     <div class="col-12">
                       <label for="password" class="form-label">Password</label>
-                      <input type="password" class="form-control"><br>                    
+                      <input type="password" ng-model="password" class="form-control">
+                      <div ng-repeat="err in validationErrors">
+                        <span class="validate" ng-if="err.objectName == 'loginRequest' && err.field == 'password'"
+                          style="color: red;">
+                          {{err.defaultMessage}}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-12">
-                    <button class="btn btn-outline-primary w-100 text-center">Đăng nhập</button>
+                    <button class="btn btn-outline-primary w-100 text-center"  ng-click="login()">Đăng nhập</button>
                   </div>  
 
                   <div class="col-12">
