@@ -31,3 +31,9 @@
 .product-search .search-form button i {
     color: #012970;
 }
+
+:focus {
+    outline: 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important
+  }

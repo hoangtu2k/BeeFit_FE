@@ -28,7 +28,6 @@
 
   <!-- Template Main CSS File -->
   <link href="../assets/css/style.css" rel="stylesheet">
-  <link href="../assets/css/styles.css" rel="stylesheet">
 
   <!-- CSS File -->
   <link href="../assets/css/sanpham.css" rel="stylesheet">
@@ -48,231 +47,222 @@
   <script src="../assets/js/html2pdf.bundle.min.js"></script>
   <script src="../assets/js/moment.min.js"></script>
   <script src="../assets/js/ckeditor.js"></script>
-  <!-- <script src="../assets/js/chartjs-plugin-zoom.js"></script>
-    <script src="../assets/js/chartjs-plugin-datalabels.js"></script> -->
 
 </head>
 
 <body ng-app="myApp">
 
   <div class="page-wrapper" id="main-wrapper" style="display: block;">
-  </div>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo d-flex align-items-center">
+          <img src="../assets/img/logo.png" alt>
+          <span class="d-none d-lg-block">BeeFit</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      </div><!-- End Logo -->
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="../assets/img/logo.png" alt>
-        <span class="d-none d-lg-block">BeeFit</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+      <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+          <li class="nav-item dropdown pe-3">
 
-        <li class="nav-item dropdown pe-3">
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">K.
+                Anderson</span>
+            </a><!-- End Profile Iamge Icon -->
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K.
-              Anderson</span>
-          </a><!-- End Profile Iamge Icon -->
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>Kevin Anderson</h6>
+                <span>Web Designer</span>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
-            </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href>
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href>
+                  <i class="bi bi-gear"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+     
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href>
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+
+        </ul>
+      </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+      <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-heading">Tổng quan</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/chart/view">
+            <i class="bx bx-bar-chart"></i>
+            <span>Thống kê</span>
+          </a>
+        </li><!-- End chart Nav -->
+
+        <li class="nav-heading">Sản phẩm</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/product/view">
+            <i class="fa-solid fa-shirt"></i>
+            <span>Quản lý áo</span>
+          </a>
+        </li><!-- End product Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#products-nav" data-bs-toggle="collapse" href>
+            <i class="fa-solid fa-list"></i><span>Thuộc tính sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="products-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href>
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Danh mục</span>
               </a>
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href>
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Thương hiệu</span>
               </a>
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href>
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Thiết kế</span>
               </a>
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href>
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Kiểu cổ</span>
               </a>
             </li>
+            <li>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Kiểu tay</span>
+              </a>
+            </li>
+            <li>
+              <a href>
+                <i class="bi bi-circle"></i><span>Chất liệu</span>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Màu sắc</span>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <i class="bi bi-circle"></i><span>Kích thước</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End element product Nav -->
 
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
+        <li class="nav-heading">Nhân viên</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/403">
+            <i class="bi bi-person"></i>
+            <span>Quản lý nhân viên</span>
+          </a>
+        </li><!-- End employee Page Nav -->
+
+        <li class="nav-heading">Khách hàng</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/403">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Quản lý khách hàng</span>
+          </a>
+        </li><!-- End customer Page Nav -->
+
+        <li class="nav-heading">Đơn hàng</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/sell/view">
+            <i class="bi bi-basket"></i>
+            <span>Bán hàng tại quầy</span>
+          </a>
+        </li><!-- End sell Page Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="">
+            <i class="ri-bill-line"></i>
+            <span>Quản lý hóa đơn</span>
+          </a>
+        </li><!-- End bill Page Nav -->
+
+        <li class="nav-heading">Khuyến mại</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/403">
+            <i class="fa-solid fa-tags"></i>
+            <span>Quản lý khuyến mại</span>
+          </a>
+        </li><!-- End voucher Page Nav -->
+
+        <li class="nav-heading">Hệ thống</li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/403">
+            <i class="bx bx-slideshow"></i>
+            <span>Quản lý Slide Show</span>
+          </a>
+        </li><!-- End slide show Page Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/403">
+            <i class="bi bi-newspaper"></i>
+            <span>Quản lý tin tức</span>
+          </a>
+        </li><!-- End status Page Nav -->
 
       </ul>
-    </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+    </aside><!-- End Sidebar-->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+    <!-- ======= main ======= -->
+    <div class="body-wrapper">
+      <div ng-view></div>
+    </div><!-- End main -->
 
-    <ul class="sidebar-nav" id="sidebar-nav">
-      
-      <li class="nav-heading">Tổng quan</li>
+  </div>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/chart/view">
-          <i class="bx bx-bar-chart"></i>
-          <span>Thống kê</span>
-        </a>
-      </li><!-- End chart Nav -->
-
-      <li class="nav-heading">Sản phẩm</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/products/view">
-          <i class="fa-solid fa-shirt"></i>
-          <span>Quản lý áo</span>
-        </a>
-      </li><!-- End product Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#products-nav" data-bs-toggle="collapse" href>
-          <i class="fa-solid fa-list"></i><span>Thuộc tính sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="products-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Danh mục</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Thương hiệu</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Thiết kế</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Kiểu cổ</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Kiểu tay</span>
-            </a>
-          </li>
-          <li>
-            <a href>
-              <i class="bi bi-circle"></i><span>Chất liệu</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Màu sắc</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="bi bi-circle"></i><span>Kích thước</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End element product Nav -->
-
-      <li class="nav-heading">Nhân viên</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/403">
-          <i class="bi bi-person"></i>
-          <span>Quản lý nhân viên</span>
-        </a>
-      </li><!-- End employee Page Nav -->
-
-      <li class="nav-heading">Khách hàng</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/403">
-          <i class="fa-solid fa-user-tie"></i>
-          <span>Quản lý khách hàng</span>
-        </a>
-      </li><!-- End customer Page Nav -->
-
-      <li class="nav-heading">Đơn hàng</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="http://127.0.0.1:5500/admin/banhang/index.html">
-          <i class="bi bi-basket"></i>
-          <span>Bán hàng tại quầy</span>
-        </a>
-      </li><!-- End sell Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="">
-          <i class="ri-bill-line"></i>
-          <span>Quản lý hóa đơn</span>
-        </a>
-      </li><!-- End bill Page Nav -->
-
-      <li class="nav-heading">Khuyến mại</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/403">
-          <i class="fa-solid fa-tags"></i>
-          <span>Quản lý khuyến mại</span>
-        </a>
-      </li><!-- End voucher Page Nav -->
-
-      <li class="nav-heading">Hệ thống</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/403">
-          <i class="bx bx-slideshow"></i>
-          <span>Quản lý Slide Show</span>
-        </a>
-      </li><!-- End slide show Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#/403">
-          <i class="bi bi-newspaper"></i>
-          <span>Quản lý tin tức</span>
-        </a>
-      </li><!-- End status Page Nav -->
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
-
-  <!-- ======= main ======= -->
-  <div class="body-wrapper">
+  <div id="login" style="display: none;">
     <div ng-view></div>
-  </div><!-- End main -->
-
+  </div>
 
   <!-- <a href="" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> -->
 
@@ -290,9 +280,11 @@
   <script src="../assets/js/main.js"></script>
 
   <!-- Function AngularJS File -->
-  <script src="index.js"></script>
+  <script src="../assets/angularjs/index.js"></script>
+  <script src="../assets/angularjs/login.js"></script>
   <script src="../assets/angularjs/sanpham.js"></script>
   <script src="../assets/angularjs/thongke.js"></script>
+  <script src="../assets/angularjs/banhang.js"></script>
 
 </body>
 
