@@ -156,21 +156,11 @@ app.run(function ($rootScope, $http, AuthService) {
   }
 
   $rootScope.logout = function () {
-    Swal.fire({
-      title: "Bạn có chắc muốn đăng xuất ?",
-      showCancelButton: true,
-      confirmButtonText: "Đăng xuất",
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        AuthService.clearToken();
-        AuthService.clearId();
-        AuthService.clearRole();
-        $rootScope.user = null;
-        Swal.fire("Đăng xuất thành công !", "", "success");
-        location.href = "#/login";
-      }
-    });
+    AuthService.clearToken();
+    AuthService.clearId();
+    AuthService.clearRole();
+    $rootScope.user = null;
+    location.href = "#/login";
   };
   $rootScope.submenu = false;
   $rootScope.menu = function () {

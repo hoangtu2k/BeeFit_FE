@@ -12,7 +12,6 @@ window.LoginAdminController = function ($scope, $http, $rootScope, AuthService) 
         if (response.status === 200) {
           var token = response.data.token;
           // Lưu token vào local storage hoặc session storage
-          //console.log(response.data.user.fullname);   
           AuthService.saveToken(token); // Lưu token vào localStorage
           $http({
             method: "GET",
