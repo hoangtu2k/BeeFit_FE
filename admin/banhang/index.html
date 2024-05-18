@@ -1,14 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
 
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center">
+        <input type="text" name="query" placeholder="Tìm sản phẩn theo mã hoặc tên" title="Tìm kiếm hàng hóa">
+        <button title="Tìm kiếm hàng hóa"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
 
-</body>
-</html>
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+          <li class="nav-item dropdown pe-3">
+
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+              <img src="../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+              <span class="d-none d-md-block dropdown-toggle ps-2">{{user.fullname}}</span>
+            </a><!-- End Profile Iamge Icon -->
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>{{user.fullname}}</h6>
+                <span> {{user.role.name}} </span>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href>
+                  <i class="bi bi-person"></i>
+                  <span>Thông tin người dùng</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href>
+                  <i class="bi bi-gear"></i>
+                  <span>Cài đặt tài khoản</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" ng-click="logout()" href>
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Đăng xuất</span>
+                </a>
+              </li>
+
+            </ul><!-- End Profile Dropdown Items -->
+          </li><!-- End Profile Nav -->
+
+        </ul>
+      </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+<!-- ======= Main ======= -->
+<main id="main" class="main" style="margin: 60px 0 0 0; padding: 20px 20px;">
+    <section class="section dashboard">
+      <div class="row">
+  
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+  
+            <div class="col-lg-12">
+  
+              <div class="card ">
+                <div class="card-body">
+
+                  <div class="row" style="margin-top: 20px;">
+
+                    <div class="col-lg-6">
+                      <button class="btn btn-primary">Tạo hóa đơn</button>
+                      <button class="btn btn-primary">Hủy hóa đơn</button>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <h5>Có 1 đơn hàng đang chờ</h5>
+                    </div>
+
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-lg-12">
+                      
+                        <span>
+                          <button style="margin: 2px 1px; width: 120px;" class="btn btn-primary">Hóa đơn 1</button>
+                        </span>
+      
+                        <div >
+                          <div class="btn-group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-primary"><i class="fa-solid fa-angles-left"></i></button>
+                            <button type="button" class="btn btn-primary"><i class="fa-solid fa-angle-left"></i></button>
+                            <button type="button" class="btn btn-primary">1 of 2</button>
+                            <button type="button" class="btn btn-primary"><i class="fa-solid fa-angle-right"></i></button>
+                            <button type="button" class="btn btn-primary"><i class="fa-solid fa-angles-right"></i></button>
+                          </div>    
+                        </div>
+      
+                    </div>
+               
+                  </div>
+
+                </div>
+              </div>
+  
+              <!-- End Right side columns -->
+  
+            </div>
+
+            <div class="col-lg-12">
+  
+              <div class="card">
+                <div class="card-body">                
+                
+                  <!-- cart -->
+                  <table class="table">
+                    <thead>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th>Quantity</th>
+                      <th>UnitPrice</th>
+                      <th>Total</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>
+                          <a href="" ><i class="bi bi-trash"></i></a>
+                        </td>
+                      </tr>                
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+  
+            </div>
+         
+          </div>
+        </div>
+  
+        <!-- End Left side columns -->
+        <!-- ///////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- Right side columns -->
+  
+        <div class="col-lg-4">
+          <div class="row">
+  
+            <div class="col-lg-12">
+  
+              <div class="card">
+  
+                <div class="card-body" style="height: 440px;">
+              
+                </div>
+  
+              </div>
+  
+            </div>
+  
+          </div>
+        </div>
+  
+        <!-- End Right side columns -->
+  
+      </div>
+
+      <!-- ///////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- Tìm sản phẩm -->
+
+  
+    </section>
+  </main>
+  <!-- End #main -->
+
