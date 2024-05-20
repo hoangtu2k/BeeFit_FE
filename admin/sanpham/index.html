@@ -14,43 +14,39 @@
             <div class="row">
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="danhmuc">
+                    <option value="">Tất cả danh mục</option>
+                    <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}"> {{danhmuc.name}}</option>
                   </select>
-                  <label for="floatingSelect">Danh mục</label>
+                  <label for="">Danh mục</label>
                 </div>
               </div>
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="thuonghieu">
+                    <option value="">Tất cả thương hiệu</option>
+                    <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}"> {{thuonghieu.name}}</option>
                   </select>
-                  <label for="floatingSelect">Thương hiệu</label>
+                  <label for="">Thương hiệu</label>
                 </div>
               </div>
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="thietke">
+                    <option value="">Tất cả thiết kế</option>
+                    <option ng-repeat="thietke in listDesign" value="{{thietke.id}}"> {{thietke.name}}</option>
                   </select>
-                  <label for="floatingSelect">Thiết kế</label>
+                  <label for="">Thiết kế</label>
                 </div>
               </div>
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="kieuco">
+                    <option value="">Tất cả kiểu cổ</option>
+                    <option ng-repeat="kieuco in listNeckType" value="{{kieuco.id}}"> {{kieuco.name}}</option>
                   </select>
                   <label for="floatingSelect">Kiểu cổ</label>
                 </div>
@@ -58,10 +54,9 @@
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="kieutay">
+                    <option value="">Tất cả kiểu tay</option>
+                    <option ng-repeat="kieutay in listHandType" value="{{kieutay.id}}"> {{kieutay.name}}</option>
                   </select>
                   <label for="floatingSelect">Kiểu tay</label>
                 </div>
@@ -69,10 +64,9 @@
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="chatlieu">
+                    <option value="">Tất cả chất liệu</option>
+                    <option ng-repeat="chatlieu in listMaterial" value="{{chatlieu.id}}"> {{chatlieu.name}}</option>
                   </select>
                   <label for="floatingSelect">Chất liệu</label>
                 </div>
@@ -80,10 +74,9 @@
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="mausac">
+                    <option value="">Tất cả màu sắc</option>
+                    <option ng-repeat="mausac in listColor" value="{{mausac.id}}"> {{mausac.name}}</option>
                   </select>
                   <label for="floatingSelect">Màu sắc</label>
                 </div>
@@ -91,10 +84,9 @@
 
               <div class="col-md-3">
                 <div class="form-floating mb-4">
-                  <select class="form-select" id="floatingSelect">
-                    <option selected=""></option>
-                    <option value="1">Áo cổ tròn</option>
-                    <option value="2">Áo cổ chữ V</option>
+                  <select class="form-select" id="kichthuoc">
+                    <option value="">Tất cả kích thước</option>
+                    <option ng-repeat="kichthuoc in listSize" value="{{kichthuoc.id}}"> {{kichthuoc.name}}</option>
                   </select>
                   <label for="floatingSelect">Kích thước</label>
                 </div>
@@ -118,11 +110,10 @@
 
               <div class="col-lg-6">
 
-              <a href="#/product/add" class="btn btn-primary" title="Thêm sản phẩm"><i class="far fa-plus"></i></a>
-                    
-              <button class="btn btn-primary" title="Xuất file"><i
-                  class="fas fa-fw fa-file-export"></i></button>
-  
+                <a href="#/product/add" class="btn btn-primary" title="Thêm sản phẩm"><i class="far fa-plus"></i> Thêm sản phẩm</a>
+
+                <button class="btn btn-primary" title="Xuất file"><i class="fas fa-fw fa-file-export"></i> Xuất file</button>
+
 
               </div>
 
