@@ -111,12 +111,12 @@
               <div class="col-lg-6">
 
                 <a href="#/product/add" class="btn btn-primary" title="Thêm sản phẩm"><i class="far fa-plus"></i> Thêm
-                  sản phẩm</a>
-                <button ng-click="importExel()" class="btn btn-primary" title="Import"><i
+                  sản phẩm</a>           
+                <button ng-click="openImportExcel()" class="btn btn-primary" title="Import"><i
                     class="fas fa-fw fa-file-import"></i> Nhập file</button>
-                <button class="btn btn-primary" title="Xuất file"><i class="fas fa-fw fa-file-export"></i> Xuất
+                <button ng-click="exportToExcel()" class="btn btn-primary" title="Xuất file"><i
+                    class="fas fa-fw fa-file-export"></i> Xuất
                   file</button>
-
 
               </div>
 
@@ -302,6 +302,29 @@
       </div>
     </div>
     <!-- ======= end row ======= -->
+
+    <div class="popup" ng-class="{ 'show': isnhapfile }">
+      <div class="importExcel-content">
+        <div>
+          <div>
+            <span class="card-title">Chọn file dữ liệu </span>
+           <a ng-click="exportToExcelMau()" href="" style="float: right;">Tải mẫu file</a>
+          </div>
+          <br>
+          <hr>
+          <div style="float: right;">
+            <button class="btn btn-danger" ng-click="openImportExcel()">X</button>
+          </div>
+  
+        </div>
+
+        <input type="file" id="fileInput" style="display: none;" accept=".xls, .xlsx">
+        <button onclick="openExel()" class="btn btn-primary" id="uploadButton">Mở file</button>
+        <button ng-click="importExel()" class="btn btn-primary" title="Import">Thực hiện</button>
+
+      </div>
+    </div>
+
 
   </section>
 

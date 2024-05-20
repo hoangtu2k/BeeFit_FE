@@ -36,4 +36,40 @@
     outline: 0;
     -webkit-box-shadow: none !important;
     box-shadow: none !important
-  }
+}
+
+/* CSS cho popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.importExcel-content {
+    width: 700px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 500px;
+    overflow: auto;
+    scrollbar-width: thin;
+    /* Width of the scrollbar (thin, auto, none) */
+    scrollbar-color: #333 #999;
+    /* Scrollbar color (thumb color, track color) */
+
+}
+
+/* Hiển thị popup khi có class 'show' */
+.popup.show {
+    display: block;
+}

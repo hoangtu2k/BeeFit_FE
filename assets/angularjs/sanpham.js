@@ -11,7 +11,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   let urlhandtype = "http://localhost:8080/api/handtype";
   let urlnecktype = "http://localhost:8080/api/necktype";
 
-  // GetAll product 
+  //GetAll product 
   $scope.loadAll = function () {
 
     // load category
@@ -104,7 +104,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   };
   $scope.loadAll();
 
-  // GetAll product dung hoat dong
+  //GetAll product dung hoat dong
   $scope.loadDungHoatDong = function () {
     //load product dhd
     $scope.listdhd = [];
@@ -145,6 +145,139 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     };
   };
   $scope.loadDungHoatDong();
+
+  //import exel
+  $scope.importExel = function () {
+
+    let file = document.getElementById("fileInput").files;
+
+    if (file.length === 0) {
+      Swal.fire("Vui lòng tải lên file Exel trước khi thêm !", "", "error");
+    } else {
+      let form = new FormData();
+      form.append("file", file[0]);
+      $http
+        .post("http://localhost:8080/api/product/importExel", form, {
+          transformRequest: angular.identity,
+          headers: {
+            "Content-Type": undefined, // Để để Angular tự động thiết lập Content-Type
+          },
+        })
+        .catch(function (err) {
+          if (err.status === 500) {
+            Swal.fire("Có lỗi xảy ra vui lòng xem lại !", "", "error");
+          }
+          if (err.status === 404) {
+            Swal.fire("Có lỗi xảy ra vui lòng xem lại !", "", "error");
+          }
+        })
+        .then(function (ok) {
+          Swal.fire("Thêm data từ Exel thành công !", "", "success");
+          $scope.loadAll(); // Gọi hàm load lại dữ liệu sản phẩm
+          $scope.isnhapfile = false;
+        });
+    }
+  };
+
+  //open import exel
+  $scope.isnhapfile = false;
+  $scope.openImportExcel = function () {
+    $scope.isnhapfile = !$scope.isnhapfile;
+  };
+
+  //export exel
+  $scope.exportToExcel = function () {
+    // Chuyển dữ liệu thành một mảng các đối tượng JSON
+    var dataArray = $scope.list.map(function (item) {
+      var Materials = item.productDetail_materials
+        .map(function (detail) {
+          return detail.material.name;
+        })
+        .join(", ");
+      var Images = item.product.productImages
+        .map(function (image) {
+          return image.url;
+        })
+        .join(", ");
+      var Color_Size = item.productDetail_size_colors
+        .map(function (size) {
+          return (
+            "Color : " +
+            size.color.name +
+            " { Size " +
+            size.size.name +
+            " | Quantity : " +
+            size.quantity +
+            "}"
+          );
+        })
+        .join(", ");
+      return {
+        Code: item.product.code,
+        Name: item.product.name,
+        Images: Images,
+        Price: item.price,
+        Description: item.description,
+        Discount: item.discount,
+        Category: item.category.name,
+        Brand: item.brand.name,
+        Design: item.design.name,
+        NeckType: item.neckType.name,
+        HandType: item.handType.name,
+        Materials: Materials,
+        QuantityByColor_Sizes: Color_Size,
+      };
+    });
+
+    // Tạo một workbook mới
+    var workbook = XLSX.utils.book_new();
+
+    // Tạo một worksheet từ dữ liệu
+    var worksheet = XLSX.utils.json_to_sheet(dataArray);
+
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
+
+    // Xuất tệp Excel
+    XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
+    Swal.fire("Xuất file exel thành công !", "", "success");
+  };
+
+  //export exel mau
+  $scope.exportToExcelMau = function () {
+    
+    var dataArray = $scope.list.map(function (item) {
+      
+    });
+  
+    // Add a hard-coded row
+    dataArray.unshift({
+      Name: "Product test",
+      Url: "http://example.com/hardcoded-image.jpg",
+      Price: 100000,
+      Description: "This is a hard-coded product",
+      Discount: 0,
+      Category: "1",
+      Brand: "1",
+      Design: "1",
+      HandType: "1",
+      NeckType: "1",
+      Materials: "1,2",
+      QuantityByColor_Sizes: "1-1-100,1-2-100,1-3-100,1-4-100",
+    });
+  
+    // Create a new workbook
+    var workbook = XLSX.utils.book_new();
+  
+    // Create a worksheet from the data
+    var worksheet = XLSX.utils.json_to_sheet(dataArray);
+  
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
+  
+    // Export the Excel file
+    XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
+  };
 
   
 
