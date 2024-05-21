@@ -235,7 +235,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
         Images: Images,
         Price: item.price,
         Description: item.description,
-        Discount: item.discount,
         Category: item.category.name,
         Brand: item.brand.name,
         Design: item.design.name,
@@ -273,7 +272,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       Url: "http://example.com/hardcoded-image.jpg",
       Price: 100000,
       Description: "This is a hard-coded product",
-      Discount: 0,
       Category: "1",
       Brand: "1",
       Design: "1",
@@ -362,43 +360,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   ///////////////////////////////////////////////////////////////////////////////
   // ADD, UPDATE, DELETE
   // ADD product
-  $scope.giamGia = function () {
-    if (document.getElementById("giamGia").checked == true) {
-      document.getElementById("giamGia1").style.display = 'block';
-      document.getElementById("khongGioiHan1").style.display = 'block';
-      document.getElementById("khongGioiHan").checked = true
-
-
-    }
-    else {
-
-      document.getElementById("giamGia1").style.display = 'none';
-      document.getElementById("khongGioiHan1").style.display = 'none';
-      document.getElementById("tamThoi1").style.display = 'none';
-      document.getElementById("khongGioiHan").checked = true
-    }
-  }
-  $scope.giamGia1 = function () {
-    if (document.getElementById("khongGioiHan").checked == true) {
-      document.getElementById("khongGioiHan1").style.display = 'block';
-      document.getElementById("tamThoi1").style.display = 'none';
-      document.getElementById("phanTramGiamGia").style.display = 'block';
-      document.getElementById("phanTramGiamGia1").style.display = 'none';
-      document.getElementById("thoiGianGiamGia").style.display = 'none';
-    }
-    else {
-      document.getElementById("khongGioiHan1").style.display = 'none';
-      document.getElementById("tamThoi1").style.display = 'block';
-      document.getElementById("phanTramGiamGia").style.display = 'none';
-      document.getElementById("phanTramGiamGia1").style.display = 'block';
-      document.getElementById("thoiGianGiamGia").style.display = 'block';
-      var today = new Date().toISOString().split('T')[0];
-      document.getElementById("thoiGianGiamGia").min = today;
-    }
-
-  }
   $scope.colorStates = {}; // Tạo một đối tượng để lưu trạng thái hiển thị cho từng màu
-
   $scope.colorStates = {}; // Đối tượng để lưu trạng thái hiển thị cho từng màu
   $scope.pushColor = [];
   $scope.checkbox = function (mausac) {
@@ -511,26 +473,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   }
   //add product
   $scope.add = function () {
-    let phanTram = 0;
-    let discountDate = null;
-    if (document.getElementById("giamGia").checked == true) {
-      if (document.getElementById("khongGioiHan").checked == true) {
-        phanTram = document.getElementById("phanTramGiamGia").value;
-      }
-      else {
-        phanTram = document.getElementById("phanTramGiamGia1").value;
-      }
-
-    }
-    if (document.getElementById("tamThoi").checked == true) {
-      if (document.getElementById("thoiGianGiamGia").value === '') {
-        Swal.fire('Vui lòng chọn thời gian kết thúc giảm giá !', '', 'error');
-        return;
-      }
-      discountDate = document.getElementById("thoiGianGiamGia").value;
-    }
-
-
 
     var MainImage = document.getElementById("fileUpload").files;
     if (MainImage.length == 0) {
@@ -544,7 +486,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     $http.post("http://localhost:8080/api/product/validate", {
       code: $scope.form.product.code,
       name: $scope.form.product.name,
-      discount: phanTram,
       price: $scope.form.price,
       description: $scope.form.description
     }).then(function (vali) {
@@ -655,15 +596,13 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
           //add product detail
           $http.post("http://localhost:8080/api/product", {
             price: $scope.form.price,
-            discount: phanTram,
             description: $scope.form.description,
             idCategory: $scope.get("category"),
             idBrand: $scope.get("brand"),
             idDesign: $scope.get("design"),
             idProduct: product.data.id,
             idHandType: $scope.get("handType"),
-            idNeckType: $scope.get("neckType"),
-            discountDate: discountDate
+            idNeckType: $scope.get("neckType")
           }).then(function (productdetail) {
             if (productdetail.status === 200) {
 
@@ -756,32 +695,12 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     $scope.get = function (name) {
       return document.getElementById(name).value;
     }
-    let phanTram = 0;
-    let discountDate = null;
-    if (document.getElementById("giamGia").checked == true) {
-      if (document.getElementById("khongGioiHan").checked == true) {
-        phanTram = document.getElementById("phanTramGiamGia").value;
-      }
-      else {
-        phanTram = document.getElementById("phanTramGiamGia1").value;
-      }
-
-    }
-    if (document.getElementById("tamThoi").checked == true) {
-      if (document.getElementById("thoiGianGiamGia").value === '') {
-        Swal.fire('Vui lòng chọn thời gian kết thúc giảm giá !', '', 'error');
-        return;
-      }
-      discountDate = document.getElementById("thoiGianGiamGia").value;
-    }
-    console.log(discountDate);
-
+  
     //validate
     $http.post("http://localhost:8080/api/product/validateupdate", {
       code: $scope.form.product.code,
       name: $scope.form.product.name,
       price: $scope.form.price,
-      discount: phanTram,
       description: $scope.form.description
     }).then(function (vali) {
       if (vali.status === 200) {
@@ -860,14 +779,12 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
             // update product detail
             $http.put("http://localhost:8080/api/product/update/" + id, {
               price: $scope.form.price,
-              discount: phanTram,
               description: $scope.form.description,
               idCategory: $scope.get("category"),
               idBrand: $scope.get("brand"),
               idDesign: $scope.get("design"),
               idHandType: $scope.get("handType"),
-              idNeckType: $scope.get("neckType"),
-              discountDate: discountDate
+              idNeckType: $scope.get("neckType")           
             }).then(function (productDetail) {
               //update product
               $http.put("http://localhost:8080/api/sanpham/" + productDetail.data.product.id, {
@@ -1065,50 +982,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     let id = $routeParams.id;
     $http.get("http://localhost:8080/api/product/" + id).then(function (detail) {
       $scope.form = detail.data;
-      if ($scope.form.discount > 0) {
-        document.getElementById("giamGia").checked = true;
-        document.getElementById("giamGia1").style.display = 'block'
-        if ($scope.form.discountDate != null) {
-          document.getElementById("tamThoi").checked = true;
-          document.getElementById("tamThoi1").style.display = 'block';
-          document.getElementById("phanTramGiamGia1").style.display = 'block'
-          document.getElementById("thoiGianGiamGia").style.display = 'block'
-          document.getElementById("phanTramGiamGia").style.display = 'none';
-          document.getElementById("phanTramGiamGia1").value = $scope.form.discount;
-          // Get the input element
-          let dateInput = document.getElementById('thoiGianGiamGia');
-
-          // Original datetime string in 'yyyy-MM-dd hh:mm:ss.sss' format
-          var originalDateStr = $scope.form.discountDate; // Replace with your original date
-
-          // Split the original date string
-          var dateParts = originalDateStr.split('T')[0].split('-');
-
-          // Extract year, month, and day
-          var year = dateParts[0];
-          var month = dateParts[1];
-          var day = dateParts[2];
-
-          // Create the formatted date string in 'MM/dd/yyyy' format
-          var formattedDate = year + '-' + month + '-' + day;
-
-          // Set the formatted date in the input field'
-
-          dateInput.value = formattedDate;
-          var today = new Date().toISOString().split('T')[0];
-          document.getElementById("thoiGianGiamGia").min = today;
-
-        }
-        else {
-          document.getElementById("khongGioiHan").checked = true;
-          document.getElementById("khongGioiHan1").style.display = 'block';
-          document.getElementById("phanTramGiamGia1").style.display = 'none'
-          document.getElementById("thoiGianGiamGia").style.display = 'none'
-          document.getElementById("phanTramGiamGia").style.display = 'block';
-          document.getElementById("phanTramGiamGia").value = $scope.form.discount;
-        }
-      }
-
+      
       for (let i = 0; i < detail.data.product.productImages.length; i++) {
         if (detail.data.product.productImages[i].mainImage === false) {
           $scope.images.push(detail.data.product.productImages[i].url);
