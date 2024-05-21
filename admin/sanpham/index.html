@@ -1,5 +1,4 @@
 <main id="main" class="main">
-
   <section class="section dashboard">
 
     <div class="pagetitle">
@@ -173,7 +172,7 @@
                             <div>
                               <span class="blinking-text" data-ng-init="getQuantity(sp)"><span
                                   ng-if="sp.quantityWarningText != null"><i
-                                    class="fa-solid fa-triangle-exclamation"></i></span>
+                                    class="bi bi-exclamation-triangle"></i></span>
                                 <span ng-bind="sp.quantityWarningText"></span>
                               </span>
                             </div>
@@ -373,9 +372,6 @@
                   <label for="" class="col-form-label label--ctsp">Chất liệu: <span
                       ng-repeat="chatlieu in form.productDetail_materials"
                       class="span--ctsp">{{chatlieu.material.name}}, </span> </label>
-                  <label for="" class="col-form-label label--ctsp">Chương trình khuyến mại:</label>
-
-
                 </div>
               </div>
 
@@ -398,16 +394,10 @@
                 </div>
               </div>
             </div>
-
-
-
           </div>
         </div>
       </div>
     </div>
 
-
-
   </section>
-
 </main><!-- End #main -->

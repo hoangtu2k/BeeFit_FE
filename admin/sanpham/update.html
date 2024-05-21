@@ -3,6 +3,7 @@
 
         <div class="pagetitle">
             <h1>Sửa sản phẩm</h1>
+            <p ng-if="form.updateDate != null" class="validate">Cập nhật lần cuối lúc {{form.updateDate | date:'HH:mm:ss - dd/MM/yyyy'}}</p>
         </div>
 
         <form data-ng-init="detail()">
@@ -76,18 +77,14 @@
                             <div class="col-md-12">
                                 <label for class="form-label label--ctsp">Chất liệu</label>
                                 <div class="row">
-                                    <div class="col-auto" ng-repeat="chatlieu in listMaterial">
-                                        <div class="form-check form-check-inline">
+                                    <div class="col-auto">
+                                        <div class="form-check form-check-inline" ng-repeat="chatlieu in listMaterial">
                                             <input id="Material{{chatlieu.id}}" class="form-check-input" type="checkbox" value="{{chatlieu.id}}">
                                             <label class="form-check-label"
                                                 for="Material{{chatlieu.id}}">{{chatlieu.name}}</label>
                                         </div>
                                     </div>
-
-                                    <span ng-repeat="chatlieu in listMaterial">
-                                        <input id="Material{{chatlieu.id}}"  type="checkbox" value="{{chatlieu.id}}"> {{chatlieu.name}}
-                                      </span>
-                             
+                                                         
                                 </div>
                             </div>
 
@@ -142,16 +139,16 @@
                                 </div>
 
                                 <div ng-repeat="mausac in listColor">
-                                    <div ng-show="colorStates[mausac.id]" style="padding-top: 15px;">
-                                        <label class="col-form-label">Số lượng màu {{ mausac.name }}</label>
-                                        <button class="btn btn-primary" ng-click="themkichthuoc(mausac.id)"><i
-                                                class="fa-solid fa-plus"></i></button>
+                                    <div ng-show="colorStates[mausac.id]">
+                                        <label class="col-form-label label--ctsp">Số lượng màu {{ mausac.name }}</label>
+                                        <a href="" ng-click="themkichthuoc(mausac.id)">
+                                            <i class="ri-add-circle-line"></i></a>
                                         <!-- Hiển thị danh sách kích thước và số lượng -->
                                         <span ng-repeat="(idColor, sizes) in colorSizes">
                                             <!-- Tạo một biến để lưu trữ tên màu sắc tương ứng -->
                                             <!-- Hiển thị danh sách kích thước cho màu sắc -->
                                             <div ng-if="idColor == mausac.id">
-                                                <div class="d-flex align-items-center" style="margin-bottom: 10px;"
+                                                <div class="d-flex align-items-center" style="margin-bottom: 5px;"
                                                     ng-repeat="s in listSize">
                                                     <span ng-repeat="size in sizes">
                                                         <span ng-if="size.size == s.id">

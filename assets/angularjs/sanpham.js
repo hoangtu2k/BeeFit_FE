@@ -14,6 +14,23 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   //GetAll product 
   $scope.loadAll = function () {
 
+    $scope.getQuantity = function (sp) {
+      $scope.quantityWarning = 0;
+
+      for (let i = 0; i < sp.productDetail_size_colors.length; i++) {
+        $scope.quantityWarning =
+          $scope.quantityWarning + sp.productDetail_size_colors[i].quantity;
+      }
+
+      if ($scope.quantityWarning === 0) {
+        sp.quantityWarningText = "Số lượng đã hết";
+      }
+      if ($scope.quantityWarning < 10 && $scope.quantityWarning > 0) {
+        sp.quantityWarningText = "Số lượng sắp hết";
+      }
+    };
+
+
     // load category
     $scope.listCategory = [];
     $http.get(urlcategory).then(function (response) {
@@ -852,11 +869,10 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
               idNeckType: $scope.get("neckType"),
               discountDate: discountDate
             }).then(function (productDetail) {
-
               //update product
               $http.put("http://localhost:8080/api/sanpham/" + productDetail.data.product.id, {
                 name: $scope.form.product.name
-              }).then(function (product) {             
+              }).then(function (product) {
                 // update image
                 var MainImage = document.getElementById("fileUpload").files;
                 if (MainImage.length > 0) {
@@ -982,9 +998,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                   });
                 }
               }
-             
               // update size and color
-
               let listColor = $scope.listColor;
               let listSize = $scope.listSize;
               for (let i = 0; i < listColor.length; i++) {
@@ -1027,7 +1041,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                 }
 
               }
-             
+
               Swal.fire('Sửa thành công !', '', 'success')
               setTimeout(() => {
                 location.href = "#/product/view";
@@ -1043,97 +1057,94 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       if (err.status === 400) {
         $scope.validationErrors = err.data;
       }
-
     })
 
   }
   //detail product
   $scope.detail = function () {
-
     let id = $routeParams.id;
     $http.get("http://localhost:8080/api/product/" + id).then(function (detail) {
-        $scope.form = detail.data;
-        if ($scope.form.discount > 0) {
-            document.getElementById("giamGia").checked = true;
-            document.getElementById("giamGia1").style.display = 'block'
-            if ($scope.form.discountDate != null) {
-                document.getElementById("tamThoi").checked = true;
-                document.getElementById("tamThoi1").style.display = 'block';
-                document.getElementById("phanTramGiamGia1").style.display = 'block'
-                document.getElementById("thoiGianGiamGia").style.display = 'block'
-                document.getElementById("phanTramGiamGia").style.display = 'none';
-                document.getElementById("phanTramGiamGia1").value = $scope.form.discount;
-                // Get the input element
-                let dateInput = document.getElementById('thoiGianGiamGia');
+      $scope.form = detail.data;
+      if ($scope.form.discount > 0) {
+        document.getElementById("giamGia").checked = true;
+        document.getElementById("giamGia1").style.display = 'block'
+        if ($scope.form.discountDate != null) {
+          document.getElementById("tamThoi").checked = true;
+          document.getElementById("tamThoi1").style.display = 'block';
+          document.getElementById("phanTramGiamGia1").style.display = 'block'
+          document.getElementById("thoiGianGiamGia").style.display = 'block'
+          document.getElementById("phanTramGiamGia").style.display = 'none';
+          document.getElementById("phanTramGiamGia1").value = $scope.form.discount;
+          // Get the input element
+          let dateInput = document.getElementById('thoiGianGiamGia');
 
-                // Original datetime string in 'yyyy-MM-dd hh:mm:ss.sss' format
-                var originalDateStr = $scope.form.discountDate; // Replace with your original date
+          // Original datetime string in 'yyyy-MM-dd hh:mm:ss.sss' format
+          var originalDateStr = $scope.form.discountDate; // Replace with your original date
 
-                // Split the original date string
-                var dateParts = originalDateStr.split('T')[0].split('-');
+          // Split the original date string
+          var dateParts = originalDateStr.split('T')[0].split('-');
 
-                // Extract year, month, and day
-                var year = dateParts[0];
-                var month = dateParts[1];
-                var day = dateParts[2];
+          // Extract year, month, and day
+          var year = dateParts[0];
+          var month = dateParts[1];
+          var day = dateParts[2];
 
-                // Create the formatted date string in 'MM/dd/yyyy' format
-                var formattedDate = year + '-' + month + '-' + day;
+          // Create the formatted date string in 'MM/dd/yyyy' format
+          var formattedDate = year + '-' + month + '-' + day;
 
-                // Set the formatted date in the input field'
+          // Set the formatted date in the input field'
 
-                dateInput.value = formattedDate;
-                var today = new Date().toISOString().split('T')[0];
-                document.getElementById("thoiGianGiamGia").min = today;
-
-            }
-            else {
-                document.getElementById("khongGioiHan").checked = true;
-                document.getElementById("khongGioiHan1").style.display = 'block';
-                document.getElementById("phanTramGiamGia1").style.display = 'none'
-                document.getElementById("thoiGianGiamGia").style.display = 'none'
-                document.getElementById("phanTramGiamGia").style.display = 'block';
-                document.getElementById("phanTramGiamGia").value = $scope.form.discount;
-            }
-        }
-
-        for (let i = 0; i < detail.data.product.productImages.length; i++) {
-            if (detail.data.product.productImages[i].mainImage === false) {
-                $scope.images.push(detail.data.product.productImages[i].url);
-            }
+          dateInput.value = formattedDate;
+          var today = new Date().toISOString().split('T')[0];
+          document.getElementById("thoiGianGiamGia").min = today;
 
         }
-        for (let i = 0; i < detail.data.productDetail_materials.length; i++) {
-            document.getElementById('Material' + detail.data.productDetail_materials[i].material.id).checked = true;
+        else {
+          document.getElementById("khongGioiHan").checked = true;
+          document.getElementById("khongGioiHan1").style.display = 'block';
+          document.getElementById("phanTramGiamGia1").style.display = 'none'
+          document.getElementById("thoiGianGiamGia").style.display = 'none'
+          document.getElementById("phanTramGiamGia").style.display = 'block';
+          document.getElementById("phanTramGiamGia").value = $scope.form.discount;
         }
-        for (let i = 0; i < detail.data.productDetail_size_colors.length; i++) {
-            document.getElementById('Color' + detail.data.productDetail_size_colors[i].color.id).checked = true;
+      }
+
+      for (let i = 0; i < detail.data.product.productImages.length; i++) {
+        if (detail.data.product.productImages[i].mainImage === false) {
+          $scope.images.push(detail.data.product.productImages[i].url);
         }
-        let listColor = $scope.listColor;
-        for (let i = 0; i < listColor.length; i++) {
-            var checkBox = document.getElementById('Color' + listColor[i].id);
-            if (checkBox.checked == true) {
-                $scope.checkbox(listColor[i].id);
 
-            }
-        }
-        for (let i = 0; i < detail.data.productDetail_size_colors.length; i++) {
-            if (!$scope.colorSizes[detail.data.productDetail_size_colors[i].color.id]) {
-                $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id] = []; // Khởi tạo mảng kích thước nếu chưa tồn tại
-            }
-            var newItem = {
-                size: detail.data.productDetail_size_colors[i].size.id.toString(),
-                quantity: detail.data.productDetail_size_colors[i].quantity.toString()
-            };
-
-            // Thêm newItem vào mảng kích thước của màu sắc tương ứng
-            $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id].push(newItem);
-            // document.getElementById('Color'+detail.data.productDetail_size_colors[i].color.id + 'Size'+detail.data.productDetail_size_colors[i].size.id).value = detail.data.productDetail_size_colors[i].quantity;
-
+      }
+      for (let i = 0; i < detail.data.productDetail_materials.length; i++) {
+        document.getElementById('Material' + detail.data.productDetail_materials[i].material.id).checked = true;
+      }
+      for (let i = 0; i < detail.data.productDetail_size_colors.length; i++) {
+        document.getElementById('Color' + detail.data.productDetail_size_colors[i].color.id).checked = true;
+      }
+      let listColor = $scope.listColor;
+      for (let i = 0; i < listColor.length; i++) {
+        var checkBox = document.getElementById('Color' + listColor[i].id);
+        if (checkBox.checked == true) {
+          $scope.checkbox(listColor[i].id);
 
         }
+      }
+      for (let i = 0; i < detail.data.productDetail_size_colors.length; i++) {
+        if (!$scope.colorSizes[detail.data.productDetail_size_colors[i].color.id]) {
+          $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id] = []; // Khởi tạo mảng kích thước nếu chưa tồn tại
+        }
+        var newItem = {
+          size: detail.data.productDetail_size_colors[i].size.id.toString(),
+          quantity: detail.data.productDetail_size_colors[i].quantity.toString()
+        };
+
+        // Thêm newItem vào mảng kích thước của màu sắc tương ứng
+        $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id].push(newItem);
+        // document.getElementById('Color'+detail.data.productDetail_size_colors[i].color.id + 'Size'+detail.data.productDetail_size_colors[i].size.id).value = detail.data.productDetail_size_colors[i].quantity;
+
+      }
     })
-}
+  }
   //delete product
   $scope.delete = function (idProductDetail) {
     Swal.fire({
