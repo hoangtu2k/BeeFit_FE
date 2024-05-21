@@ -26,6 +26,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "sanpham/add.html",
       controller: SanPhamController,
     })
+    .when("/product/update/:id", {
+      templateUrl: "sanpham/update.html",
+      controller: SanPhamController,
+    })
 
     .when("/category/view", {
       templateUrl: "danhmuc/index.html",

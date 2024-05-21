@@ -2,30 +2,33 @@
     <section class="section dashboard">
 
         <div class="pagetitle">
-            <h1>Thêm sản phẩm</h1>
+            <h1>Sửa sản phẩm</h1>
         </div>
 
-        <div class="row">
+        <form data-ng-init="detail()">
+        <div class="row" >
 
             <div class="col-lg-3">
                 <h5 class="card-title">Ảnh đại diện sản phẩm <span style="color: red;">*</span></h5>
-                <img id="output" width="215px" height="215px" alt />
-
+                <span ng-repeat="img in form.product.productImages">
+                    <span ng-if="img.mainImage === true">
+                      <img id="output1" src="{{img.url}}" width="215px" height="215px"/>
+                    </span>
+                  </span>
+                  <img id="output" style="display: none;" width="215px" height="215px"/>
                 <div style="padding-top: 5px;">
                     <button onclick="anhOpen()" class="btn btn-primary" id="uploadButtonImage">Chọn ảnh</button>
-                    <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile1(event)"
-                        style="display: none;">
+                    <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile(event)" style="display: none;">
                 </div>
 
                 <h5 class="card-title">Danh sách ảnh sản phẩm</h5>
                 <div style="padding-top: 5px;">
                     <input id="fileList" type="file" accept="image/*" multiple style="display: none;">
-                    <button ng-click="openImage()" class="btn btn-primary" id="uploadButton">Chọn ảnh</button>
-                    <div id="imagePreviewContainer" ng-repeat="image in images" style="padding-top: 5px;">
+                    <button ng-click="openImage()" class="btn btn-primary" id="uploadButton">Chọn ảnh</button>           
+                    <div id="imagePreviewContainer" ng-repeat="image in images">
                         <div class="image-wrapper">
-                            <img class="image" width="215px" height="215px" ng-src="{{image}}" alt />
-                            <button class="delete-button" ng-click="deleteImage($index)"><i
-                                    class="fa-solid fa-trash-can"></i></button>
+                        <img class="image" ng-src="{{image}}" width="215px" height="215px"/>
+                        <button class="delete-button" ng-click="deleteImage($index)"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
                 </div>
@@ -75,12 +78,16 @@
                                 <div class="row">
                                     <div class="col-auto" ng-repeat="chatlieu in listMaterial">
                                         <div class="form-check form-check-inline">
-                                            <input id="Material{{chatlieu.id}}" class="form-check-input" type="checkbox"
-                                                value="{{chatlieu.id}}">
+                                            <input id="Material{{chatlieu.id}}" class="form-check-input" type="checkbox" value="{{chatlieu.id}}">
                                             <label class="form-check-label"
                                                 for="Material{{chatlieu.id}}">{{chatlieu.name}}</label>
                                         </div>
                                     </div>
+
+                                    <span ng-repeat="chatlieu in listMaterial">
+                                        <input id="Material{{chatlieu.id}}"  type="checkbox" value="{{chatlieu.id}}"> {{chatlieu.name}}
+                                      </span>
+                             
                                 </div>
                             </div>
 
@@ -167,7 +174,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <button ng-click="add()" class="btn btn-primary">Lưu</button>
+                                <button ng-click="update()" class="btn btn-primary">Lưu</button>
                             </div>
 
                         </div>
@@ -185,7 +192,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="category">
-                                        <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}">
+                                        <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}" ng-selected="danhmuc.id == form.category.id">
                                             {{danhmuc.name}}</option>
                                     </select>
                                     <label for="category">Danh mục</label>
@@ -195,7 +202,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="brand">
-                                        <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}">
+                                        <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}" ng-selected="thuonghieu.id == form.brand.id">
                                             {{thuonghieu.name}}</option>
                                     </select>
                                     <label for="brand">Thương
@@ -206,7 +213,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="design">
-                                        <option ng-repeat="thietke in listDesign" value="{{thietke.id}}">
+                                        <option ng-repeat="thietke in listDesign" value="{{thietke.id}}" ng-selected="thietke.id == form.design.id">
                                             {{thietke.name}}</option>
                                     </select>
                                     <label for="design">Thiết kế</label>
@@ -216,20 +223,20 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="neckType">
-                                        <option ng-repeat="kieuco in listNeckType" value="{{kieuco.id}}">
+                                        <option ng-repeat="kieuco in listNeckType" value="{{kieuco.id}}" ng-selected="kieuco.id == form.neckType.id">
                                             {{kieuco.name}}</option>
                                     </select>
-                                    <label for="kieuco">Kiểu cổ</label>
+                                    <label for="neckType">Kiểu cổ</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="handType">
-                                        <option ng-repeat="kieutay in listHandType" value="{{kieutay.id}}">
+                                        <option ng-repeat="kieutay in listHandType" value="{{kieutay.id}}" ng-selected="kieutay.id == form.handType.id">
                                             {{kieutay.name}}</option>
                                     </select>
-                                    <label for="kieutay">Kiểu tay</label>
+                                    <label for="handType">Kiểu tay</label>
                                 </div>
                             </div>
 
@@ -256,8 +263,8 @@
 
                 </div>
             </div>
-            
-        </div>
 
+        </div>
+    </form>
     </section>
 </main>
