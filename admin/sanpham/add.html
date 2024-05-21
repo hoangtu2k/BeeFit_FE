@@ -9,13 +9,26 @@
 
             <div class="col-lg-3">
                 <h5 class="card-title">Ảnh đại diện sản phẩm <span style="color: red;">*</span></h5>
-                <img id="output" src="../assets/img/products/product-1.jpg" width="215px" height="215px" alt>
-                <br>
-                <button class="btn btn-primary ">Chọn ảnh</button>     
+                <img id="output" width="215px" height="215px" alt />
+
+                <div style="padding-top: 5px;">
+                    <button onclick="anhOpen()" class="btn btn-primary" id="uploadButtonImage">Chọn ảnh</button>
+                    <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile1(event)"
+                        style="display: none;">
+                </div>
+
                 <h5 class="card-title">Danh sách ảnh sản phẩm</h5>
-                <button class="btn btn-primary">Chọn ảnh</button>
-                <br>
-                <img id="output" src="../assets/img/products/product-1.jpg" width="215px" height="215px" alt>
+                <div style="padding-top: 5px;">
+                    <input id="fileList" type="file" accept="image/*" multiple style="display: none;">
+                    <button ng-click="openImage()" class="btn btn-primary" id="uploadButton">Chọn ảnh</button>
+                    <div id="imagePreviewContainer" ng-repeat="image in images" style="padding-top: 5px;">
+                        <div class="image-wrapper">
+                            <img class="image" width="215px" height="215px" ng-src="{{image}}" alt />
+                            <button class="delete-button" ng-click="deleteImage($index)"><i
+                                    class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-6">
@@ -25,51 +38,98 @@
                         <div class="row">
 
                             <div class="row mb-3">
-                                <label for class="col-sm-4 col-form-label">Tên
+                                <label for class="col-sm-4 col-form-label label--ctsp">Tên
                                     sản phẩm <span style="color: red;">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control">
-                                    <span style="color: red;">Vui lòng nhập đầy
-                                        đủ tên sản phẩm</span>
+                                    <input ng-model="form.product.name" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'validateForm' && err.field == 'Name'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
                                 </div>
 
                             </div>
 
                             <div class="row mb-3">
-                                <label for class="col-sm-4 col-form-label">Giá
+                                <label for class="col-sm-4 col-form-label label--ctsp">Giá
                                     bán <span style="color: red;">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control">
+                                    <input ng-model="form.price" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'validateForm' && err.field == 'Price'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label for class="col-sm-4 col-form-label">Mô tả
+                                <label for class="col-sm-4 col-form-label label--ctsp">Mô tả
                                     <span style="color: red;">*</span></label>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" style="height: 80px"></textarea>
+                                    <textarea ng-model="form.description" class="form-control"
+                                        style="height: 80px"></textarea>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <legend class="col-form-label col-sm-4 pt-0">Chất
-                                    liệu</legend>
+                                <legend class="col-form-label col-sm-4 pt-0 label--ctsp">Chất liệu</legend>
                                 <div class="col-sm-6">
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox">
-                                        <label class="form-check-label">
-                                            Cotton
-                                        </label>
+                                    <div class="form-check" ng-repeat="chatlieu in listMaterial">
+                                        <input id="Material{{chatlieu.id}}" type="checkbox" value="{{chatlieu.id}}">
+                                        {{chatlieu.name}}
                                     </div>
-
                                 </div>
                             </div>
 
                             <div class="row mb-3">
+                                <label class="col-sm-4 col-form-label label--ctsp">Giảm giá: <span>
+                                    <input ng-click="giamGia()" id="giamGia" type="checkbox"></span></label>      
+                            </div>
 
+                            <div class="row mb-3">
+                                <div class="col-sm-5">
+                                    <div id="giamGia1" style="display: none;" class="custom-radio">
+                                        
+                                        <label for="khongGioiHan">Thời gian không giới hạn</label>
+                                        <input ng-click="giamGia1()" type="radio" name="giamGia" checked id="khongGioiHan">
+                                        <label for="tamThoi">Thời gian tạm thời</label>
+                                        <input ng-click="giamGia1()" type="radio" name="giamGia" id="tamThoi">
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-sm-7">
+                                    <div id="khongGioiHan1" style="display: none;">
+                                        Phần trăm giảm giá
+                                        <input class="haninput" id="phanTramGiamGia">
+                                        <div ng-repeat="err in validationErrors">
+                                            <span class="validate"
+                                                ng-if="err.objectName == 'validateForm' && err.field == 'Discount'">
+                                                {{err.defaultMessage}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="tamThoi1" style="display: none;">
+                                        Phần trăm giảm giá
+                                        <input class="haninput" id="phanTramGiamGia1">
+                                        <div ng-repeat="err in validationErrors">
+                                            <span class="validate"
+                                                ng-if="err.objectName == 'validateForm' && err.field == 'Discount'">
+                                                {{err.defaultMessage}}
+                                            </span>
+                                        </div>
+                                        Ngày kết thúc
+                                        <input class="haninput" type="date" id="thoiGianGiamGia">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-primary">Lưu</button>
+                                    <button ng-click="add()" class="btn btn-primary">Lưu</button>
                                 </div>
                             </div>
 
@@ -87,52 +147,52 @@
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
-                                    <select class="form-select" id="floatingSelect">
-                                        <option selected></option>
-                                        <option value="1">Áo cổ tròn</option>
+                                    <select class="form-select" id="category">
+                                        <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}">
+                                            {{danhmuc.name}}</option>
                                     </select>
-                                    <label for="floatingSelect">Danh mục</label>
+                                    <label for="category">Danh mục</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
-                                    <select class="form-select" id="floatingSelect">
-                                        <option selected></option>
-                                        <option value="1">Áo cổ tròn</option>
+                                    <select class="form-select" id="brand">
+                                        <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}">
+                                            {{thuonghieu.name}}</option>
                                     </select>
-                                    <label for="floatingSelect">Thương
+                                    <label for="brand">Thương
                                         hiệu</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
-                                    <select class="form-select" id="floatingSelect">
-                                        <option selected></option>
-                                        <option value="1">Áo cổ tròn</option>
+                                    <select class="form-select" id="design">
+                                        <option ng-repeat="thietke in listDesign" value="{{thietke.id}}">
+                                            {{thietke.name}}</option>
                                     </select>
-                                    <label for="floatingSelect">Thiết kế</label>
+                                    <label for="design">Thiết kế</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
-                                    <select class="form-select" id="floatingSelect">
-                                        <option selected></option>
-                                        <option value="1">Áo cổ tròn</option>
+                                    <select class="form-select" id="kieuco">
+                                        <option ng-repeat="kieuco in listNeckType" value="{{kieuco.id}}">
+                                            {{kieuco.name}}</option>
                                     </select>
-                                    <label for="floatingSelect">Kiểu cổ</label>
+                                    <label for="kieuco">Kiểu cổ</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
-                                    <select class="form-select" id="floatingSelect">
-                                        <option selected></option>
-                                        <option value="1">Áo cổ tròn</option>
+                                    <select class="form-select" id="kieutay">
+                                        <option ng-repeat="kieutay in listHandType" value="{{kieutay.id}}">
+                                            {{kieutay.name}}</option>
                                     </select>
-                                    <label for="floatingSelect">Kiểu tay</label>
+                                    <label for="kieutay">Kiểu tay</label>
                                 </div>
                             </div>
 
@@ -141,7 +201,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
     </section>

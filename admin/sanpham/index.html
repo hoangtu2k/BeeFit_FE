@@ -111,7 +111,7 @@
               <div class="col-lg-6">
 
                 <a href="#/product/add" class="btn btn-primary" title="Thêm sản phẩm"><i class="far fa-plus"></i> Thêm
-                  sản phẩm</a>           
+                  sản phẩm</a>
                 <button ng-click="openImportExcel()" class="btn btn-primary" title="Import"><i
                     class="fas fa-fw fa-file-import"></i> Nhập file</button>
                 <button ng-click="exportToExcel()" class="btn btn-primary" title="Xuất file"><i
@@ -262,8 +262,8 @@
                               }}</span>
                           </td>
                           <td>
-                            <button ng-if="sp.status == 1" ng-click="delete1(sp.id)" class="btn btn-danger"
-                              ng-click="openChiTiet(sp.id)"><i class="fa-solid fa-history"></i></button>
+                            <button ng-if="sp.status == 1" ng-click="delete1(sp.id)" class="btn btn-danger">
+                              <i class="fa-solid fa-history"></i></button>
                           </td>
                         </tr>
                         <tr ng-if="listdhd.length == 0">
@@ -308,14 +308,14 @@
         <div>
           <div>
             <span class="card-title">Chọn file dữ liệu </span>
-           <a ng-click="exportToExcelMau()" href="" style="float: right;">Tải mẫu file</a>
+            <a ng-click="exportToExcelMau()" href="" style="float: right;">Tải mẫu file</a>
           </div>
           <br>
           <hr>
           <div style="float: right;">
             <button class="btn btn-danger" ng-click="openImportExcel()">X</button>
           </div>
-  
+
         </div>
 
         <input type="file" id="fileInput" style="display: none;" accept=".xls, .xlsx">
@@ -324,6 +324,88 @@
 
       </div>
     </div>
+
+    <div class="popup" ng-class="{ 'show': isChiTietSanPham }">
+      <div class="detail-product">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="closeChiTiet()">X</button>
+        <h1>Chi tiết sản phẩm </h1>
+        <div class="row">
+          <div class="col-md-3">
+            <div id="qrcode"></div>
+            <h5 class="card-title">Ảnh đại diện sản phẩm </h5>
+            <span ng-repeat="img in form.product.productImages">
+              <span ng-if="img.mainImage === true">
+                <img id="output1" width="255px" src="{{img.url}}" />
+              </span>
+            </span>
+            <img id="output" style="display: none;" />
+            <h5 class="card-title">Danh sách ảnh sản phẩm</h5>
+
+            <span ng-repeat="img in form.product.productImages">
+              <span ng-if="img.mainImage === false">
+                <img style="padding-top: 5px;" width="255px" id="output1" src="{{img.url}}" />
+              </span>
+            </span>
+          </div>
+          <div class="col-md-9">
+            <div class="row">
+
+              <div class="col-lg-7">
+                <div class="row">
+                  <label for="" class="col-form-label label--ctsp">Mã sản phẩm: <span
+                      class="span--ctsp">{{form.product.code}} </span>
+                  </label>
+                  <label for="" class="col-form-label label--ctsp">Tên sản phẩm: <span
+                      class="span--ctsp">{{form.product.name}} </span></label>
+                  <label for="" class="col-form-label label--ctsp">Giá bán: <span class="span--ctsp">{{form.price |
+                      currency:'':0}} VNĐ</span></label>
+                  <label for="" class="col-form-label label--ctsp">Giảm giá: <span class="span--ctsp">{{form.discount}}
+                    </span></label>
+                  <label for="" class="col-form-label label--ctsp">Mô tả: <span class="span--ctsp">{{form.description}}
+                    </span></label>
+                  <label for="" class="col-form-label label--ctsp">Danh mục: <span ng-repeat="dm in listCategory"><span
+                        class="span--ctsp" ng-if="dm.id == form.category.id">{{dm.name}}</span></span></label>
+                  <label for="" class="col-form-label label--ctsp">Thương hiệu: <span ng-repeat="th in listBrand"><span
+                        class="span--ctsp" ng-if="th.id == form.brand.id">{{th.name}}</span></span></label>
+                  <label for="" class="col-form-label label--ctsp">Thiết kế: <span ng-repeat="tk in listDesign"><span
+                        class="span--ctsp" ng-if="tk.id == form.design.id">{{tk.name}}</span></span></label>
+                  <label for="" class="col-form-label label--ctsp">Chất liệu: <span
+                      ng-repeat="chatlieu in form.productDetail_materials"
+                      class="span--ctsp">{{chatlieu.material.name}}, </span> </label>
+                  <label for="" class="col-form-label label--ctsp">Chương trình khuyến mại:</label>
+
+
+                </div>
+              </div>
+
+              <div class="col-lg-5">
+                <div class="row">
+                  <table class="table" style="margin-left: 5px;">
+                    <thead>
+                      <th scope="row">Màu</th>
+                      <th scope="row">Size</th>
+                      <th scope="row">Số lượng</th>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="pdsizecoloer in form.productDetail_size_colors">
+                        <td>{{pdsizecoloer.color.name}}</td>
+                        <td>{{pdsizecoloer.size.name}}</td>
+                        <td>{{pdsizecoloer.quantity}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
   </section>

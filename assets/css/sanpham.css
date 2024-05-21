@@ -66,10 +66,38 @@
     /* Width of the scrollbar (thin, auto, none) */
     scrollbar-color: #333 #999;
     /* Scrollbar color (thumb color, track color) */
-
 }
+
+.detail-product {
+    width: 1100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 650px;
+    overflow: auto;
+    scrollbar-width: thin;
+    /* Width of the scrollbar (thin, auto, none) */
+    scrollbar-color: #333 #999;
+    /* Scrollbar color (thumb color, track color) */
+  
+  }
+  
 
 /* Hiển thị popup khi có class 'show' */
 .popup.show {
     display: block;
+}
+
+.label--ctsp {
+    color: #000;
+    font-weight: bold;
+}
+
+.span--ctsp {
+    font-weight: normal;
 }

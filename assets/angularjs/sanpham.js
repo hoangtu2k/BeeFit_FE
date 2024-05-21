@@ -245,11 +245,11 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
 
   //export exel mau
   $scope.exportToExcelMau = function () {
-    
+
     var dataArray = $scope.list.map(function (item) {
-      
+
     });
-  
+
     // Add a hard-coded row
     dataArray.unshift({
       Name: "Product test",
@@ -265,21 +265,180 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       Materials: "1,2",
       QuantityByColor_Sizes: "1-1-100,1-2-100,1-3-100,1-4-100",
     });
-  
+
     // Create a new workbook
     var workbook = XLSX.utils.book_new();
-  
+
     // Create a worksheet from the data
     var worksheet = XLSX.utils.json_to_sheet(dataArray);
-  
+
     // Add the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
-  
+
     // Export the Excel file
     XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
   };
 
+  //detail product
+  $scope.isChiTietSanPham = false;
+  $scope.closeChiTiet = function () {
+    $scope.isChiTietSanPham = !$scope.isChiTietSanPham;
+  };
+  $scope.openChiTiet = function (id) {
+    document.getElementById("qrcode").innerHTML = "";
+    var qrcod = new QRCode(document.getElementById("qrcode"));
+    $scope.isChiTietSanPham = !$scope.isChiTietSanPham;
+    qrcod.makeCode(id.toString());
+    $scope.form = {};
+
+    $http
+      .get("http://localhost:8080/api/product/" + id)
+      .then(function (detail) {
+        $scope.form = detail.data;
+      });
+
+  };
+
+  //open img
+  $scope.images = [];
+  $scope.imagesList = [];
+  let check = 0;
+  $scope.openImage = function () {
+    check++;
+    if (check === 1) {
+      $scope.change();
+    }
+    document.getElementById("fileList").click();
+  };
+
+  $scope.change = function () {
+    document.getElementById("fileList").addEventListener("change", function () {
+      var files = this.files;
+      if (files.length > 3) {
+        Swal.fire("Danh sách tối đa 3 ảnh !", "", "error");
+        return;
+      }
+      if ($scope.images.length >= 3) {
+        Swal.fire("Danh sách tối đa 3 ảnh !", "", "error");
+        return;
+      }
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        if (file.type.startsWith("image/")) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $scope.$apply(function () {
+              $scope.images.push(e.target.result);
+            });
+          };
+          reader.readAsDataURL(file);
+          $scope.imagesList.push(file);
+        }
+      }
+    });
+  };
+
+  $scope.imageDelete = [];
+  $scope.deleteImage = function (index) {
+    var deletedItem = $scope.images.splice(index, 1);
+    $scope.imageDelete.push(deletedItem[0]);
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////
+  // ADD, UPDATE, DELETE
+  // ADD product
+  $scope.giamGia = function () {
+    if (document.getElementById("giamGia").checked == true) {
+      document.getElementById("giamGia1").style.display = "block";
+      document.getElementById("khongGioiHan1").style.display = "block";
+      document.getElementById("khongGioiHan").checked = true;
+    } else {
+      document.getElementById("giamGia1").style.display = "none";
+      document.getElementById("khongGioiHan1").style.display = "none";
+      document.getElementById("tamThoi1").style.display = "none";
+      document.getElementById("khongGioiHan").checked = true;
+    }
+  };
+  $scope.giamGia1 = function () {
+    if (document.getElementById("khongGioiHan").checked == true) {
+      document.getElementById("khongGioiHan1").style.display = "block";
+      document.getElementById("tamThoi1").style.display = "none";
+      document.getElementById("phanTramGiamGia").style.display = "block";
+      document.getElementById("phanTramGiamGia1").style.display = "none";
+      document.getElementById("thoiGianGiamGia").style.display = "none";
+    } else {
+      document.getElementById("khongGioiHan1").style.display = "none";
+      document.getElementById("tamThoi1").style.display = "block";
+      document.getElementById("phanTramGiamGia").style.display = "none";
+      document.getElementById("phanTramGiamGia1").style.display = "block";
+      document.getElementById("thoiGianGiamGia").style.display = "block";
+      var today = new Date().toISOString().split("T")[0];
+      document.getElementById("thoiGianGiamGia").min = today;
+    }
+  };
+
+  $scope.form = {
+    product: {
+      code: "",
+      name: "",
+      description: "",
+    },
+  };
+  $scope.reset = function () {
+    $scope.form = {};
+  };
+ 
   
+  //delete product
+  $scope.delete = function (idProductDetail) {
+    Swal.fire({
+      title: "Bạn có chắc muốn muốn dừng bán sản phẩm?",
+      showCancelButton: true,
+      confirmButtonText: "Dừng",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {      
+        $http
+          .put("http://localhost:8080/api/product/" + idProductDetail)
+          .then(function (response) {
+            if (response.status === 200) {
+              Swal.fire("Dừng bán thành công !", "", "success");
+              $scope.loadAll();
+              $scope.loadDungHoatDong();
+            } else {
+              Swal.fire("Dừng bán thất bại !", "", "error");
+            }
+          });
+      }
+    });
+  };
+  $scope.delete1 = function (idProductDetail) {
+    Swal.fire({
+      title: "Bạn có chắc muốn cho phép bán lại sản phẩm?",
+      showCancelButton: true,
+      confirmButtonText: "Khôi phục",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $http
+          .put("http://localhost:8080/api/product/khoiphuc/" + idProductDetail)
+          .then(function (response) {
+            if (response.status === 200) {
+              Swal.fire("Khôi phục thành công !", "", "success");
+              //load product
+              $http
+                .get("http://localhost:8080/api/product/getall1")
+                .then(function (response) {
+                  $scope.listdhd = response.data;
+                });
+              $scope.loadAll();
+            } else {
+              Swal.fire("Khôi phục thất bại !", "", "error");
+            }
+          });
+      }
+    });
+  };
+  ///////////////////////////////////////////////////////////////////////////////
 
 
 };
