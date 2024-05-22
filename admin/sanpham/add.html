@@ -158,6 +158,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="brand">
+                                        <option value>Tất cả thương hiệu</option>
                                         <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}">
                                             {{thuonghieu.name}}</option>
                                     </select>
@@ -169,6 +170,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="design">
+                                        <option value>Tất cả thiết kế</option>
                                         <option ng-repeat="thietke in listDesign" value="{{thietke.id}}">
                                             {{thietke.name}}</option>
                                     </select>
@@ -182,7 +184,7 @@
                                         <option ng-repeat="kieuco in listNeckType" value="{{kieuco.id}}">
                                             {{kieuco.name}}</option>
                                     </select>
-                                    <label for="kieuco">Kiểu cổ</label>
+                                    <label for="neckType">Kiểu cổ</label>
                                 </div>
                             </div>
 
@@ -192,7 +194,18 @@
                                         <option ng-repeat="kieutay in listHandType" value="{{kieutay.id}}">
                                             {{kieutay.name}}</option>
                                     </select>
-                                    <label for="kieutay">Kiểu tay</label>
+                                    <label for="handType">Kiểu tay</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating mb-4">
+                                    <select class="form-select" id="promotion">
+                                        <option value>Tất cả khuyến mãi</option>
+                                        <option ng-repeat="khuyenmai in listPromotion" value="{{khuyenmai.id}}">
+                                            {{khuyenmai.name}}</option>
+                                    </select>
+                                    <label for="promotion">Khuyến mãi</label>
                                 </div>
                             </div>
 

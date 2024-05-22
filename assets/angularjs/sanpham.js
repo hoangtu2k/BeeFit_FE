@@ -1,4 +1,4 @@
-window.SanPhamController = function ($scope, $http, $location, $routeParams, $rootScope) {
+window.SanPhamController = function ($scope, $http, $location, $routeParams, $rootScope,AuthService) {
   document.getElementById('header-wrapper').style.display = 'block';
 
   let url = "http://localhost:8080/api/product/getall";
@@ -10,6 +10,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   let urldesign = "http://localhost:8080/api/design";
   let urlhandtype = "http://localhost:8080/api/handtype";
   let urlnecktype = "http://localhost:8080/api/necktype";
+  let urlpromotion = "http://localhost:8080/api/promotion";
 
   //GetAll product 
   $scope.loadAll = function () {
@@ -30,14 +31,11 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       }
     };
 
-    // load voucher
-    $scope.listVoucher = [];
-    $http
-      .get("http://localhost:8080/api/product/getVoucher")
-      .then(function (response) {
-        $scope.listVoucher = response.data;
-      });
-
+    // load promotion
+    $scope.listPromotion = [];
+    $http.get(urlpromotion).then(function (response) {
+      $scope.listPromotion = response.data;
+    });
     // load category
     $scope.listCategory = [];
     $http.get(urlcategory).then(function (response) {
@@ -385,24 +383,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     }
     $scope.mau = {};
   };
-  $scope.voucherList = [];
-  $scope.addChuongTrinh = function () {
-      var id = document.getElementById("voucher").value;
-      var vouchers = $scope.voucherList;
-      var index = $scope.findIndexVoucher(vouchers, id);
-      if (index == -1) {
-          var voucher = {
-              id: id
-          };
-          // Thêm newItem vào mảng kích thước của màu sắc tương ứng
-          $scope.voucherList.push(voucher);
-          // Xóa giá trị của newItem để chuẩn bị cho lần thêm tiếp theo
-          $scope.voucher = {};
-      }
-      else {
-          Swal.fire("Chương trình này đã được thêm trước đó !", "", "error");
-      }
-  }
   $scope.isPopupVisible = false;
   $scope.colorSizes = {}; // Đối tượng để lưu trữ các kích thước cho từng màu sắc
   let id;
@@ -414,7 +394,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       $scope.colorSizes[idColor] = []; // Khởi tạo mảng kích thước nếu chưa tồn tại
     }
   };
-
   $scope.addItem = function () {
 
     // Lấy giá trị size và quantity từ các input
@@ -466,7 +445,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     $scope.newItem = {};
 
   };
-
   $scope.removeItemBySize = function (idMausac, sizeToRemove) {
     var sizes = $scope.colorSizes[idMausac];
     var index = $scope.findIndexBySize(sizes, sizeToRemove);
@@ -478,21 +456,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
 
     for (var i = 0; i < sizes.length; i++) {
       if (sizes[i].size === sizeToFind) {
-        return i;
-      }
-    }
-    return -1; // Trả về -1 nếu không tìm thấy
-  };
-  $scope.removeVoucher = function (id) {
-    var vouchers = $scope.voucherList;
-    var index = $scope.findIndexVoucher(vouchers, id);
-    if (index !== -1) {
-      vouchers.splice(index, 1); // Xóa phần tử tại vị trí index
-    }
-  };
-  $scope.findIndexVoucher = function (vouchers, id) {
-    for (var i = 0; i < vouchers.length; i++) {
-      if (vouchers[i].id == id) {
         return i;
       }
     }
@@ -593,20 +556,8 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
             $http.post("http://localhost:8080/api/sanpham", {
                 code: $scope.form.product.code,
                 name: $scope.form.product.name,
+                createBy : $rootScope.user.username,
             }).then(function (product) {
-                //add voucher
-
-                let listVoucher = $scope.voucherList;
-                if (listVoucher.length > 0) {
-                    for (let i = 0; i < listVoucher.length; i++) {
-                        var idV = document.getElementById("Voucher" + listVoucher[i].id).value;
-
-                        $http.post("http://localhost:8080/api/productvoucher", {
-                            idVoucher: idV,
-                            idProduct: product.data.id
-                        });
-                    }
-                }
 
                 //add image
                 var img = new FormData();
@@ -649,12 +600,14 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                 $http.post("http://localhost:8080/api/product", {
                     price: $scope.form.price,
                     description: $scope.form.description,
+                    createBy : $rootScope.user.username,
                     idCategory: $scope.get("category"),
                     idBrand: $scope.get("brand"),
                     idDesign: $scope.get("design"),
                     idProduct: product.data.id,
                     idHandType: $scope.get("handType"),
-                    idNeckType: $scope.get("neckType")
+                    idNeckType: $scope.get("neckType"),
+                    idPromotion: $scope.get("promotion")
                 }).then(function (productdetail) {
                     if (productdetail.status === 200) {
 
@@ -881,20 +834,16 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
               $http
                 .put("http://localhost:8080/api/product/update/" + id, {
                   price: $scope.form.price,
-
                   description: $scope.form.description,
+                  updateBy : $rootScope.user.username,
                   idCategory: $scope.get("category"),
                   idBrand: $scope.get("brand"),
                   idDesign: $scope.get("design"),
                   idHandType: $scope.get("handType"),
                   idNeckType: $scope.get("neckType"),
+                  idPromotion: $scope.get("promotion")
                 })
-                .then(function (productDetail) {
-                  $http.post("http://localhost:8080/api/operationhistory", {
-                    status: 2,
-                    createBy: $rootScope.user.username,
-                    idProductDetail: productDetail.data.id,
-                  });
+                .then(function (productDetail) {             
                   //update product
                   $http
                     .put(
@@ -902,28 +851,10 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                       productDetail.data.product.id,
                       {
                         name: $scope.form.product.name,
+                        updateBy : $rootScope.user.username,
                       }
                     )
                     .then(function (product) {
-                      $http.delete(
-                        "http://localhost:8080/api/productvoucher/" +
-                        product.data.id
-                      );
-                      let listVoucher = $scope.voucherList;
-                      if (listVoucher.length > 0) {
-                        for (let i = 0; i < listVoucher.length; i++) {
-                          var idV = document.getElementById(
-                            "Voucher" + listVoucher[i].id
-                          ).value;
-                          $http.post(
-                            "http://localhost:8080/api/productvoucher",
-                            {
-                              idVoucher: idV,
-                              idProduct: product.data.id,
-                            }
-                          );
-                        }
-                      }
 
                       // update image
                       var MainImage =
@@ -1188,17 +1119,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
         $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id].push(newItem);
         // document.getElementById('Color'+detail.data.productDetail_size_colors[i].color.id + 'Size'+detail.data.productDetail_size_colors[i].size.id).value = detail.data.productDetail_size_colors[i].quantity;
 
-      }
-      for (let i = 0; i < detail.data.product.product_vouchers.length; i++) {
-        var voucher = {
-          id: detail.data.product.product_vouchers[i].voucher.id,
-        };
-
-        // Thêm newItem vào mảng kích thước của màu sắc tương ứng
-        $scope.voucherList.push(voucher);
-
-        // Xóa giá trị của newItem để chuẩn bị cho lần thêm tiếp theo
-        $scope.voucher = {};
       }
 
     });
