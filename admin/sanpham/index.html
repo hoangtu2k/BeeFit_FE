@@ -93,14 +93,16 @@
 
               <div class="col-md-3">
                 <label class="form-label">Khoảng Giá</label>
-                
+
                 <div class="range-slide">
                   <div class="d-flex mt-2">
-                    <input id="rangeMin" ng-click="filter()" type="range" class="form-range flex-grow-1" max="9999999" min="0" step="1" value="0">
-                    <input id="rangeMax" ng-click="filter()" type="range" class="form-range flex-grow-1" max="9999999" min="0" step="1" value="9999999">
+                    <input id="rangeMin" ng-click="filter()" type="range" class="form-range flex-grow-1" max="9999999"
+                      min="0" step="1" value="0">
+                    <input id="rangeMax" ng-click="filter()" type="range" class="form-range flex-grow-1" max="9999999"
+                      min="0" step="1" value="9999999">
                   </div>
                 </div>
-                
+
                 <div class="d-flex justify-content-between">
                   <span>Từ <span id="min">0 đ</span></span>
                   <span>đến <span id="max">9,999,999 đ</span></span>
@@ -391,9 +393,9 @@
                   <label for="" class="col-form-label label--ctsp">Chất liệu: <span
                       ng-repeat="chatlieu in form.productDetail_materials"
                       class="span--ctsp">{{chatlieu.material.name}}, </span> </label>
-                  <label for="" class="col-form-label label--ctsp">Chương trình khuyến mại:
-                    <span ng-repeat="km in form.product.product_vouchers" class="span--ctsp">{{km.voucher.name}}
-                      [{{km.voucher.code}}]</span> </label>
+                  <label for="" class="col-form-label label--ctsp">Chương trình khuyến mãi:</label>
+                  <span ng-repeat="km in listPromotion"><span class="span--ctsp"
+                      ng-if="km.id == form.promotion.id">{{km.name}} [[ Mã: {{km.code}} ]]</span></span>
                 </div>
               </div>
 

@@ -161,6 +161,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="brand">
+                                        <option value>Tất cả thương hiệu</option>
                                         <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}" ng-selected="thuonghieu.id == form.brand.id">
                                             {{thuonghieu.name}}</option>
                                     </select>
@@ -172,6 +173,7 @@
                             <div class="col-md-12">
                                 <div class="form-floating mb-4">
                                     <select class="form-select" id="design">
+                                        <option value>Tất cả thiết kế</option>
                                         <option ng-repeat="thietke in listDesign" value="{{thietke.id}}" ng-selected="thietke.id == form.design.id">
                                             {{thietke.name}}</option>
                                     </select>
@@ -196,6 +198,17 @@
                                             {{kieutay.name}}</option>
                                     </select>
                                     <label for="handType">Kiểu tay</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating mb-4">
+                                    <select class="form-select" id="promotion">
+                                        <option value>Tất cả Khuyến mãi</option>
+                                        <option ng-repeat="khuyenmai in listPromotion" value="{{khuyenmai.id}}" ng-selected="khuyenmai.id == form.promotion.id">
+                                            {{khuyenmai.name}}</option>
+                                    </select>
+                                    <label for="promotion">Khuyến mãi</label>
                                 </div>
                             </div>
 

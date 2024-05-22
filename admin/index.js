@@ -32,13 +32,17 @@ app.config(function ($routeProvider, $locationProvider) {
     })
 
     .when("/category/view", {
-      templateUrl: "danhmuc/index.html",
+      templateUrl: "sanpham/thuoctinh/danhmuc/index.html",
       controller: DanhMucController,
+    })
+    .when("/promotion/view", {
+      templateUrl: "sanpham/thuoctinh/khuyenmai/index.html",
+      controller: KhuyenMaiController,
     })
 
     .when("/voucher/view", {
-      templateUrl: "khuyenmai/index.html",
-      controller: KhuyenMaiController,
+      templateUrl: "phieu/index.html",
+      controller: PhieuController,
     })
 
     .when("/login", {
