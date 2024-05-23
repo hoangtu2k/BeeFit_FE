@@ -2,17 +2,18 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
     document.getElementById('header-wrapper').style.display = 'block';
 
     let url = "http://localhost:8080/api/promotion";
+    let urlproduct = "http://localhost:8080/api/product/getall";
 
     $scope.loadAll = function () {
 
-        // Load 
+        // Load promotion
         $scope.list = [];
         $http.get(url).then(function (response) {
             $scope.list = response.data;
         });
 
-        // Pagination
-        $scope.pager = {
+        // Pagination promotion
+        $scope.pagerkm = {
             page: 0,
             size: 5,
             get items() {
@@ -41,6 +42,44 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
                 this.page = this.count - 1;
             }
         }
+
+        // Load promotion
+        $scope.listProduct = [];
+        $http.get(urlproduct).then(function (response) {
+            $scope.listProduct = response.data;
+        });
+
+        // Pagination product
+        $scope.pagerpro = {
+            page: 0,
+            size: 5,
+            get items() {
+                var start = this.page * this.size;
+                return $scope.listProduct.slice(start, start + this.size);
+            },
+            get count() {
+                return Math.ceil(1.0 * $scope.listProduct.length / this.size);
+            },
+            first() {
+                this.page = 0;
+            },
+            prev() {
+                this.page--;
+                if (this.page < 0) {
+                    this.last();
+                }
+            },
+            next() {
+                this.page++;
+                if (this.page >= this.count) {
+                    this.first();
+                }
+            },
+            last() {
+                this.page = this.count - 1;
+            }
+        }
+
     };
     $scope.loadAll();
 
@@ -74,7 +113,6 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
     };
 
     $scope.form = {
-        code: '',
         name: '',
         discountType: '',
         discount: '',
@@ -82,6 +120,23 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         startdate: '',
         enddate: '',
     };
+
+
+
+    //open openaddkhuyenmai
+    $scope.isthemkhuyenmai = false;
+    $scope.openaddkhuyenmai = function () {
+        $scope.isthemkhuyenmai = !$scope.isthemkhuyenmai;
+        $scope.form = {
+            name: '',
+            discountType: '',
+            discount: '',
+            cash: '',
+            startdate: '',
+            enddate: '',
+        };
+    };
+
 
     $scope.add = function () {
 
@@ -133,6 +188,8 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
                             setTimeout(() => {
                                 location.href = "#/promotion/view";
                             }, 1000);
+                            $scope.loadAll();
+                            $scope.openaddkhuyenmai();
                         }
                     })
                     .catch(function (err) {
@@ -153,9 +210,6 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
             }
         });
     };
-
-
-
 
     $scope.formatDateTime = function (dateTimeString) {
         var date = new Date(dateTimeString);

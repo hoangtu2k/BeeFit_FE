@@ -173,36 +173,40 @@
                   <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu hiện tại</label>
                   <div class="col-md-8 col-lg-4">
                     <input ng-model="passcu" type="password" class="form-control" id="currentPassword">
+                    <div ng-repeat="err in validationErrors">
+                      <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'PasswordCu'">
+                        {{err.defaultMessage}}
+                      </span>
+                    </div>
                   </div>
-                  <div class="col-md-8 col-lg-4" ng-repeat="err in validationErrors">
-                    <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'PasswordCu'">
-                      {{err.defaultMessage}}
-                    </span>
-                  </div>
+                </div>
+
+                <div class="row mb-3">               
+                  
                 </div>
 
                 <div class="row mb-3">
                   <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu mới</label>
                   <div class="col-md-8 col-lg-4">
                     <input ng-model="passmoi" type="password" class="form-control" id="newPassword">
-                  </div>
-                  <div class="col-md-8 col-lg-4" ng-repeat="err in validationErrors">
-                    <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'PasswordMoi'">
-                      {{err.defaultMessage}}
-                    </span>
-                  </div>
+                    <div ng-repeat="err in validationErrors">
+                      <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'PasswordMoi'">
+                        {{err.defaultMessage}}
+                      </span>
+                    </div>
+                  </div>        
                 </div>
 
                 <div class="row mb-3">
                   <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Nhập lại mật khẩu mới</label>
                   <div class="col-md-8 col-lg-4">
                     <input ng-model="repassmoi" type="password" class="form-control" id="renewPassword">
-                  </div>
-                  <div class="col-md-8 col-lg-4" ng-repeat="err in validationErrors">
-                    <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'RePasswordMoi'">
-                      {{err.defaultMessage}}
-                    </span>
-                  </div>
+                    <div ng-repeat="err in validationErrors">
+                      <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'RePasswordMoi'">
+                        {{err.defaultMessage}}
+                      </span>
+                    </div>
+                  </div>                  
                 </div>
 
                 <div class="text-center">

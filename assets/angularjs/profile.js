@@ -2,7 +2,6 @@ window.ProfileController = function ($http, $scope, $rootScope, AuthService) {
 
   document.getElementById('header-wrapper').style.display = 'block';
 
-
   $scope.profile = {
     fullname: "",
     code: "",
@@ -113,7 +112,7 @@ window.ProfileController = function ($http, $scope, $rootScope, AuthService) {
     }
 
     $http
-      .put("http://localhost:8080/api/change/employee/" + AuthService.getId(), {
+      .put("http://localhost:8080/api/employee/change/" + AuthService.getId(), {
         passwordCu: $scope.passcu,
         passwordMoi: $scope.passmoi,
         rePasswordMoi: $scope.repassmoi,

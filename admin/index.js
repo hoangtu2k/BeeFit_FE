@@ -39,10 +39,6 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "sanpham/thuoctinh/khuyenmai/index.html",
       controller: KhuyenMaiController,
     })
-    .when("/promotion/add", {
-      templateUrl: "sanpham/thuoctinh/khuyenmai/add.html",
-      controller: KhuyenMaiController,
-    })
 
     .when("/voucher/view", {
       templateUrl: "phieu/index.html",
