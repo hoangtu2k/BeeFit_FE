@@ -57,6 +57,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "nhanvien/index.html",
       controller: NhanVienController,
     })
+    .when("/profile", {
+      templateUrl: "nhanvien/profile.html",
+      controller: ProfileController,
+    })
 
     .when("/403", {
       templateUrl: "403.html",
