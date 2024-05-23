@@ -1,4 +1,4 @@
-window.SanPhamController = function ($scope, $http, $location, $routeParams, $rootScope,AuthService) {
+window.SanPhamController = function ($scope, $http, $location, $routeParams, $rootScope, AuthService) {
   document.getElementById('header-wrapper').style.display = 'block';
 
   let url = "http://localhost:8080/api/product/getall";
@@ -10,7 +10,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   let urldesign = "http://localhost:8080/api/design";
   let urlhandtype = "http://localhost:8080/api/handtype";
   let urlnecktype = "http://localhost:8080/api/necktype";
-  let urlpromotion = "http://localhost:8080/api/promotion";
+  let urlpromotion = "http://localhost:8080/api/promotion/enddatetrue";
 
   //GetAll product 
   $scope.loadAll = function () {
@@ -216,7 +216,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
           return detail.material.name;
         })
         .join(", ");
-      var Images = item.product.productImages
+      var Images = item.productImages
         .map(function (image) {
           return image.url;
         })
@@ -235,8 +235,8 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
         })
         .join(", ");
       return {
-        Code: item.product.code,
-        Name: item.product.name,
+        Code: item.code,
+        Name: item.name,
         Images: Images,
         Price: item.price,
         Description: item.description,
@@ -474,213 +474,202 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   }
   //add product
   $scope.add = function () {
-     
+
     var MainImage = document.getElementById("fileUpload").files;
     if (MainImage.length == 0) {
-        Swal.fire('Vui lòng thêm ảnh đại diện cho sản phẩm !', '', 'error');
-        return;
+      Swal.fire('Vui lòng thêm ảnh đại diện cho sản phẩm !', '', 'error');
+      return;
     }
     $scope.get = function (name) {
-        return document.getElementById(name).value;
+      return document.getElementById(name).value;
     }
     //validate
     $http.post("http://localhost:8080/api/product/validate", {
-        code: $scope.form.product.code,
-        name: $scope.form.product.name,
-        price: $scope.form.price,
-        description: $scope.form.description
+      code: $scope.form.code,
+      name: $scope.form.name,
+      price: $scope.form.price,
+      description: $scope.form.description
     }).then(function (vali) {
-        if (vali.status === 200) {
-            //validate
-            $scope.validationErrors = [];
-            let indexMaterial = 0;
-            for (let i = 0; i < $scope.listMaterial.length; i++) {
-                let checkIndexMaterial = document.getElementById('Material' + $scope.listMaterial[i].id);
-                if (checkIndexMaterial.checked == true) {
-                    indexMaterial++;
-                }
-            }
-            let indexColor = 0;
-            for (let i = 0; i < $scope.listColor.length; i++) {
-                let checkIndexColor = document.getElementById('Color' + $scope.listColor[i].id);
-                if (checkIndexColor.checked == true) {
-                    indexColor++;
-                }
-            }
-            if (indexMaterial === 0) {
-                Swal.fire('Vui lòng chọn ít nhất 1 chất liệu cho sản phẩm !', '', 'error');
+      if (vali.status === 200) {
+        //validate
+        $scope.validationErrors = [];
+        let indexMaterial = 0;
+        for (let i = 0; i < $scope.listMaterial.length; i++) {
+          let checkIndexMaterial = document.getElementById('Material' + $scope.listMaterial[i].id);
+          if (checkIndexMaterial.checked == true) {
+            indexMaterial++;
+          }
+        }
+        let indexColor = 0;
+        for (let i = 0; i < $scope.listColor.length; i++) {
+          let checkIndexColor = document.getElementById('Color' + $scope.listColor[i].id);
+          if (checkIndexColor.checked == true) {
+            indexColor++;
+          }
+        }
+        if (indexMaterial === 0) {
+          Swal.fire('Vui lòng chọn ít nhất 1 chất liệu cho sản phẩm !', '', 'error');
+          return;
+        }
+        if (indexColor === 0) {
+          Swal.fire('Vui lòng chọn ít nhất 1 màu sắc cho sản phẩm !', '', 'error');
+          return;
+        }
+        // check size and color
+
+        for (let i = 0; i < $scope.listColor.length; i++) {
+          let color = document.getElementById('Color' + $scope.listColor[i].id);
+          if (color.checked == true) {
+            let iddexQuantity = 0;
+            let check = 0;
+            for (let j = 0; j < $scope.listSize.length; j++) {
+              let quantity = document.getElementById('Color' + $scope.listColor[i].id + 'Size' + $scope.listSize[j].id);
+              if (quantity === null) {
+                check++;
+              }
+              if (check === $scope.listSize.length) {
+                Swal.fire('Vui lòng thêm ít nhất 1 kích thước cho màu ' + $scope.listColor[i].name + ' !', '', 'error');
                 return;
-            }
-            if (indexColor === 0) {
-                Swal.fire('Vui lòng chọn ít nhất 1 màu sắc cho sản phẩm !', '', 'error');
-                return;
-            }
-            // check size and color
+              }
+              if (quantity !== null) {
 
-            for (let i = 0; i < $scope.listColor.length; i++) {
-                let color = document.getElementById('Color' + $scope.listColor[i].id);
-                if (color.checked == true) {
-                    let iddexQuantity = 0;
-                    let check = 0;
-                    for (let j = 0; j < $scope.listSize.length; j++) {
-                        let quantity = document.getElementById('Color' + $scope.listColor[i].id + 'Size' + $scope.listSize[j].id);
-                        if (quantity === null) {
-                            check++;
-                        }
-                        if (check === $scope.listSize.length) {
-                            Swal.fire('Vui lòng thêm ít nhất 1 kích thước cho màu ' + $scope.listColor[i].name + ' !', '', 'error');
-                            return;
-                        }
-                        if (quantity !== null) {
-
-                            if (quantity.value == 0) {
-                                iddexQuantity++;
-                            }
-                            if (quantity.value < 0 || quantity > 999) {
-                                Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu ' + $scope.listColor[i].name + ' phải lớn hơn bằng 0 và nhỏ hơn 999 !', '', 'error');
-                                return;
-                            }
-                            if (quantity.value.trim() === '') {
-                                Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu ' + $scope.listColor[i].name + ' không được bỏ trống !', '', 'error');
-                                document.getElementById('Color' + $scope.listColor[i].id + 'Size' + $scope.listSize[j].id).value = 0;
-                                return;
-                            }
-                        }
-                    }
-                    if (iddexQuantity === $scope.listSize.length) {
-                        Swal.fire('Vui lòng nhập số lượng kích thước tối thiểu cho màu ' + $scope.listColor[i].name + ' !', '', 'error');
-                        return;
-                    }
+                if (quantity.value == 0) {
+                  iddexQuantity++;
                 }
+                if (quantity.value < 0 || quantity > 999) {
+                  Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu ' + $scope.listColor[i].name + ' phải lớn hơn bằng 0 và nhỏ hơn 999 !', '', 'error');
+                  return;
+                }
+                if (quantity.value.trim() === '') {
+                  Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu ' + $scope.listColor[i].name + ' không được bỏ trống !', '', 'error');
+                  document.getElementById('Color' + $scope.listColor[i].id + 'Size' + $scope.listSize[j].id).value = 0;
+                  return;
+                }
+              }
             }
-            $http.post("http://localhost:8080/api/sanpham", {
-                code: $scope.form.product.code,
-                name: $scope.form.product.name,
-                createBy : $rootScope.user.username,
-            }).then(function (product) {
+            if (iddexQuantity === $scope.listSize.length) {
+              Swal.fire('Vui lòng nhập số lượng kích thước tối thiểu cho màu ' + $scope.listColor[i].name + ' !', '', 'error');
+              return;
+            }
+          }
+        }
+        $http.post("http://localhost:8080/api/product", {
+          code: $scope.form.code,
+          name: $scope.form.name,
+          price: $scope.form.price,
+          description: $scope.form.description,
+          createBy: $rootScope.user.username,
+          idCategory: $scope.get("category"),
+          idBrand: $scope.get("brand"),
+          idDesign: $scope.get("design"),
+          idHandType: $scope.get("handType"),
+          idNeckType: $scope.get("neckType"),
+          idPromotion: $scope.get("promotion")
+        }).then(function (product) {
 
-                //add image
-                var img = new FormData();
-                img.append("files", MainImage[0]);
-                $http.post("http://localhost:8080/api/upload", img, {
+          //add image
+          var img = new FormData();
+          img.append("files", MainImage[0]);
+          $http.post("http://localhost:8080/api/upload", img, {
+            transformRequest: angular.identity,
+            headers: {
+              'Content-Type': undefined
+            }
+          }).then(function (upImage) {
+            $http.post("http://localhost:8080/api/image", {
+              url: upImage.data[0],
+              mainImage: true,
+              idProduct: product.data.id
+            }).then(function (image) {
+              var ListImage = $scope.imagesList;
+              if (ListImage.length > 0) {
+                var img1 = new FormData();
+                for (let i = 0; i < ListImage.length; i++) {
+                  img1.append("files", ListImage[i]);
+                  $http.post("http://localhost:8080/api/upload", img1, {
                     transformRequest: angular.identity,
                     headers: {
-                        'Content-Type': undefined
+                      'Content-Type': undefined
                     }
-                }).then(function (upImage) {
+                  }).then(function (imagelist) {
                     $http.post("http://localhost:8080/api/image", {
-                        url: upImage.data[0],
-                        mainImage: true,
-                        idProduct: product.data.id
-                    }).then(function (image) {
-                        var ListImage = $scope.imagesList;
-                        if (ListImage.length > 0) {
-                            var img1 = new FormData();
-                            for (let i = 0; i < ListImage.length; i++) {
-                                img1.append("files", ListImage[i]);
-                                $http.post("http://localhost:8080/api/upload", img1, {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }).then(function (imagelist) {
-                                    $http.post("http://localhost:8080/api/image", {
-                                        url: imagelist.data[i],
-                                        mainImage: false,
-                                        idProduct: product.data.id
-                                    });
-                                })
-                            }
+                      url: imagelist.data[i],
+                      mainImage: false,
+                      idProduct: product.data.id
+                    });
+                  })
+                }
 
-                        }
-                    })
-                })
-
-                //add product detail
-                $http.post("http://localhost:8080/api/product", {
-                    price: $scope.form.price,
-                    description: $scope.form.description,
-                    createBy : $rootScope.user.username,
-                    idCategory: $scope.get("category"),
-                    idBrand: $scope.get("brand"),
-                    idDesign: $scope.get("design"),
-                    idProduct: product.data.id,
-                    idHandType: $scope.get("handType"),
-                    idNeckType: $scope.get("neckType"),
-                    idPromotion: $scope.get("promotion")
-                }).then(function (productdetail) {
-                    if (productdetail.status === 200) {
-
-                        //add material
-                        let listMaterial = $scope.listMaterial;
-                        for (let i = 0; i < listMaterial.length; i++) {
-                            var checkMaterial = document.getElementById('Material' + listMaterial[i].id);
-                            if (checkMaterial.checked == true) {
-                                $http.post("http://localhost:8080/api/productdetail_material", {
-                                    idProductDetail: productdetail.data.id,
-                                    idMaterial: listMaterial[i].id
-                                });
-                            }
-                        }
-                        // add size and color
-
-                        let listColor = $scope.listColor;
-                        let listSize = $scope.listSize;
-
-                        for (let i = 0; i < listColor.length; i++) {
-                            let color = document.getElementById('Color' + listColor[i].id);
-                            if (color.checked == true) {
-                                for (let j = 0; j < listSize.length; j++) {
-                                    let quantity = document.getElementById('Color' + listColor[i].id + 'Size' + listSize[j].id);
-
-                                    if (quantity !== null) {
-                                        if (quantity.value > 0) {
-                                            $http.post("http://localhost:8080/api/productdetail_color_size", {
-                                                idProductDetail: productdetail.data.id,
-                                                idColor: listColor[i].id,
-                                                idSize: listSize[j].id,
-                                                quantity: quantity.value
-                                            })
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                      
-                        Swal.fire('Thêm thành công !', '', 'success')
-                        setTimeout(() => {
-                            location.href = "#/product/view";
-                        }, 2000);
-                        
-                    }
-
-
-
-                }).catch(function (error) {
-                    console.log(error.message);
-                    Swal.fire('Thêm thất bại !', '', 'error')
-                })
-
-
-                // }
-
+              }
             })
-        }
+          })
+
+          if (product.status === 200) {
+
+            //add material
+            let listMaterial = $scope.listMaterial;
+            for (let i = 0; i < listMaterial.length; i++) {
+              var checkMaterial = document.getElementById('Material' + listMaterial[i].id);
+              if (checkMaterial.checked == true) {
+                $http.post("http://localhost:8080/api/productdetail_material", {
+                  idProduct: product.data.id,
+                  idMaterial: listMaterial[i].id
+                });
+              }
+            }
+            // add size and color
+
+            let listColor = $scope.listColor;
+            let listSize = $scope.listSize;
+
+            for (let i = 0; i < listColor.length; i++) {
+              let color = document.getElementById('Color' + listColor[i].id);
+              if (color.checked == true) {
+                for (let j = 0; j < listSize.length; j++) {
+                  let quantity = document.getElementById('Color' + listColor[i].id + 'Size' + listSize[j].id);
+
+                  if (quantity !== null) {
+                    if (quantity.value > 0) {
+                      $http.post("http://localhost:8080/api/productdetail_color_size", {
+                        idProduct: product.data.id,
+                        idColor: listColor[i].id,
+                        idSize: listSize[j].id,
+                        quantity: quantity.value
+                      })
+
+                    }
+                  }
+                }
+              }
+            }
+
+            Swal.fire('Thêm thành công !', '', 'success')
+            setTimeout(() => {
+              location.href = "#/product/view";
+            }, 1000);
+
+          }
+
+        }).catch(function (error) {
+          console.log(error.message);
+          Swal.fire('Thêm thất bại !', '', 'error')
+        })
+      }
     }).catch(function (err) {
-        if (err.status === 400) {
-            $scope.validationErrors = err.data;
-        }
-        if (err.status === 404) {
-            Swal.fire('Mã sản phẩm đã tồn tại !', '', 'error')
-            $scope.validationErrors = [];
-        }
+      if (err.status === 400) {
+        $scope.validationErrors = err.data;
+      }
+      if (err.status === 404) {
+        Swal.fire('Mã sản phẩm đã tồn tại !', '', 'error')
+        $scope.validationErrors = [];
+      }
 
     })
 
 
 
-}
+  }
+
   //update product
   $scope.update = function () {
     let id = $routeParams.id;
@@ -696,8 +685,8 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     //validate
     $http
       .post("http://localhost:8080/api/product/validateupdate", {
-        code: $scope.form.product.code,
-        name: $scope.form.product.name,
+        code: $scope.form.code,
+        name: $scope.form.name,
         price: $scope.form.price,
         description: $scope.form.description,
       })
@@ -830,12 +819,13 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
               $http.delete(
                 "http://localhost:8080/api/productdetail_color_size/" + id
               );
-              // update product detail
+              // update product
               $http
                 .put("http://localhost:8080/api/product/update/" + id, {
+                  name: $scope.form.name,
                   price: $scope.form.price,
                   description: $scope.form.description,
-                  updateBy : $rootScope.user.username,
+                  updateBy: $rootScope.user.username,
                   idCategory: $scope.get("category"),
                   idBrand: $scope.get("brand"),
                   idDesign: $scope.get("design"),
@@ -843,180 +833,168 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                   idNeckType: $scope.get("neckType"),
                   idPromotion: $scope.get("promotion")
                 })
-                .then(function (productDetail) {             
-                  //update product
-                  $http
-                    .put(
-                      "http://localhost:8080/api/sanpham/" +
-                      productDetail.data.product.id,
-                      {
-                        name: $scope.form.product.name,
-                        updateBy : $rootScope.user.username,
-                      }
-                    )
-                    .then(function (product) {
+                .then(function (product) {
 
-                      // update image
-                      var MainImage =
-                        document.getElementById("fileUpload").files;
-                      if (MainImage.length > 0) {
-                        $http.delete(
-                          "http://localhost:8080/api/image/" + product.data.id
-                        );
-                        var img = new FormData();
-                        img.append("files", MainImage[0]);
+                  // update image
+                  var MainImage =
+                    document.getElementById("fileUpload").files;
+                  if (MainImage.length > 0) {
+                    $http.delete(
+                      "http://localhost:8080/api/image/" + product.data.id
+                    );
+                    var img = new FormData();
+                    img.append("files", MainImage[0]);
+                    $http
+                      .post("http://localhost:8080/api/upload", img, {
+                        transformRequest: angular.identity,
+                        headers: {
+                          "Content-Type": undefined,
+                        },
+                      })
+                      .then(function (image) {
+                        $http.post("http://localhost:8080/api/image", {
+                          url: image.data[0],
+                          mainImage: true,
+                          idProduct: product.data.id,
+                        });
+                      });
+                  }
+                  var listImage = $scope.imagesList;
+
+                  if (listImage.length > 0) {
+                    var checkImg = true;
+
+                    $http
+                      .delete(
+                        "http://localhost:8080/api/image/1/" +
+                        product.data.id
+                      )
+                      .then(function () {
+                        var img1 = new FormData();
+
+                        for (var i = 0; i < listImage.length; i++) {
+                          img1.append("files", listImage[i]);
+                        }
+
                         $http
-                          .post("http://localhost:8080/api/upload", img, {
+                          .post("http://localhost:8080/api/upload", img1, {
                             transformRequest: angular.identity,
                             headers: {
                               "Content-Type": undefined,
                             },
                           })
-                          .then(function (image) {
-                            $http.post("http://localhost:8080/api/image", {
-                              url: image.data[0],
-                              mainImage: true,
-                              idProduct: product.data.id,
-                            });
-                          });
-                      }
-                      var listImage = $scope.imagesList;
+                          .then(function (imageList) {
+                            var promises = [];
 
-                      if (listImage.length > 0) {
-                        var checkImg = true;
-
-                        $http
-                          .delete(
-                            "http://localhost:8080/api/image/1/" +
-                            product.data.id
-                          )
-                          .then(function () {
-                            var img1 = new FormData();
-
-                            for (var i = 0; i < listImage.length; i++) {
-                              img1.append("files", listImage[i]);
+                            for (
+                              var i = 0;
+                              i < imageList.data.length;
+                              i++
+                            ) {
+                              promises.push(
+                                $http.post(
+                                  "http://localhost:8080/api/image",
+                                  {
+                                    url: imageList.data[i],
+                                    mainImage: false,
+                                    idProduct: product.data.id,
+                                  }
+                                )
+                              );
                             }
 
-                            $http
-                              .post("http://localhost:8080/api/upload", img1, {
-                                transformRequest: angular.identity,
-                                headers: {
-                                  "Content-Type": undefined,
-                                },
-                              })
-                              .then(function (imageList) {
-                                var promises = [];
+                            Promise.all(promises).then(function () {
+                              for (
+                                var i = 0;
+                                i < $scope.images.length;
+                                i++
+                              ) {
+                                if ($scope.images[i].startsWith("https")) {
+                                  if ($scope.imageDelete.length > 0) {
+                                    var deletePromises = [];
 
-                                for (
-                                  var i = 0;
-                                  i < imageList.data.length;
-                                  i++
-                                ) {
-                                  promises.push(
-                                    $http.post(
-                                      "http://localhost:8080/api/image",
-                                      {
-                                        url: imageList.data[i],
-                                        mainImage: false,
-                                        idProduct: product.data.id,
-                                      }
-                                    )
-                                  );
-                                }
-
-                                Promise.all(promises).then(function () {
-                                  for (
-                                    var i = 0;
-                                    i < $scope.images.length;
-                                    i++
-                                  ) {
-                                    if ($scope.images[i].startsWith("https")) {
-                                      if ($scope.imageDelete.length > 0) {
-                                        var deletePromises = [];
-
-                                        for (
-                                          var j = 0;
-                                          j < $scope.imageDelete.length;
-                                          j++
-                                        ) {
-                                          if (
-                                            $scope.imageDelete[j] !==
-                                            $scope.images[i]
-                                          ) {
-                                            deletePromises.push(
-                                              $http.post(
-                                                "http://localhost:8080/api/image",
-                                                {
-                                                  url: $scope.images[i],
-                                                  mainImage: false,
-                                                  idProduct: product.data.id,
-                                                }
-                                              )
-                                            );
-                                          }
-                                        }
-
-                                        Promise.all(deletePromises).then(
-                                          function () {
-                                            // Các hành động khác sau khi xử lý xóa ảnh
-                                          }
+                                    for (
+                                      var j = 0;
+                                      j < $scope.imageDelete.length;
+                                      j++
+                                    ) {
+                                      if (
+                                        $scope.imageDelete[j] !==
+                                        $scope.images[i]
+                                      ) {
+                                        deletePromises.push(
+                                          $http.post(
+                                            "http://localhost:8080/api/image",
+                                            {
+                                              url: $scope.images[i],
+                                              mainImage: false,
+                                              idProduct: product.data.id,
+                                            }
+                                          )
                                         );
-                                      } else {
-                                        if (checkImg) {
-                                          checkImg = false;
-                                          $http
-                                            .post(
-                                              "http://localhost:8080/api/image",
-                                              {
-                                                url: $scope.images[i],
-                                                mainImage: false,
-                                                idProduct: product.data.id,
-                                              }
-                                            )
-                                            .then(function () {
-                                              // Các hành động khác sau khi thêm ảnh mới
-                                            });
-                                        }
                                       }
                                     }
-                                  }
-                                });
-                              });
-                          });
-                      }
 
-                      if (listImage.length == 0) {
-                        if ($scope.imageDelete.length > 0) {
-                          $http
-                            .delete(
-                              "http://localhost:8080/api/image/1/" +
-                              product.data.id
-                            )
-                            .then(function () {
-                              var promises = [];
-
-                              for (var i = 0; i < $scope.images.length; i++) {
-                                if ($scope.images[i].startsWith("http")) {
-                                  promises.push(
-                                    $http.post(
-                                      "http://localhost:8080/api/image",
-                                      {
-                                        url: $scope.images[i],
-                                        mainImage: false,
-                                        idProduct: product.data.id,
+                                    Promise.all(deletePromises).then(
+                                      function () {
+                                        // Các hành động khác sau khi xử lý xóa ảnh
                                       }
-                                    )
-                                  );
+                                    );
+                                  } else {
+                                    if (checkImg) {
+                                      checkImg = false;
+                                      $http
+                                        .post(
+                                          "http://localhost:8080/api/image",
+                                          {
+                                            url: $scope.images[i],
+                                            mainImage: false,
+                                            idProduct: product.data.id,
+                                          }
+                                        )
+                                        .then(function () {
+                                          // Các hành động khác sau khi thêm ảnh mới
+                                        });
+                                    }
+                                  }
                                 }
                               }
-
-                              Promise.all(promises).then(function () {
-                                // Các hành động khác sau khi xử lý thêm ảnh khi không có ảnh mới
-                              });
                             });
-                        }
-                      }
-                    });
+                          });
+                      });
+                  }
+
+                  if (listImage.length == 0) {
+                    if ($scope.imageDelete.length > 0) {
+                      $http
+                        .delete(
+                          "http://localhost:8080/api/image/1/" +
+                          product.data.id
+                        )
+                        .then(function () {
+                          var promises = [];
+
+                          for (var i = 0; i < $scope.images.length; i++) {
+                            if ($scope.images[i].startsWith("http")) {
+                              promises.push(
+                                $http.post(
+                                  "http://localhost:8080/api/image",
+                                  {
+                                    url: $scope.images[i],
+                                    mainImage: false,
+                                    idProduct: product.data.id,
+                                  }
+                                )
+                              );
+                            }
+                          }
+
+                          Promise.all(promises).then(function () {
+                            // Các hành động khác sau khi xử lý thêm ảnh khi không có ảnh mới
+                          });
+                        });
+                    }
+                  }
 
                   //update material
                   let listMaterial = $scope.listMaterial;
@@ -1028,7 +1006,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                       $http.post(
                         "http://localhost:8080/api/productdetail_material",
                         {
-                          idProductDetail: productDetail.data.id,
+                          idProduct: product.data.id,
                           idMaterial: listMaterial[i].id,
                         }
                       );
@@ -1051,7 +1029,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                           $http.post(
                             "http://localhost:8080/api/productdetail_color_size",
                             {
-                              idProductDetail: productDetail.data.id,
+                              idProduct: product.data.id,
                               idColor: listColor[i].id,
                               idSize: listSize[j].id,
                               quantity: quantity.value,
@@ -1065,7 +1043,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                   Swal.fire("Sửa thành công !", "", "success");
                   setTimeout(() => {
                     location.href = "#/product/view";
-                  }, 2000);
+                  }, 1000);
                 })
                 .catch(function (error) {
                   Swal.fire("Sửa thất bại !", "", "error");
@@ -1086,12 +1064,13 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     $http.get("http://localhost:8080/api/product/" + id).then(function (detail) {
       $scope.form = detail.data;
 
-      for (let i = 0; i < detail.data.product.productImages.length; i++) {
-        if (detail.data.product.productImages[i].mainImage === false) {
-          $scope.images.push(detail.data.product.productImages[i].url);
+      for (let i = 0; i < detail.data.productImages.length; i++) {
+        if (detail.data.productImages[i].mainImage === false) {
+          $scope.images.push(detail.data.productImages[i].url);
         }
 
       }
+
       for (let i = 0; i < detail.data.productDetail_materials.length; i++) {
         document.getElementById('Material' + detail.data.productDetail_materials[i].material.id).checked = true;
       }
@@ -1117,14 +1096,13 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
 
         // Thêm newItem vào mảng kích thước của màu sắc tương ứng
         $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id].push(newItem);
-        // document.getElementById('Color'+detail.data.productDetail_size_colors[i].color.id + 'Size'+detail.data.productDetail_size_colors[i].size.id).value = detail.data.productDetail_size_colors[i].quantity;
-
+      
       }
 
     });
   };
   //delete product
-  $scope.delete = function (idProductDetail) {
+  $scope.delete = function (idProduct) {
     Swal.fire({
       title: "Bạn có chắc muốn muốn dừng bán sản phẩm?",
       showCancelButton: true,
@@ -1133,7 +1111,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         $http
-          .put("http://localhost:8080/api/product/" + idProductDetail)
+          .put("http://localhost:8080/api/product/" + idProduct)
           .then(function (response) {
             if (response.status === 200) {
               Swal.fire("Dừng bán thành công !", "", "success");
@@ -1146,7 +1124,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       }
     });
   };
-  $scope.delete1 = function (idProductDetail) {
+  $scope.delete1 = function (idProduct) {
     Swal.fire({
       title: "Bạn có chắc muốn cho phép bán lại sản phẩm?",
       showCancelButton: true,
@@ -1154,7 +1132,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     }).then((result) => {
       if (result.isConfirmed) {
         $http
-          .put("http://localhost:8080/api/product/khoiphuc/" + idProductDetail)
+          .put("http://localhost:8080/api/product/khoiphuc/" + idProduct)
           .then(function (response) {
             if (response.status === 200) {
               Swal.fire("Khôi phục thành công !", "", "success");
@@ -1173,28 +1151,28 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     });
   };
   ///////////////////////////////////////////////////////////////////////////////
-//filter
-$scope.filter = function () {
-  // let name = document.getElementById("name").value;
-  let idCategory = document.getElementById("danhmuc").value;
-  let idMaterial = document.getElementById("chatlieu").value;
-  let idColor = document.getElementById("mausac").value;
-  let idSize = document.getElementById("kichthuoc").value;
-  let idBrand = document.getElementById("thuonghieu").value;
-  let idNeckType = document.getElementById("kieuco").value;
-  let idHandType = document.getElementById("kieutay").value;
-  let idDesign = document.getElementById("thietke").value;
-  let min = document.getElementById("rangeMin").value;
-  let max = document.getElementById("rangeMax").value;
-  let idcate = (idCategory != '') ? idCategory : null;
-  let idbrad = (idBrand != '') ? idBrand : null;
-  let idmate = (idMaterial != '') ? idMaterial : null;
-  let idcolor = (idColor != '') ? idColor : null;
-  let idsize = (idSize != '') ? idSize : null;
-  let idhand = (idHandType != '') ? idHandType : null;
-  let idneck = (idNeckType != '') ? idNeckType : null;
-  let iddesign = (idDesign != '') ? idDesign : null;
-  var params = {
+  //filter
+  $scope.filter = function () {
+    // let name = document.getElementById("name").value;
+    let idCategory = document.getElementById("danhmuc").value;
+    let idMaterial = document.getElementById("chatlieu").value;
+    let idColor = document.getElementById("mausac").value;
+    let idSize = document.getElementById("kichthuoc").value;
+    let idBrand = document.getElementById("thuonghieu").value;
+    let idNeckType = document.getElementById("kieuco").value;
+    let idHandType = document.getElementById("kieutay").value;
+    let idDesign = document.getElementById("thietke").value;
+    let min = document.getElementById("rangeMin").value;
+    let max = document.getElementById("rangeMax").value;
+    let idcate = (idCategory != '') ? idCategory : null;
+    let idbrad = (idBrand != '') ? idBrand : null;
+    let idmate = (idMaterial != '') ? idMaterial : null;
+    let idcolor = (idColor != '') ? idColor : null;
+    let idsize = (idSize != '') ? idSize : null;
+    let idhand = (idHandType != '') ? idHandType : null;
+    let idneck = (idNeckType != '') ? idNeckType : null;
+    let iddesign = (idDesign != '') ? idDesign : null;
+    var params = {
       idcategory: idcate,
       idmaterial: idmate,
       idcolor: idcolor,
@@ -1205,37 +1183,37 @@ $scope.filter = function () {
       iddesign: iddesign,
       min: min,
       max: max
-  }
-  $http({
+    }
+    $http({
       method: 'GET',
       url: 'http://localhost:8080/api/product/filter',
       params: params
-  }).then(function (resp) {
+    }).then(function (resp) {
       $scope.list = resp.data;
       $scope.pager.first();
       // Swal.fire("Lọc thành công !","","success");
-  });
-}
+    });
+  }
 
-const rangeMin = document.getElementById('rangeMin');
-const rangeMax = document.getElementById('rangeMax');
-const minDisplay = document.getElementById('min');
-const maxDisplay = document.getElementById('max');
+  const rangeMin = document.getElementById('rangeMin');
+  const rangeMax = document.getElementById('rangeMax');
+  const minDisplay = document.getElementById('min');
+  const maxDisplay = document.getElementById('max');
 
-rangeMin.addEventListener('input', updateMinDisplay);
-rangeMax.addEventListener('input', updateMaxDisplay);
+  rangeMin.addEventListener('input', updateMinDisplay);
+  rangeMax.addEventListener('input', updateMaxDisplay);
 
-function updateMinDisplay() {
-  minDisplay.textContent = formatCurrency(rangeMin.value);
-}
+  function updateMinDisplay() {
+    minDisplay.textContent = formatCurrency(rangeMin.value);
+  }
 
-function updateMaxDisplay() {
-  maxDisplay.textContent = formatCurrency(rangeMax.value);
-}
+  function updateMaxDisplay() {
+    maxDisplay.textContent = formatCurrency(rangeMax.value);
+  }
 
-function formatCurrency(amount) {
-  return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-}
+  function formatCurrency(amount) {
+    return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  }
 
 
 };

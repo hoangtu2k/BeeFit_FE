@@ -11,7 +11,7 @@
 
             <div class="col-lg-3">
                 <h5 class="card-title">Ảnh đại diện sản phẩm <span style="color: red;">*</span></h5>
-                <span ng-repeat="img in form.product.productImages">
+                <span ng-repeat="img in form.productImages">
                     <span ng-if="img.mainImage === true">
                       <img id="output1" src="{{img.url}}" width="215px" height="215px"/>
                     </span>
@@ -44,7 +44,7 @@
                             <div class="col-md-12">
                                 <label for class="form-label label--ctsp">Tên
                                     sản phẩm <span class="validate">*</span></label>
-                                <input ng-model="form.product.name" type="text" class="form-control"
+                                <input ng-model="form.name" type="text" class="form-control"
                                     placeholder="Tên sản phẩm">
                                 <div ng-repeat="err in validationErrors">
                                     <span class="validate"

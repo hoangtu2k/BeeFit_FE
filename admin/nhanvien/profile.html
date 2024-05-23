@@ -1,0 +1,228 @@
+<main id="main" class="main">
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-3">
+
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <img id="output1" ng-if="anh == null" src="../assets/img/user-1.jpg" alt="Profile" class="rounded-circle">
+            <img id="output1" ng-if="anh != null" src="{{anh}}" alt="Profile" class="rounded-circle">
+            <h2> {{user.fullname}} </h2>
+            <h3> [ {{user.role.name}} ] </h3>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xl-9">
+
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Tổng
+                  quan</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Chỉnh sửa hồ sơ</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Đổi mật
+                  khẩu</button>
+              </li>
+
+            </ul>
+
+            <div class="tab-content pt-2">
+
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Mã</div>
+                  <div class="col-lg-9 col-md-8"> {{ profile.code }} </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Họ và tên</div>
+                  <div class="col-lg-9 col-md-8"> {{ profile.fullname }} </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Tên tài khoản</div>
+                  <div class="col-lg-9 col-md-8"> {{ profile.username }} </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Giới tính</div>
+                  <div class="col-lg-9 col-md-8"> {{ profile.gender ? 'Nam' : 'Nữ' }} </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Số điện thoại</div>
+                  <div class="col-lg-9 col-md-8"> {{ profile.phone }} </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Email</div>
+                  <div class="col-lg-9 col-md-8"> {{ profile.email }} </div>
+                </div>
+
+              </div>
+
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <div class="row">
+                  <!-- Profile Edit Form -->
+                  <div class="col-xl-6">
+
+                    <div class="row mb-3">
+                      <label for="company" class="col-md-4 col-lg-4 col-form-label">Tên người dùng</label>
+                      <div class="col-md-8 col-lg-8">
+                        <input ng-model="profile.username" type="text" class="form-control" autofocus="" disabled>
+                      </div>
+                      <div ng-repeat="err in validationErrors">
+                        <span class="validate" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Username'">
+                          {{err.defaultMessage}}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="fullName" class="col-md-4 col-lg-4 col-form-label">Họ và tên</label>
+                      <div class="col-md-8 col-lg-8">
+                        <input ng-model="profile.fullname" type="text" class="form-control" autofocus="">
+                      </div>
+                      <div class="col-md-8 col-lg-8" ng-repeat="err in validationErrors">
+                        <span class="validate" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Fullname'">
+                          {{err.defaultMessage}}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Address" class="col-md-4 col-lg-4 col-form-label">Giới tính</label>
+                      <div class="col-md-8 col-lg-8">
+                        <input id="gtNam" name="gioitinh" type="radio" value="true" {{form.gender=true ? 'checked' : ''
+                          }}>
+                        Nam
+                        <input id="gtNu" name="gioitinh" type="radio" value="false" {{form.gender=false ? 'checked' : ''
+                          }}>
+                        Nữ
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Phone" class="col-md-4 col-lg-4 col-form-label">Số điện thoại</label>
+                      <div class="col-md-8 col-lg-8">
+                        <input ng-model="profile.phone" type="text" class="form-control" autofocus="">
+                      </div>
+                      <div class="col-md-8 col-lg-8" ng-repeat="err in validationErrors">
+                        <span class="validate" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Phone'">
+                          {{err.defaultMessage}}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="email" class="col-md-4 col-lg-4 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-8">
+                        <input ng-model="profile.email" type="email" class="form-control" autofocus="">
+                      </div>
+                      <div class="col-md-8 col-lg-8" ng-repeat="err in validationErrors">
+                        <span class="validate" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Email'">
+                          {{err.defaultMessage}}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button ng-click="update()" class="btn btn-primary">Lưu</button>
+                    </div>
+                    <!-- End Profile Edit -->
+                  </div>
+                  <div class="col-xl-5">
+                    <div class="row mb-3">
+                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Ảnh</label>
+                      <div class="col-md-8 col-lg-4">
+                        <div class="row">
+                          <img id="output1" ng-if="anh == null" src="../assets/img/user-1.jpg" alt="">
+                          <img id="output1" ng-if="anh != null" src="{{anh}}" alt="">
+                          <img id="output" style="display: none;" alt="" />
+                        </div>
+                        <div style="padding-top: 5px;">
+
+                          <button onclick="anhOpen()" class="btn btn-success" id="uploadButtonImage">Chọn ảnh</button>
+                          <input file-model="profile.image" id="fileUpload" type="file" accept="img/*"
+                            onchange="loadFile(event)" style="display: none;">
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <!-- Change Password Form -->
+
+                <div class="row mb-3">
+                  <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu hiện tại</label>
+                  <div class="col-md-8 col-lg-4">
+                    <input ng-model="passcu" type="password" class="form-control" id="currentPassword">
+                    <div ng-repeat="err in validationErrors">
+                      <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'PasswordCu'">
+                        {{err.defaultMessage}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">               
+                  
+                </div>
+
+                <div class="row mb-3">
+                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu mới</label>
+                  <div class="col-md-8 col-lg-4">
+                    <input ng-model="passmoi" type="password" class="form-control" id="newPassword">
+                    <div ng-repeat="err in validationErrors">
+                      <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'PasswordMoi'">
+                        {{err.defaultMessage}}
+                      </span>
+                    </div>
+                  </div>        
+                </div>
+
+                <div class="row mb-3">
+                  <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Nhập lại mật khẩu mới</label>
+                  <div class="col-md-8 col-lg-4">
+                    <input ng-model="repassmoi" type="password" class="form-control" id="renewPassword">
+                    <div ng-repeat="err in validationErrors">
+                      <span class="validate" ng-if="err.objectName == 'changeForm' && err.field == 'RePasswordMoi'">
+                        {{err.defaultMessage}}
+                      </span>
+                    </div>
+                  </div>                  
+                </div>
+
+                <div class="text-center">
+                  <button ng-click="change()" class="btn btn-primary">Đổi mật khẩu</button>
+                </div>
+                <!-- End Change Password -->
+
+              </div>
+
+            </div><!-- End Bordered Tabs -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
