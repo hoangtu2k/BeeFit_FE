@@ -1,0 +1,87 @@
+<!-- promotion.html
+<div>
+    <h2>Apply Promotion to All Products</h2>
+    <form ng-submit="applyPromotionToAll()">
+      <label for="code">Promotion Code:</label>
+      <input type="text" id="code" ng-model="newPromotion.code" required>
+      <label for="name">Promotion Name:</label>
+      <input type="text" id="name" ng-model="newPromotion.name" required>
+      <button type="submit">Apply to All</button>
+    </form>
+  </div> -->
+
+  <main id="main" class="main">
+    <section class="section dashboard">
+
+      <div class="row">
+        <div class="col-lg-12">
+
+          <a class="btn btn-danger" href="#/promotion/add">add</a>
+
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-12">
+  
+              <div class="card">
+  
+                <div class="card-body">
+        
+                  <table class="table">
+                    <thead>
+                      <th scope="row">Mã khuyến mãi</td>
+                      <th scope="row">Tên khuyến mãi</td>
+                      <th scope="row">Kiểu khuyến mãi</td>
+                      <th scope="row">Giá trị khuyến mãi</td>
+                      <th scope="row">Ngày bắt đầu</td>
+                      <th scope="row">Ngày kết thúc</th>
+                      <th scope="row">Trạng thái</th>
+              
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="v in pager.items">
+                        <td>{{v.code}}</td>
+                        <td>{{v.name}}</td>                   
+                        <td>{{v.discountType == false ? 'Giảm giá theo %' : 'Giảm giá theo tiền'}}</td>
+                        <td>{{v.discountType == false ? v.discount + '%' : (v.cash | currency:'':0) + ' VND'}}</td>
+                        <td>{{ formatDateTime(v.startDate) }}</td>
+                        <td>{{ formatDateTime(v.endDate) }}</td>
+                        <td>{{v.status == 0 ? 'Hoạt động' : v.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                        <td><a href="#/promotion/update/{{v.id}}"><button class="btn btn-indigo"> Sửa</button></a>
+                          <button style="margin-top: 5px" class="btn btn-danger" ng-click="delete(v.id)"> Xóa</button>
+                        </td>
+                      </tr>              
+                    </tbody>
+                  </table>
+
+                  <div class="text-center">
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                      <button ng-click="pager.first()" type="button" class="btn btn-outline-secondary"><i
+                          class="fa-solid fa-angles-left"></i></button>
+                      <button ng-click="pager.prev()" type="button" class="btn btn-outline-secondary"><i
+                          class="fa-solid fa-angle-left"></i></button>
+                      <button type="button" class="btn btn-outline-secondary">{{pager.page+1}}
+                        of
+                        {{pager.count}}</button>
+                      <button ng-click="pager.next()" type="button" class="btn btn-outline-secondary"><i
+                          class="fa-solid fa-angle-right"></i></button>
+                      <button ng-click="pager.last()" type="button" class="btn btn-outline-secondary"><i
+                          class="fa-solid fa-angles-right"></i></button>
+                    </div>
+                  </div>
+                
+                </div>
+  
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ======= end row ======= -->
+
+    </section>
+  </main><!-- End #main -->
