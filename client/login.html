@@ -1,0 +1,33 @@
+<div class="container-fluid pt-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2">Đăng nhập</span></h2>
+    </div>
+    <div class="row px-xl-5 ">
+        <div class="col-lg-3 mb-5" style="margin: 0 auto;">
+            <div class="control-group">
+                <label for="CustomerEmail" class="font-weight-bold text-dark">Tên đăng nhập</label>
+                <input ng-model="username" name="customer[email]" id="CustomerEmail" autocorrect="off"
+                    autocapitalize="off" autofocus="" type="text" class="form-control" placeholder="Your Username" />
+                <div ng-repeat="err in validationErrors">
+                    <p ng-if="err.objectName == 'loginRequest' && err.field == 'username'"
+                        class="help-block text-danger">{{err.defaultMessage}}</p>
+                </div>
+
+            </div>
+            <div class="control-group">
+                <label for="CustomerPassword" class="font-weight-bold text-dark">Mật khẩu</label>
+                <input ng-model="password" name="customer[password]" id="CustomerPassword" type="password"
+                    class="form-control" placeholder="Your Password" />
+                <div ng-repeat="err in validationErrors">
+                    <p ng-if="err.objectName == 'loginRequest' && err.field == 'password'" class="help-block text-danger">
+                        {{err.defaultMessage}}
+                    </p>
+                </div>
+                <p></p>
+            </div>
+            <div class="control-group text-center">
+                <button ng-click="login()" class="text-center btn btn-primary py-2 px-4">Đăng nhập</button>
+            </div>
+        </div>
+    </div>
+</div>

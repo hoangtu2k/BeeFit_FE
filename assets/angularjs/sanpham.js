@@ -1183,7 +1183,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       iddesign: iddesign,
       min: min,
       max: max
-    }
+    };
     $http({
       method: 'GET',
       url: 'http://localhost:8080/api/product/filter',
