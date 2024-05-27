@@ -219,7 +219,7 @@
                         <tr ng-if="list.length == 0">
                           <td colspan="13">
                             <div style="text-align: center;">
-                              <div><img style="width: 80px; height: 80px;" src="../../assets/img/box.png">
+                              <div><img style="width: 80px; height: 80px;" src="././assets/img/box.png">
                               </div>
                               <h4>Không có sản phẩm nào</h4>
                             </div>
@@ -287,7 +287,7 @@
                         <tr ng-if="listdhd.length == 0">
                           <td colspan="13">
                             <div style="text-align: center;">
-                              <div><img style="width: 80px; height: 80px;" src="../../assets/img/box.png"></div>
+                              <div><img style="width: 80px; height: 80px;" src="././assets/img/box.png"></div>
                               <h4>Không có sản phẩm nào</h4>
                             </div>
                           </td>
@@ -371,13 +371,17 @@
 
               <div class="col-lg-7">
                 <div class="row">
-                  <label for="" class="col-form-label label--ctsp">Mã sản phẩm: <span
-                      class="span--ctsp">{{form.code}} </span>
+                  <label for="" class="col-form-label label--ctsp">Mã sản phẩm: <span class="span--ctsp">{{form.code}}
+                    </span>
                   </label>
-                  <label for="" class="col-form-label label--ctsp">Tên sản phẩm: <span
-                      class="span--ctsp">{{form.name}} </span></label>
+                  <label for="" class="col-form-label label--ctsp">Tên sản phẩm: <span class="span--ctsp">{{form.name}}
+                    </span></label>
                   <label for="" class="col-form-label label--ctsp">Giá bán: <span class="span--ctsp">{{form.price |
                       currency:'':0}} VNĐ</span></label>
+                  <label for="" class="col-form-label label--ctsp">Giảm giá: <span class="span--ctsp">{{form.discount}}
+                    </span></label>
+                    <label for="" class="col-form-label label--ctsp">Cân nặng: <span class="span--ctsp">{{form.weight}}
+                    </span></label>
                   <label for="" class="col-form-label label--ctsp">Mô tả: <span class="span--ctsp">{{form.description}}
                     </span></label>
                   <label for="" class="col-form-label label--ctsp">Danh mục: <span ng-repeat="dm in listCategory"><span
@@ -393,9 +397,6 @@
                   <label for="" class="col-form-label label--ctsp">Chất liệu: <span
                       ng-repeat="chatlieu in form.productDetail_materials"
                       class="span--ctsp">{{chatlieu.material.name}}, </span> </label>
-                  <label for="" class="col-form-label label--ctsp">Chương trình khuyến mãi:</label>
-                  <span ng-repeat="km in listPromotion"><span class="span--ctsp"
-                      ng-if="km.id == form.promotion.id">{{km.name}} [[ Mã: {{km.code}} ]]</span></span>
                 </div>
               </div>
 

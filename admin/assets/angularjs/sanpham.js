@@ -10,7 +10,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   let urldesign = "http://localhost:8080/api/design";
   let urlhandtype = "http://localhost:8080/api/handtype";
   let urlnecktype = "http://localhost:8080/api/necktype";
-  let urlpromotion = "http://localhost:8080/api/promotion/enddatetrue";
 
   //GetAll product 
   $scope.loadAll = function () {
@@ -31,11 +30,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       }
     };
 
-    // load promotion
-    $scope.listPromotion = [];
-    $http.get(urlpromotion).then(function (response) {
-      $scope.listPromotion = response.data;
-    });
     // load category
     $scope.listCategory = [];
     $http.get(urlcategory).then(function (response) {
@@ -168,136 +162,41 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   };
   $scope.loadDungHoatDong();
 
-  //import exel
-  $scope.importExel = function () {
+  $scope.giamGia = function () {
+    if (document.getElementById("giamGia").checked == true) {
+      document.getElementById("giamGia1").style.display = 'block';
+      document.getElementById("khongGioiHan1").style.display = 'block';
+      document.getElementById("khongGioiHan").checked = true
 
-    let file = document.getElementById("fileInput").files;
 
-    if (file.length === 0) {
-      Swal.fire("Vui lòng tải lên file Exel trước khi thêm !", "", "error");
-    } else {
-      let form = new FormData();
-      form.append("file", file[0]);
-      $http
-        .post("http://localhost:8080/api/product/importExel", form, {
-          transformRequest: angular.identity,
-          headers: {
-            "Content-Type": undefined, // Để để Angular tự động thiết lập Content-Type
-          },
-        })
-        .catch(function (err) {
-          if (err.status === 500) {
-            Swal.fire("Có lỗi xảy ra vui lòng xem lại !", "", "error");
-          }
-          if (err.status === 404) {
-            Swal.fire("Có lỗi xảy ra vui lòng xem lại !", "", "error");
-          }
-        })
-        .then(function (ok) {
-          Swal.fire("Thêm data từ Exel thành công !", "", "success");
-          $scope.loadAll(); // Gọi hàm load lại dữ liệu sản phẩm
-          $scope.isnhapfile = false;
-        });
     }
-  };
+    else {
 
-  //open import exel
-  $scope.isnhapfile = false;
-  $scope.openImportExcel = function () {
-    $scope.isnhapfile = !$scope.isnhapfile;
-  };
+      document.getElementById("giamGia1").style.display = 'none';
+      document.getElementById("khongGioiHan1").style.display = 'none';
+      document.getElementById("tamThoi1").style.display = 'none';
+      document.getElementById("khongGioiHan").checked = true
+    }
+  }
+  $scope.giamGia1 = function () {
+    if (document.getElementById("khongGioiHan").checked == true) {
+      document.getElementById("khongGioiHan1").style.display = 'block';
+      document.getElementById("tamThoi1").style.display = 'none';
+      document.getElementById("phanTramGiamGia").style.display = 'block';
+      document.getElementById("phanTramGiamGia1").style.display = 'none';
+      document.getElementById("thoiGianGiamGia").style.display = 'none';
+    }
+    else {
+      document.getElementById("khongGioiHan1").style.display = 'none';
+      document.getElementById("tamThoi1").style.display = 'block';
+      document.getElementById("phanTramGiamGia").style.display = 'none';
+      document.getElementById("phanTramGiamGia1").style.display = 'block';
+      document.getElementById("thoiGianGiamGia").style.display = 'block';
+      var today = new Date().toISOString().split('T')[0];
+      document.getElementById("thoiGianGiamGia").min = today;
+    }
 
-  //export exel
-  $scope.exportToExcel = function () {
-    // Chuyển dữ liệu thành một mảng các đối tượng JSON
-    var dataArray = $scope.list.map(function (item) {
-      var Materials = item.productDetail_materials
-        .map(function (detail) {
-          return detail.material.name;
-        })
-        .join(", ");
-      var Images = item.productImages
-        .map(function (image) {
-          return image.url;
-        })
-        .join(", ");
-      var Color_Size = item.productDetail_size_colors
-        .map(function (size) {
-          return (
-            "Color : " +
-            size.color.name +
-            " { Size " +
-            size.size.name +
-            " | Quantity : " +
-            size.quantity +
-            "}"
-          );
-        })
-        .join(", ");
-      return {
-        Code: item.code,
-        Name: item.name,
-        Images: Images,
-        Price: item.price,
-        Description: item.description,
-        Category: item.category.name,
-        Brand: item.brand.name,
-        Design: item.design.name,
-        NeckType: item.neckType.name,
-        HandType: item.handType.name,
-        Materials: Materials,
-        QuantityByColor_Sizes: Color_Size,
-      };
-    });
-
-    // Tạo một workbook mới
-    var workbook = XLSX.utils.book_new();
-
-    // Tạo một worksheet từ dữ liệu
-    var worksheet = XLSX.utils.json_to_sheet(dataArray);
-
-    // Thêm worksheet vào workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
-
-    // Xuất tệp Excel
-    XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
-    Swal.fire("Xuất file exel thành công !", "", "success");
-  };
-
-  //export exel mau
-  $scope.exportToExcelMau = function () {
-
-    var dataArray = $scope.list.map(function (item) {
-
-    });
-
-    // Add a hard-coded row
-    dataArray.unshift({
-      Name: "Product test",
-      Url: "http://example.com/hardcoded-image.jpg",
-      Price: 100000,
-      Description: "This is a hard-coded product",
-      Category: "1",
-      Brand: "1",
-      Design: "1",
-      HandType: "1",
-      NeckType: "1",
-      Materials: "1,2",
-      QuantityByColor_Sizes: "1-1-100,1-2-100,1-3-100,1-4-100",
-    });
-
-    // Create a new workbook
-    var workbook = XLSX.utils.book_new();
-
-    // Create a worksheet from the data
-    var worksheet = XLSX.utils.json_to_sheet(dataArray);
-
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
-
-    // Export the Excel file
-    XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
-  };
+  }
 
   //detail product
   $scope.isChiTietSanPham = false;
@@ -465,6 +364,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     product: {
       code: '',
       name: '',
+      Weight: '',
       description: ''
 
     }
@@ -474,6 +374,26 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   }
   //add product
   $scope.add = function () {
+
+    let phanTram = 0;
+    let discountDate = null;
+    if (document.getElementById("giamGia").checked == true) {
+      if (document.getElementById("khongGioiHan").checked == true) {
+        phanTram = document.getElementById("phanTramGiamGia").value;
+      }
+      else {
+        phanTram = document.getElementById("phanTramGiamGia1").value;
+      }
+
+    }
+    if (document.getElementById("tamThoi").checked == true) {
+      if (document.getElementById("thoiGianGiamGia").value === '') {
+        Swal.fire('Vui lòng chọn thời gian kết thúc giảm giá !', '', 'error');
+        return;
+      }
+      discountDate = document.getElementById("thoiGianGiamGia").value;
+    }
+
 
     var MainImage = document.getElementById("fileUpload").files;
     if (MainImage.length == 0) {
@@ -488,6 +408,8 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       code: $scope.form.code,
       name: $scope.form.name,
       price: $scope.form.price,
+      weight: $scope.form.weight,
+      discount: phanTram,
       description: $scope.form.description
     }).then(function (vali) {
       if (vali.status === 200) {
@@ -557,14 +479,16 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
           code: $scope.form.code,
           name: $scope.form.name,
           price: $scope.form.price,
+          weight: $scope.form.weight,
+          discount: phanTram,
+          discountDate: discountDate,
           description: $scope.form.description,
           createBy: $rootScope.user.username,
           idCategory: $scope.get("category"),
           idBrand: $scope.get("brand"),
           idDesign: $scope.get("design"),
           idHandType: $scope.get("handType"),
-          idNeckType: $scope.get("neckType"),
-          idPromotion: $scope.get("promotion")
+          idNeckType: $scope.get("neckType")
         }).then(function (product) {
 
           //add image
@@ -672,15 +596,34 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
 
   //update product
   $scope.update = function () {
+
     let id = $routeParams.id;
-    $http
-      .get("http://localhost:8080/api/product/" + id)
-      .then(function (detail) {
-        $scope.history = detail.data;
-      });
+    $http.get("http://localhost:8080/api/product/" + id).then(function (detail) {
+      $scope.history = detail.data;
+
+    })
     $scope.get = function (name) {
       return document.getElementById(name).value;
-    };
+    }
+    let phanTram = 0;
+    let discountDate = null;
+    if (document.getElementById("giamGia").checked == true) {
+      if (document.getElementById("khongGioiHan").checked == true) {
+        phanTram = document.getElementById("phanTramGiamGia").value;
+      }
+      else {
+        phanTram = document.getElementById("phanTramGiamGia1").value;
+      }
+
+    }
+    if (document.getElementById("tamThoi").checked == true) {
+      if (document.getElementById("thoiGianGiamGia").value === '') {
+        Swal.fire('Vui lòng chọn thời gian kết thúc giảm giá !', '', 'error');
+        return;
+      }
+      discountDate = document.getElementById("thoiGianGiamGia").value;
+    }
+    console.log(discountDate);
 
     //validate
     $http
@@ -688,6 +631,8 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
         code: $scope.form.code,
         name: $scope.form.name,
         price: $scope.form.price,
+        weight: $scope.form.weight,
+        discount: phanTram,
         description: $scope.form.description,
       })
       .then(function (vali) {
@@ -824,14 +769,16 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
                 .put("http://localhost:8080/api/product/update/" + id, {
                   name: $scope.form.name,
                   price: $scope.form.price,
+                  weight: $scope.form.weight,
+                  discount: phanTram,
                   description: $scope.form.description,
+                  discountDate: discountDate,
                   updateBy: $rootScope.user.username,
                   idCategory: $scope.get("category"),
                   idBrand: $scope.get("brand"),
                   idDesign: $scope.get("design"),
                   idHandType: $scope.get("handType"),
-                  idNeckType: $scope.get("neckType"),
-                  idPromotion: $scope.get("promotion")
+                  idNeckType: $scope.get("neckType")
                 })
                 .then(function (product) {
 
@@ -1096,7 +1043,51 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
 
         // Thêm newItem vào mảng kích thước của màu sắc tương ứng
         $scope.colorSizes[detail.data.productDetail_size_colors[i].color.id].push(newItem);
-      
+
+      }
+
+      if ($scope.form.discount > 0) {
+        document.getElementById("giamGia").checked = true;
+        document.getElementById("giamGia1").style.display = 'block'
+        if ($scope.form.discountDate != null) {
+          document.getElementById("tamThoi").checked = true;
+          document.getElementById("tamThoi1").style.display = 'block';
+          document.getElementById("phanTramGiamGia1").style.display = 'block'
+          document.getElementById("thoiGianGiamGia").style.display = 'block'
+          document.getElementById("phanTramGiamGia").style.display = 'none';
+          document.getElementById("phanTramGiamGia1").value = $scope.form.discount;
+          // Get the input element
+          let dateInput = document.getElementById('thoiGianGiamGia');
+
+          // Original datetime string in 'yyyy-MM-dd hh:mm:ss.sss' format
+          var originalDateStr = $scope.form.discountDate; // Replace with your original date
+
+          // Split the original date string
+          var dateParts = originalDateStr.split('T')[0].split('-');
+
+          // Extract year, month, and day
+          var year = dateParts[0];
+          var month = dateParts[1];
+          var day = dateParts[2];
+
+          // Create the formatted date string in 'MM/dd/yyyy' format
+          var formattedDate = year + '-' + month + '-' + day;
+
+          // Set the formatted date in the input field'
+
+          dateInput.value = formattedDate;
+          var today = new Date().toISOString().split('T')[0];
+          document.getElementById("thoiGianGiamGia").min = today;
+
+        }
+        else {
+          document.getElementById("khongGioiHan").checked = true;
+          document.getElementById("khongGioiHan1").style.display = 'block';
+          document.getElementById("phanTramGiamGia1").style.display = 'none'
+          document.getElementById("thoiGianGiamGia").style.display = 'none'
+          document.getElementById("phanTramGiamGia").style.display = 'block';
+          document.getElementById("phanTramGiamGia").value = $scope.form.discount;
+        }
       }
 
     });
@@ -1153,7 +1144,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
   ///////////////////////////////////////////////////////////////////////////////
   //filter
   $scope.filter = function () {
-    // let name = document.getElementById("name").value;
     let idCategory = document.getElementById("danhmuc").value;
     let idMaterial = document.getElementById("chatlieu").value;
     let idColor = document.getElementById("mausac").value;
@@ -1183,7 +1173,7 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
       iddesign: iddesign,
       min: min,
       max: max
-    }
+    };
     $http({
       method: 'GET',
       url: 'http://localhost:8080/api/product/filter',
@@ -1215,5 +1205,136 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   }
 
+  ///////////////////////////////////////////////////////////////////////
+  //import exel
+  $scope.importExel = function () {
+
+    let file = document.getElementById("fileInput").files;
+
+    if (file.length === 0) {
+      Swal.fire("Vui lòng tải lên file Exel trước khi thêm !", "", "error");
+    } else {
+      let form = new FormData();
+      form.append("file", file[0]);
+      $http
+        .post("http://localhost:8080/api/product/importExel", form, {
+          transformRequest: angular.identity,
+          headers: {
+            "Content-Type": undefined, // Để để Angular tự động thiết lập Content-Type
+          },
+        })
+        .catch(function (err) {
+          if (err.status === 500) {
+            Swal.fire("Có lỗi xảy ra vui lòng xem lại !", "", "error");
+          }
+          if (err.status === 404) {
+            Swal.fire("Có lỗi xảy ra vui lòng xem lại !", "", "error");
+          }
+        })
+        .then(function (ok) {
+          Swal.fire("Thêm data từ Exel thành công !", "", "success");
+          $scope.loadAll(); // Gọi hàm load lại dữ liệu sản phẩm
+          $scope.isnhapfile = false;
+        });
+    }
+  };
+
+  //open import exel
+  $scope.isnhapfile = false;
+  $scope.openImportExcel = function () {
+    $scope.isnhapfile = !$scope.isnhapfile;
+  };
+
+  //export exel
+  $scope.exportToExcel = function () {
+    // Chuyển dữ liệu thành một mảng các đối tượng JSON
+    var dataArray = $scope.list.map(function (item) {
+      var Materials = item.productDetail_materials
+        .map(function (detail) {
+          return detail.material.name;
+        })
+        .join(", ");
+      var Images = item.productImages
+        .map(function (image) {
+          return image.url;
+        })
+        .join(", ");
+      var Color_Size = item.productDetail_size_colors
+        .map(function (size) {
+          return (
+            "Color : " +
+            size.color.name +
+            " { Size " +
+            size.size.name +
+            " | Quantity : " +
+            size.quantity +
+            "}"
+          );
+        })
+        .join(", ");
+      return {
+        Code: item.code,
+        Name: item.name,
+        Images: Images,
+        Price: item.price,
+        Description: item.description,
+        Category: item.category.name,
+        Brand: item.brand.name,
+        Design: item.design.name,
+        NeckType: item.neckType.name,
+        HandType: item.handType.name,
+        Materials: Materials,
+        QuantityByColor_Sizes: Color_Size,
+      };
+    });
+
+    // Tạo một workbook mới
+    var workbook = XLSX.utils.book_new();
+
+    // Tạo một worksheet từ dữ liệu
+    var worksheet = XLSX.utils.json_to_sheet(dataArray);
+
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
+
+    // Xuất tệp Excel
+    XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
+    Swal.fire("Xuất file exel thành công !", "", "success");
+  };
+
+  //export exel mau
+  $scope.exportToExcelMau = function () {
+
+    var dataArray = $scope.list.map(function (item) {
+
+    });
+
+    // Add a hard-coded row
+    dataArray.unshift({
+      Name: "Product test",
+      Url: "http://example.com/hardcoded-image.jpg",
+      Price: 100000,
+      Description: "This is a hard-coded product",
+      Category: "1",
+      Brand: "1",
+      Design: "1",
+      HandType: "1",
+      NeckType: "1",
+      Materials: "1,2",
+      QuantityByColor_Sizes: "1-1-100,1-2-100,1-3-100,1-4-100",
+    });
+
+    // Create a new workbook
+    var workbook = XLSX.utils.book_new();
+
+    // Create a worksheet from the data
+    var worksheet = XLSX.utils.json_to_sheet(dataArray);
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Sheet");
+
+    // Export the Excel file
+    XLSX.writeFile(workbook, "data" + new Date() + ".xlsx");
+  };
 
 };
