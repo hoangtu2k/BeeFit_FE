@@ -42,6 +42,18 @@
                         <div class="row">
 
                             <div class="col-md-12">
+                                <label for class="form-label label--ctsp">Cân nặng <span class="validate">*</span></label>
+                                <input ng-model="form.weight" type="text" class="form-control"
+                                    placeholder="Cân cặng">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'validateForm' && err.field == 'Weight'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
                                 <label for class="form-label label--ctsp">Tên
                                     sản phẩm <span class="validate">*</span></label>
                                 <input ng-model="form.name" type="text" class="form-control"
@@ -72,6 +84,42 @@
                                     <span class="validate">*</span></label>
                                 <textarea ng-model="form.description" placeholder="Mô tả sản phẩm" class="form-control"
                                     style="height: 80px"></textarea>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for class="form-label label--ctsp">Giảm giá</label>
+                                <input class="form-check-input" ng-click="giamGia()" id="giamGia" type="checkbox">
+
+                                <div class="row">
+                                    <div id="giamGia1" style="display: none;" class="custom-radio">
+                                        <input class="form-check-input" ng-click="giamGia1()" type="radio" name="giamGia" id="khongGioiHan" checked>
+                                        <label for="khongGioiHan">Thời gian không giới hạn</label>
+                                        <input class="form-check-input" ng-click="giamGia1()" type="radio" name="giamGia" id="tamThoi">
+                                        <label for="tamThoi">Thời gian tạm thời</label>
+                                    </div>
+                                    <div id="khongGioiHan1" style="display: none;">
+                                        Phần trăm giảm giá
+                                        <input class="form-control" id="phanTramGiamGia">
+                                        <div ng-repeat="err in validationErrors">
+                                            <span class="validate"
+                                                ng-if="err.objectName == 'validateForm' && err.field == 'Discount'">
+                                                {{err.defaultMessage}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="tamThoi1" style="display: none;">
+                                        Phần trăm giảm giá
+                                        <input class="form-control" id="phanTramGiamGia1">
+                                        <div ng-repeat="err in validationErrors">
+                                            <span class="validate"
+                                                ng-if="err.objectName == 'validateForm' && err.field == 'Discount'">
+                                                {{err.defaultMessage}}
+                                            </span>
+                                        </div>
+                                        Ngày kết thúc
+                                        <input class="form-control" type="date" id="thoiGianGiamGia">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-12">
@@ -132,9 +180,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <button ng-click="update()" class="btn btn-primary">Lưu</button>
-                            </div>
+                            
 
                         </div>
 
@@ -202,16 +248,9 @@
                             </div>
 
                             <div class="col-md-12">
-                                <div class="form-floating mb-4">
-                                    <select class="form-select" id="promotion">
-                                        <option value>Tất cả Khuyến mãi</option>
-                                        <option ng-repeat="khuyenmai in listPromotion" value="{{khuyenmai.id}}" ng-selected="khuyenmai.id == form.promotion.id">
-                                            {{khuyenmai.name}}</option>
-                                    </select>
-                                    <label for="promotion">Khuyến mãi</label>
-                                </div>
+                                <button ng-click="update()" class="btn btn-primary">Lưu</button>
                             </div>
-
+                          
                         </div>
 
                     </div>

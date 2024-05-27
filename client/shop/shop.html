@@ -1,6 +1,6 @@
 <!-- Page Header Start -->
 <div class="container-fluid bg-secondary mb-5">
-    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
         <h1 class="font-weight-semi-bold text-uppercase mb-3">Sản phẩm của chúng tôi</h1>
         <div class="d-inline-flex">
             <p class="m-0"><a href="#/home">Trang chủ</a></p>
@@ -20,15 +20,11 @@
             <!-- Price Start -->
             <div class="mb-5">
                 <h5 class="font-weight-semi-bold mb-4">Lọc theo giá</h5>
-                <input class="custom-range" id="rangeMin" ng-click="filter()" type="range" max="9999999" min="0"
-                    step="1" value="0">
-                <input class="custom-range" id="rangeMax" ng-click="filter()" type="range" max="9999999" min="0"
-                    step="1" value="9999999">
+                <input id="rangeMin" class="custom-range" ng-click="filter()" type="range" max="9999999" min="0" step="1" value="0">
+                <input id="rangeMax" class="custom-range"  ng-click="filter()" type="range" max="9999999" min="0" step="1" value="9999999">
                 <div class="display">
-                    Từ
-                    <span id="min">0 </span>đ
-                    đến
-                    <span id="max">9,999,999 đ</span>
+                    Từ <span id="min"> 0 </span>
+                    đến <span id="max"> 9,999,999 </span>
                     <div class="slide1">
                         <div class="line1" id="line" style="left: 0%; right: 0%;"></div>
                         <span class="thumb1" id="thumbMin" style="left: 0%;"></span>
@@ -38,13 +34,22 @@
             </div>
             <!-- Price End -->
 
+            <!-- Category Start -->
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Lọc theo Danh mục</h5>
+                <select class="form-control" id="danhmuc" ng-click="filter()">
+                    <option value>Tất cả danh mục</option>
+                    <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}"> {{danhmuc.name}}</option>
+                </select>
+            </div>
+            <!-- Category End -->
+
             <!-- Color Start -->
             <div class="mb-5">
                 <h5 class="font-weight-semi-bold mb-4">Lọc theo màu sắc</h5>
                 <select class="form-control" id="mausac" ng-click="filter()">
-                    <option value="">Tất cả màu sắc</option>
-                    <option ng-repeat="ms in listColor" value="{{ms.id}}">
-                        {{ms.name}}</option>
+                    <option value>Tất cả màu sắc</option>
+                    <option ng-repeat="mausac in listColor" value="{{mausac.id}}"> {{mausac.name}}</option>
                 </select>
             </div>
             <!-- Color End -->
@@ -54,11 +59,62 @@
                 <h5 class="font-weight-semi-bold mb-4">Lọc theo kích thước</h5>
                 <select class="form-control" id="kichthuoc" ng-click="filter()">
                     <option value="">Tất cả kích thước</option>
-                            <option ng-repeat="kt in listSize" value="{{kt.id}}">
-                                {{kt.name}}</option>
+                    <option ng-repeat="kt in listSize" value="{{kt.id}}">
+                        {{kt.name}}</option>
                 </select>
             </div>
             <!-- Size End -->
+
+            <!-- Material Start -->
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Lọc theo chất liệu</h5>
+                <select class="form-control" id="chatlieu" ng-click="filter()">
+                    <option value>Tất cả chất liệu</option>
+                    <option ng-repeat="chatlieu in listMaterial" value="{{chatlieu.id}}"> {{chatlieu.name}}</option>
+                </select>
+            </div>
+            <!-- Material End -->
+
+            <!-- HandType Start -->
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Lọc theo kiểu tay</h5>
+                <select class="form-control" id="kieutay" ng-click="filter()">
+                    <option value>Tất cả kiểu tay</option>
+                    <option ng-repeat="kieutay in listHandType" value="{{kieutay.id}}"> {{kieutay.name}}</option>
+                </select>
+            </div>
+            <!-- HandType End -->
+
+            <!-- NeckType Start -->
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Lọc theo kiểu cổ</h5>
+                <select class="form-control" id="kieuco" ng-click="filter()">
+                    <option value>Tất cả kiểu tay</option>
+                    <option ng-repeat="kieuco in listNeckType" value="{{kieuco.id}}"> {{kieuco.name}}</option>
+                </select>
+            </div>
+            <!-- NeckType End -->
+
+            <!-- Brand Start -->
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Lọc theo Thương hiệu</h5>
+                <select class="form-control" id="thuonghieu" ng-click="filter()">
+                    <option value>Tất cả thương hiệu</option>
+                    <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}"> {{thuonghieu.name}}</option>
+                </select>
+            </div>
+            <!-- Brand End -->
+
+            <!-- Design Start -->
+            <div class="mb-5">
+                <h5 class="font-weight-semi-bold mb-4">Lọc theo thiết kế</h5>
+                <select class="form-control" id="thietke" ng-click="filter()">
+                    <option value>Tất cả thiết kế</option>
+                    <option ng-repeat="thietke in listDesign" value="{{thietke.id}}"> {{thietke.name}}</option>
+                </select>
+            </div>
+            <!-- Design End -->
+
         </div>
         <!-- Shop Sidebar End -->
 
@@ -69,7 +125,8 @@
                 <div class="col-12 pb-1">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <div class="input-group">
-                            <input ng-keyup="filter()" id="tentimkiem" type="text" class="form-control" placeholder="Nhập tên sản phẩm muốn tìm kiếm...">
+                            <input ng-keyup="filter()" id="tentimkiem" type="text" class="form-control"
+                                placeholder="Nhập tên sản phẩm muốn tìm kiếm...">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-transparent text-primary">
                                     <i class="fa fa-search"></i>
@@ -100,19 +157,33 @@
                                     <!-- End image -->
                                 </span>
                             </span>
+                            <div ng-if="sp.discount > 0"
+                                class="text-white bg-danger px-3 py-1 rounded position-absolute"
+                                style="top: 10px; left: 10px;">
+                                <span class="lbl on-sale">-{{sp.discount}}%</span>
+                            </div>                      
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="mb-3" title="{{sp.name}}">{{sp.name}}</h6>
                             <div class="d-flex justify-content-center">
-                                <h6 class="text-danger price">{{sp.price | currency:'':0}} VNĐ</h6>
-                                <h6 class="text-muted ml-2"><del>400,000 VND</del></h6>
+                                <span ng-if="sp.discount > 0">
+                                    <h6 class="text-danger price">
+                                        {{sp.price - (sp.price * (sp.discount * 0.01)) | currency:'':0}} VNĐ
+                                    </h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>{{sp.price | currency:'':0}} VNĐ</del>
+                                    </h6>
+                                </span>
+                          
+                                <span ng-if="sp.discount == null ">
+                                    <h6 class="text-danger price">{{sp.price | currency:'':0}} VNĐ</h6>
+                                </span>
+
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
+                        <div class="card-footer d-flex justify-content-center bg-light border">
                             <a href="#/detail/{{sp.id}}" class="btn btn-sm text-dark p-0">
                                 <i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0">
-                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
                         </div>
                     </div>
                 </div>
@@ -145,7 +216,7 @@
                 <img src="./assets/img/inbox.png">
                 <h3>Không có sản phẩm nào !</h3>
             </center>
-            
+
         </div>
         <!-- Shop Product End -->
     </div>

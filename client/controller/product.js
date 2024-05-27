@@ -116,70 +116,82 @@ window.ProductController = function ($scope, $http, $location, $routeParams, $ro
         this.page = this.count - 1;
       },
     };
-   
+
+    let min = 0;
+    let max = 9999999;
+
+    const calcLeftPosition = (value) => (100 / (9999999 - 0)) * (value - 0);
+
+    $("#rangeMin").on("input", function (e) {
+      const newValue = parseInt(e.target.value);
+      if (newValue > max) return;
+      min = newValue;
+      $("#thumbMin").css("left", calcLeftPosition(newValue) + "%");
+      $("#min").html(newValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+      $("#line").css({
+        left: calcLeftPosition(newValue) + "%",
+        right: 100 - calcLeftPosition(max) + "%",
+      });
+    });
+
+    $("#rangeMax").on("input", function (e) {
+      const newValue = parseInt(e.target.value);
+      if (newValue < min) return;
+      max = newValue;
+      $("#thumbMax").css("left", calcLeftPosition(newValue) + "%");
+      $("#max").html(newValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+      $("#line").css({
+        left: calcLeftPosition(min) + "%",
+        right: 100 - calcLeftPosition(newValue) + "%",
+      });
+    });
+
+    $scope.filter = function () {
+      let name = document.getElementById("tentimkiem").value;
+      let idCategory = document.getElementById("danhmuc").value;
+      let idMaterial = document.getElementById("chatlieu").value;
+      let idColor = document.getElementById("mausac").value;
+      let idSize = document.getElementById("kichthuoc").value;
+      let idBrand = document.getElementById("thuonghieu").value;
+      let idNeckType = document.getElementById("kieuco").value;
+      let idHandType = document.getElementById("kieutay").value;
+      let idDesign = document.getElementById("thietke").value;
+      let min = document.getElementById("rangeMin").value;
+      let max = document.getElementById("rangeMax").value;
+      let idcate = idCategory != "" ? idCategory : null;
+      let idbrad = idBrand != "" ? idBrand : null;
+      let idmate = idMaterial != "" ? idMaterial : null;
+      let idcolor = idColor != "" ? idColor : null;
+      let idsize = idSize != "" ? idSize : null;
+      let idhand = idHandType != "" ? idHandType : null;
+      let idneck = idNeckType != "" ? idNeckType : null;
+      let iddesign = idDesign != "" ? idDesign : null;
+      let nameF = name != "" ? name : null;
+
+      var params = {
+        name: nameF,
+        idcategory: idcate,
+        idmaterial: idmate,
+        idcolor: idcolor,
+        idsize: idsize,
+        idbrand: idbrad,
+        idhandtype: idhand,
+        idnecktype: idneck,
+        iddesign: iddesign,
+        min: min,
+        max: max,
+      };
+      $http({
+        method: "GET",
+        url: "http://localhost:8080/api/product/filter",
+        params: params,
+      }).then(function (resp) {
+        $scope.list = resp.data;
+        $scope.pager.first();
+      });
+    };
+
   };
   $scope.loadProductNew();
-
-  $scope.filter = function () {
-    // let name = document.getElementById("name").value;
-    let name = document.getElementById("tentimkiem").value;
-    let idCategory = document.getElementById("danhmuc").value;
-    let idMaterial = document.getElementById("chatlieu").value;
-    let idColor = document.getElementById("mausac").value;
-    let idSize = document.getElementById("kichthuoc").value;
-    let idBrand = document.getElementById("thuonghieu").value;
-    let idNeckType = document.getElementById("kieuco").value;
-    let idHandType = document.getElementById("kieutay").value;
-    let idDesign = document.getElementById("thietke").value;
-    let min = document.getElementById("rangeMin").value;
-    let max = document.getElementById("rangeMax").value;
-    let idcate = (idCategory != '') ? idCategory : null;
-    let idbrad = (idBrand != '') ? idBrand : null;
-    let idmate = (idMaterial != '') ? idMaterial : null;
-    let idcolor = (idColor != '') ? idColor : null;
-    let idsize = (idSize != '') ? idSize : null;
-    let idhand = (idHandType != '') ? idHandType : null;
-    let idneck = (idNeckType != '') ? idNeckType : null;
-    let iddesign = (idDesign != '') ? idDesign : null;
-    let nameF = name != "" ? name : null;
-    var params = {
-      name: nameF,
-      idcategory: idcate,
-      idmaterial: idmate,
-      idcolor: idcolor,
-      idsize: idsize,
-      idbrand: idbrad,
-      idhandtype: idhand,
-      idnecktype: idneck,
-      iddesign: iddesign,
-      min: min,
-      max: max
-    };
-    $http({
-      method: 'GET',
-      url: 'http://localhost:8080/api/product/filter',
-      params: params
-    }).then(function (resp) {
-      $scope.list = resp.data;
-      $scope.pager.first();
-      // Swal.fire("Lọc thành công !","","success");
-    });
-  }
-
-  const rangeMin = document.getElementById('rangeMin');
-  const rangeMax = document.getElementById('rangeMax');
-  const minDisplay = document.getElementById('min');
-  const maxDisplay = document.getElementById('max');
-
-  rangeMin.addEventListener('input', updateMinDisplay);
-  rangeMax.addEventListener('input', updateMaxDisplay);
-
-  function updateMinDisplay() {
-    minDisplay.textContent = formatCurrency(rangeMin.value);
-  }
-
-  function updateMaxDisplay() {
-    maxDisplay.textContent = formatCurrency(rangeMax.value);
-  }
 
 };

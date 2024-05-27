@@ -14,25 +14,25 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a href="#/home" class="nav-item nav-link active">Trang chủ</a>
                         <a href="#/products" class="nav-item nav-link">Sản phẩm</a>
+                        <a href="" class="nav-item nav-link">Contact</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tin tức</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="#/cart" class="dropdown-item">Shopping Cart</a>
                                 <a href="#/checkout" class="dropdown-item">Checkout</a>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
                         <a ng-if="user == null" href="#/login" class="nav-item nav-link">Đăng nhập</a>
-                        <a ng-if="user == null" href="" class="nav-item nav-link">Đăng ký</a>
+                        <a ng-if="user == null" href="#/register" class="nav-item nav-link">Đăng ký</a>
                         <a ng-if="user != null" href="#/profile" class="nav-item nav-link">Xin chào, {{user.fullname}}</a>
                         <a ng-if="user != null" href="#/myorder" class="nav-item nav-link">Đơn hàng</a>
                         <a ng-if="user != null" ng-click="logout()" href="" class="nav-item nav-link">Đăng xuất</a>                              
                     </div>
-                    <a ng-if="user != null" href="#/myorder" class="nav-item nav-link">
+                    <a ng-if="user != null" href="#/cart" class="nav-item nav-link">
                         <i class="fas fa-shopping-cart text-primary"></i>
-                        <span class="badge">0</span>
+                        <span class="badge">{{listCartIndex.length}}</span>
                     </a>
                 </div>
             </nav>
