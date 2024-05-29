@@ -51,8 +51,7 @@ window.LoginController = function ($http, $scope, $rootScope, AuthService) {
                         });
                     // Redirect đến trang bảo mật hoặc thực hiện các hành động khác sau khi đăng nhập thành công
                     Swal.fire("Đăng nhập thành công !", "", "success");
-                    location.href = '#/home'
-
+                    location.href = '#/home'                      
                 }
             })
             .catch(function (err) {
