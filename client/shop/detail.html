@@ -1,389 +1,252 @@
-<!-- Page Header Start -->
-<div class="container-fluid bg-secondary mb-5">
-    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
-        <h1 class="font-weight-semi-bold text-uppercase mb-3">Chi tiết sản
-            phẩm</h1>
-        <div class="d-inline-flex">
-            <p class="m-0"><a href="#/home">Trang chủ</a></p>
-            <p class="m-0 px-2">-</p>
-            <p class="m-0">Chi tiết sản phẩm</p>
-        </div>
-    </div>
-</div>
-<!-- Page Header End -->
+<main class="main">
 
-<!-- Shop Detail Start -->
-<div class="container-fluid py-5">
-    <div class="row px-xl-5">
-        <div class="col-lg-5 pb-5">
-            <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner border">
-                    <div ng-repeat="img in sp.productImages" ng-if="img.mainImage === true"
-                        class="carousel-item active">
-                        <img class="w-100 h-100" src="{{img.url}}" alt="Image">
-                    </div>
-                    <div ng-repeat="img in sp.productImages" ng-if="img.mainImage === false" class="carousel-item">
-                        <img ng-click="openModal(img.url)" class="w-100 h-100" src="{{img.url}}" alt="Image">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                    <i class="fa fa-2x fa-angle-left text-dark"></i>
-                </a>
-                <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                    <i class="fa fa-2x fa-angle-right text-dark"></i>
-                </a>
-            </div>
-        </div>
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sản phẩm chi tiết</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
 
-        <div class="col-lg-7 pb-5">
-            <h3 class="font-weight-semi-bold">{{sp.name}}</h3>
-            <div class="d-flex mb-3">
-                Mã sản phẩm: {{sp.code}}
-            </div>
-
-            <h3 ng-if="sp.discount == null" class="font-weight-semi-bold mb-4">{{sp.price | currency:'':0}}
-                VNĐ</h3>
-      
-            <span ng-if="sp.discount > 0">
-                <del>{{sp.price | currency:'':0}} VNĐ</del>
-                <span class="text-danger">-{{sp.discount}}%</span>
-                <h4 class="font-weight-semi-bold mb-4">
-                    {{sp.price - (sp.price * (sp.discount * 0.01)) |
-                    currency:'':0}} VNĐ
-                </h4>
-            </span>
-
-            <p class="mb-4 text-dark font-weight-medium mb-0 mr-2">Tình trạng :
-                <span ng-if="quantityHT > 0">
-                    Còn hàng
-                </span>
-                <span ng-if="quantityHT ==0" style="color: red;">
-                    Tạm hết hàng
-                </span>
-            </p>
-
-            <form>
-
-                <div class="d-flex mb-4">
-                    <p class="text-dark font-weight-medium mb-0 mr-3">Màu
-                        sắc:</p>
-
-                    <div class="custom-control custom-radio custom-control-inline" ng-repeat="c in colorid">
-                        <span ng-repeat="color in listColor">
-                            <span ng-if="c == color.id">
-                                <input ng-click="check()" ng-checked="selectedColor === color.id" type="radio"
-                                    id="Color{{color.id}}" value="{{color.id}}" name="ColorRadioGroup"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="Color{{color.id}}">{{color.name}}</label>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                    <p class="text-dark font-weight-medium mb-0 mr-3">Kích
-                        thước:</p>
-
-                    <div ng-repeat="kt in listKT" class="custom-control custom-radio custom-control-inline">
-                        <input ng-click="checkSize()" ng-checked="selectedSize === kt.size.id" id="Size{{kt.size.id}}"
-                            value="{{kt.size.id}}" name="SizeRadioGroup" type="radio" class="custom-control-input">
-                        <label class="custom-control-label" for="Size{{kt.size.id}}">{{kt.size.name}}</label>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button ng-click="decreaseQuantity()" class="btn btn-primary btn-minus qtyBtn">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                        <input type="text" class="form-control bg-secondary text-center qty" id="Quantity"
-                            name="quantity" ng-model="quantityText" value="1">
-                        <div class="input-group-btn">
-                            <button ng-click="increaseQuantity()" class="btn btn-primary btn-plus qtyBtn">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <button ng-click="addToCart()" class="btn btn-primary px-3">
-                        <i class="fa fa-shopping-cart mr-1"></i>
-                        Add To Cart</button>
-                </div>
-                <div class="d-flex pt-2">
-                    <p class="text-dark font-weight-medium mb-0 mr-2">Số lượng
-                        hàng: {{quantity}}</p>
-                </div>
-                <!-- End Product Action -->
-            </form>
-
-        </div>
-    </div>
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab-pane-1">
-                    <h4 class="mb-3">Product Description</h4>
-                    <p>Eos no lorem eirmod diam diam, eos elitr et gubergren
-                        diam sea. Consetetur vero aliquyam invidunt
-                        duo dolores et duo sit. Vero diam ea vero et dolore
-                        rebum, dolor rebum eirmod consetetur
-                        invidunt sed sed et, lorem duo et eos elitr, sadipscing
-                        kasd ipsum rebum diam. Dolore diam stet
-                        rebum sed tempor kasd eirmod. Takimata kasd ipsum
-                        accusam sadipscing, eos dolores sit no ut diam
-                        consetetur duo justo est, sit sanctus diam tempor
-                        aliquyam eirmod nonumy rebum dolor accusam,
-                        ipsum kasd eos consetetur at sit rebum, diam kasd
-                        invidunt tempor lorem, ipsum lorem elitr
-                        sanctus eirmod takimata dolor ea invidunt.</p>
-                    <p>Dolore magna est eirmod sanctus dolor, amet diam et
-                        eirmod et ipsum. Amet dolore tempor
-                        consetetur sed lorem dolor sit lorem tempor. Gubergren
-                        amet amet labore sadipscing clita clita
-                        diam clita. Sea amet et sed ipsum lorem elitr et, amet
-                        et labore voluptua sit rebum. Ea erat sed
-                        et diam takimata sed justo. Magna takimata justo et amet
-                        magna et.</p>
-                </div>
-                <div class="tab-pane fade" id="tab-pane-2">
-                    <h4 class="mb-3">Additional Information</h4>
-                    <p>Eos no lorem eirmod diam diam, eos elitr et gubergren
-                        diam sea. Consetetur vero aliquyam invidunt
-                        duo dolores et duo sit. Vero diam ea vero et dolore
-                        rebum, dolor rebum eirmod consetetur
-                        invidunt sed sed et, lorem duo et eos elitr, sadipscing
-                        kasd ipsum rebum diam. Dolore diam stet
-                        rebum sed tempor kasd eirmod. Takimata kasd ipsum
-                        accusam sadipscing, eos dolores sit no ut diam
-                        consetetur duo justo est, sit sanctus diam tempor
-                        aliquyam eirmod nonumy rebum dolor accusam,
-                        ipsum kasd eos consetetur at sit rebum, diam kasd
-                        invidunt tempor lorem, ipsum lorem elitr
-                        sanctus eirmod takimata dolor ea invidunt.</p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item px-0">
-                                    Sit erat duo lorem duo ea consetetur, et
-                                    eirmod takimata.
-                                </li>
-                                <li class="list-group-item px-0">
-                                    Amet kasd gubergren sit sanctus et lorem eos
-                                    sadipscing at.
-                                </li>
-                                <li class="list-group-item px-0">
-                                    Duo amet accusam eirmod nonumy stet et et
-                                    stet eirmod.
-                                </li>
-                                <li class="list-group-item px-0">
-                                    Takimata ea clita labore amet ipsum erat
-                                    justo voluptua. Nonumy.
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item px-0">
-                                    Sit erat duo lorem duo ea consetetur, et
-                                    eirmod takimata.
-                                </li>
-                                <li class="list-group-item px-0">
-                                    Amet kasd gubergren sit sanctus et lorem eos
-                                    sadipscing at.
-                                </li>
-                                <li class="list-group-item px-0">
-                                    Duo amet accusam eirmod nonumy stet et et
-                                    stet eirmod.
-                                </li>
-                                <li class="list-group-item px-0">
-                                    Takimata ea clita labore amet ipsum erat
-                                    justo voluptua. Nonumy.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="tab-pane-3">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="mb-4">1 review for
-                                "Colorful Stylish Shirt"</h4>
-                            <div class="media mb-4">
-                                <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                                <div class="media-body">
-                                    <h6>John Doe<small> - <i>01 Jan
-                                                2045</i></small></h6>
-                                    <div class="text-primary mb-2">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
+    <div class="page-content">
+        <div class="container">
+            <div class="product-details-top mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="product-gallery product-gallery-vertical">
+                            <div class="row">
+                                <figure class="product-main-image">
+                                    <div ng-repeat="img in sp.productImages" ng-if="img.mainImage === true"
+                                        class="carousel-item active">
+                                        <img id="product-zoom" data-zoom-image="{{img.url}}" src="{{img.url}}"
+                                            alt="product image">
                                     </div>
-                                    <p>Diam amet duo labore stet elitr ea clita
-                                        ipsum, tempor labore accusam ipsum et no
-                                        at. Kasd diam tempor rebum magna dolores
-                                        sed sed eirmod ipsum.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <h4 class="mb-4">Leave a review</h4>
-                            <small>Your email address will not be published.
-                                Required fields are marked *</small>
-                            <div class="d-flex my-3">
-                                <p class="mb-0 mr-2">Your Rating * :</p>
-                                <div class="text-primary">
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                            <form>
-                                <div class="form-group">
-                                    <label for="message">Your Review *</label>
-                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Your Name *</label>
-                                    <input type="text" class="form-control" id="name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Your Email *</label>
-                                    <input type="email" class="form-control" id="email">
-                                </div>
-                                <div class="form-group mb-0">
-                                    <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Shop Detail End -->
+                                    <a href="" id="btn-product-gallery" class="btn-product-gallery">
+                                        <i class="icon-arrows"></i>
+                                    </a>
+                                </figure><!-- End .product-main-image -->
 
-<!-- Products Start -->
-<div class="container-fluid py-5">
-    <div class="text-center mb-4">
-        <h2 class="section-title px-5"><span class="px-2">You May Also
-                Like</span></h2>
-    </div>
-    <div class="row px-xl-5">
-        <div class="col">
-            <div class="owl-carousel related-carousel">
-                <div class="card product-item border-0">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="" alt>
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">Colorful Stylish
-                            Shirt</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6>$123.00</h6>
-                            <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                            Detail</a>
-                        <a href class="btn btn-sm text-dark p-0"><i
-                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                            To Cart</a>
-                    </div>
-                </div>
-                <div class="card product-item border-0">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="" alt>
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">Colorful Stylish
-                            Shirt</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6>$123.00</h6>
-                            <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                            Detail</a>
-                        <a href class="btn btn-sm text-dark p-0"><i
-                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                            To Cart</a>
-                    </div>
-                </div>
-                <div class="card product-item border-0">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="" alt>
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">Colorful Stylish
-                            Shirt</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6>$123.00</h6>
-                            <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                            Detail</a>
-                        <a href class="btn btn-sm text-dark p-0"><i
-                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                            To Cart</a>
-                    </div>
-                </div>
-                <div class="card product-item border-0">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="" alt>
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">Colorful Stylish
-                            Shirt</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6>$123.00</h6>
-                            <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                            Detail</a>
-                        <a href class="btn btn-sm text-dark p-0"><i
-                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                            To Cart</a>
-                    </div>
-                </div>
-                <div class="card product-item border-0">
-                    <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="" alt>
-                    </div>
-                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                        <h6 class="text-truncate mb-3">Colorful Stylish
-                            Shirt</h6>
-                        <div class="d-flex justify-content-center">
-                            <h6>$123.00</h6>
-                            <h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                            Detail</a>
-                        <a href class="btn btn-sm text-dark p-0"><i
-                                class="fas fa-shopping-cart text-primary mr-1"></i>Add
-                            To Cart</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Products End -->
+                                <div id="product-zoom-gallery" class="product-image-gallery">
+
+                                    <a ng-repeat="img in sp.productImages" class="product-gallery-item" href=""
+                                        data-image="{{img.url}}" data-zoom-image="{{img.zoomUrl}}">
+                                        <span ng-if="img.mainImage === true">
+                                            <img id="product-zoom" data-zoom-image="{{img.zoomUrl}}" src="{{img.url}}"
+                                                alt="product side">
+                                        </span>
+                                        <span ng-if="img.mainImage === false">
+                                            <img id="product-zoom" data-zoom-image="{{img.zoomUrl}}" src="{{img.url}}"
+                                                alt="product side">
+                                        </span>
+                                    </a>
+
+                                </div><!-- End .product-image-gallery -->
+
+                            </div><!-- End .row -->
+                        </div><!-- End .product-gallery -->
+                    </div><!-- End .col-md-6 -->
+
+                    <div class="col-md-6">
+                        <div class="product-details product-details-centered">
+                            <h1 class="product-title">{{sp.name}}</h1><!-- End .product-title -->
+
+                            <div class="ratings-container">
+                                <div class="ratings">
+                                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                </div><!-- End .ratings -->
+                                <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                            </div><!-- End .rating-container -->
+
+                            <div ng-if="sp.discount == null || sp.discount == 0" class="product-price">
+                                {{sp.price | currency:'':0}} VND
+                            </div><!-- End .product-price -->
+
+                            <div ng-if="sp.discount > 0" class="row product-price">
+                                <div class="col-12">
+                                    <del>{{sp.price | currency:'':0}} VNĐ</del>
+
+                                </div>
+                                <div class="col-12">
+                                    <span class="font-weight-semi-bold text-dark">
+                                        {{sp.price - (sp.price * (sp.discount * 0.01)) |
+                                        currency:'':0}} VNĐ
+                                    </span>
+                                    <span class="text-danger">(-{{sp.discount}}%)</span>
+                                </div>
+                            </div><!-- End .product-price -->
+
+                            <div class="details-filter-row details-row-size">
+                                <label>Color:</label>
+
+                                <div class="custom-control custom-radio custom-control-inline" ng-repeat="c in colorid">
+                                    <span ng-repeat="color in listColor">
+                                        <span ng-if="c == color.id">
+                                            <input ng-click="check()" ng-checked="selectedColor === color.id"
+                                                type="radio" id="Color{{color.id}}" value="{{color.id}}"
+                                                name="ColorRadioGroup" class="custom-control-input">
+                                            <label class="custom-control-label"
+                                                for="Color{{color.id}}">{{color.name}}</label>
+                                        </span>
+                                    </span>
+                                </div>
+
+
+                            </div><!-- End .details-filter-row -->
+
+                            <div class="details-filter-row details-row-size">
+                                <label for="size">Size:</label>
+                                <div ng-repeat="kt in listKT" class="custom-control custom-radio custom-control-inline">
+                                    <input ng-click="checkSize()" ng-checked="selectedSize === kt.size.id"
+                                        id="Size{{kt.size.id}}" value="{{kt.size.id}}" name="SizeRadioGroup"
+                                        type="radio" class="custom-control-input">
+                                    <label class="custom-control-label"
+                                        for="Size{{kt.size.id}}">{{kt.size.name}}</label>
+                                </div>
+                            </div><!-- End .details-filter-row -->
+
+                            <div class="details-filter-row details-row-size">
+                                <p class="text-dark font-weight-medium mb-0 mr-2">Số lượng: {{quantity}}</p>
+                            </div>
+
+                            <div class="product-details-action">
+                                <div class="details-action-col">
+                                    <div class="product-details-quantity">
+                                        <div class="input-group input-spinner">
+                                            <div class="input-group-prepend">
+                                                <button ng-click="decreaseQuantity()" style="min-width: 26px"
+                                                    class="btn btn-decrement btn-spinner" type="button"><i
+                                                        class="icon-minus"></i></button>
+                                            </div>
+                                            <input id="Quantity" name="quantity" ng-model="quantityText" type="text"
+                                                style="text-align: center" class="form-control qty" value="1" min="1"
+                                                max="10" step="1" data-decimals="0">
+                                            <div class="input-group-append">
+                                                <button ng-click="increaseQuantity()" style="min-width: 26px"
+                                                    class="btn btn-increment btn-spinner" type="button"><i
+                                                        class="icon-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div><!-- End .product-details-quantity -->
+                                    <a ng-click="addToCart()" href="" class="btn-product btn-cart"><span>add to
+                                            cart</span></a>
+                                </div><!-- End .details-action-col -->
+                            </div><!-- End .product-details-action -->
+
+                        </div><!-- End .product-details -->
+                    </div><!-- End .col-md-6 -->
+                </div><!-- End .row -->
+            </div><!-- End .product-details-top -->
+
+            <div class="product-details-tab">
+                <ul class="nav nav-pills justify-content-center" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab"
+                            role="tab" aria-controls="product-desc-tab" aria-selected="true">Mô tả</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab"
+                            role="tab" aria-controls="product-review-tab" aria-selected="false">Đánh giá</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel"
+                        aria-labelledby="product-desc-link">
+                        <div class="product-desc-content">
+                            <h3>Thông tin sản phẩm</h3>
+                            <p>{{sp.description}}</p>
+                            <ul>
+                                <li>Thương hiệu: {{sp.brand.name}}</li>
+                                <li>Xuất xứ: Hàn Quốc</li>
+                                <li>Thiết kế: {{sp.design.name}}</li>
+                                <li>Giới tính: Unisex</li>
+                                <li>Màu sắc:
+                                    <span ng-repeat="c in colorid"><span ng-repeat="color in listColor">
+                                            <span ng-if="c == color.id">{{color.name}},</span></span></span>
+                                </li>
+                                <li>Chất liệu:
+                                    <span ng-repeat="cl in materialid"><span ng-repeat="chatlieu in listMaterial">
+                                            <span ng-if="cl == chatlieu.id">{{chatlieu.name}} </span></span></span>
+                                </li>
+                                <li>{{sp.neckType.name}}, {{sp.handType.name}}</li>
+                                <li>Phom áo: Comfortable fit thoải mái</li>
+                                <li>Thích hợp mặc trong các dịp: Đi chơi, đi làm,....</li>
+                                <li>Xu hướng theo mùa: Sử dụng được tất cả các mùa trong năm</li>
+                            </ul>
+                        </div><!-- End .product-desc-content -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane fade" id="product-review-tab" role="tabpanel"
+                        aria-labelledby="product-review-link">
+                        <div class="reviews">
+                            <h3>Đánh giá</h3>
+                            <div class="review">
+                                <div class="row no-gutters">
+                                    <div class="col-auto">
+                                        <h4><a href="#">Samanta J.</a></h4>
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 80%;"></div>
+                                                <!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                        </div><!-- End .rating-container -->
+                                        <span class="review-date">6 days ago</span>
+                                    </div><!-- End .col -->
+                                    <div class="col">
+                                        <h4>Good, perfect size</h4>
+
+                                        <div class="review-content">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum
+                                                dolores assumenda asperiores facilis porro reprehenderit animi culpa
+                                                atque blanditiis commodi perspiciatis doloremque, possimus, explicabo,
+                                                autem fugit beatae quae voluptas!</p>
+                                        </div><!-- End .review-content -->
+
+                                        <div class="review-action">
+                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                        </div><!-- End .review-action -->
+                                    </div><!-- End .col-auto -->
+                                </div><!-- End .row -->
+                            </div><!-- End .review -->
+
+                            <div class="review">
+                                <div class="row no-gutters">
+                                    <div class="col-auto">
+                                        <h4><a href="#">John Doe</a></h4>
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 100%;"></div>
+                                                <!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                        </div><!-- End .rating-container -->
+                                        <span class="review-date">5 days ago</span>
+                                    </div><!-- End .col -->
+                                    <div class="col">
+                                        <h4>Very good</h4>
+
+                                        <div class="review-content">
+                                            <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis
+                                                laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi,
+                                                quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
+                                        </div><!-- End .review-content -->
+
+                                        <div class="review-action">
+                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
+                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+                                        </div><!-- End .review-action -->
+                                    </div><!-- End .col-auto -->
+                                </div><!-- End .row -->
+                            </div><!-- End .review -->
+                        </div><!-- End .reviews -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .product-details-tab -->
+
+            <h2 class="title text-center mb-4">Sản phẩm cùng loại</h2><!-- End .title text-center -->
+            
+
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+
+</main><!-- End .main -->

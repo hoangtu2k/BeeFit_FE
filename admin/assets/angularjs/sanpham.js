@@ -1052,32 +1052,16 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
         if ($scope.form.discountDate != null) {
           document.getElementById("tamThoi").checked = true;
           document.getElementById("tamThoi1").style.display = 'block';
-          document.getElementById("phanTramGiamGia1").style.display = 'block'
-          document.getElementById("thoiGianGiamGia").style.display = 'block'
+          document.getElementById("phanTramGiamGia1").style.display = 'block';
+          document.getElementById("thoiGianGiamGia").style.display = 'block';
           document.getElementById("phanTramGiamGia").style.display = 'none';
           document.getElementById("phanTramGiamGia1").value = $scope.form.discount;
-          // Get the input element
-          let dateInput = document.getElementById('thoiGianGiamGia');
-
-          // Original datetime string in 'yyyy-MM-dd hh:mm:ss.sss' format
-          var originalDateStr = $scope.form.discountDate; // Replace with your original date
-
-          // Split the original date string
-          var dateParts = originalDateStr.split('T')[0].split('-');
-
-          // Extract year, month, and day
-          var year = dateParts[0];
-          var month = dateParts[1];
-          var day = dateParts[2];
-
-          // Create the formatted date string in 'MM/dd/yyyy' format
-          var formattedDate = year + '-' + month + '-' + day;
-
-          // Set the formatted date in the input field'
-
-          dateInput.value = formattedDate;
-          var today = new Date().toISOString().split('T')[0];
-          document.getElementById("thoiGianGiamGia").min = today;
+  
+          // Format the discount date
+          let discountDate = new Date($scope.form.discountDate);
+          let formattedDate = discountDate.toISOString().split('T')[0];
+          document.getElementById("thoiGianGiamGia").value = formattedDate;
+          document.getElementById("thoiGianGiamGia").min = new Date().toISOString().split('T')[0];
 
         }
         else {

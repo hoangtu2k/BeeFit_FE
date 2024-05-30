@@ -1,41 +1,123 @@
-<div class="container-fluid">
-    <div class="row border-top px-xl-5">
+<header class="header">
 
-        <div class="col-lg-12">
-            <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                <a href="" class="text-decoration-none d-block d-lg-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span
-                            class="text-primary font-weight-bold border px-3 mr-1">BeeFit</span></h1>
-                </a>
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
+    <div class="header-middle sticky-header">
+        <div class="container">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
                 </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                    <div class="navbar-nav mr-auto py-0">
-                        <a href="#/home" class="nav-item nav-link active">Trang chủ</a>
-                        <a href="#/products" class="nav-item nav-link">Sản phẩm</a>
-                        <a href="" class="nav-item nav-link">Contact</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tin tức</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="#/cart" class="dropdown-item">Shopping Cart</a>
-                                <a href="#/checkout" class="dropdown-item">Checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="navbar-nav ml-auto py-0">
-                        <a ng-if="user == null" href="#/login" class="nav-item nav-link">Đăng nhập</a>
-                        <a ng-if="user == null" href="#/register" class="nav-item nav-link">Đăng ký</a>
-                        <a ng-if="user != null" href="#/profile" class="nav-item nav-link">Xin chào, {{user.fullname}}</a>
-                        <a ng-if="user != null" href="#/myorder" class="nav-item nav-link">Đơn hàng</a>
-                        <a ng-if="user != null" ng-click="logout()" href="" class="nav-item nav-link">Đăng xuất</a>                              
-                    </div>
-                    <a ng-if="user != null" href="#/cart" class="nav-item nav-link">
-                        <i class="fas fa-shopping-cart text-primary"></i>
-                        <span class="badge">{{listCartIndex.length}}</span>
+
+                <a href="#/home" class="logo">
+                    <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
+                </a>
+
+                <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        <li class="megamenu-container">
+                            <a href="#/home">Trang chủ</a>
+                        </li>
+                        <li>
+                            <a href="#/products">Sản phẩm</a>
+                        </li>                       
+                    </ul><!-- End .menu -->
+                </nav><!-- End .main-nav -->
+            </div><!-- End .header-left -->
+
+            <div class="header-right">
+
+                <ul ng-if="user == null" class="top-menu">
+                    <li>
+                        <ul>
+                            <li><a href="#/login"><i class="icon-user"></i>Login</a></li>
+                        </ul>
+                    </li>
+                </ul><!-- End .top-menu -->
+
+                <div ng-if="user != null" class="header-dropdown">
+                    <a href="">{{user.fullname}}</a>
+                    <div class="header-menu">
+                        <ul>
+                            <li><a href="#/profile">Thông tin người dùng</a></li>
+                            <li><a href="#/myorder">Đơn hàng</a></li>
+                            <li><a ng-click="logout()" href="">Đăng xuất</a></li>
+                        </ul>
+                    </div><!-- End .header-menu -->
+                </div><!-- End .header-dropdown -->
+
+                <div class="dropdown cart-dropdown">
+                    <a href="#/cart" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" data-display="static">
+                        <i class="icon-shopping-cart"></i>
+                        <span class="cart-count">{{listCartIndex.length}}</span>
                     </a>
-                </div>
-            </nav>
-        </div>
-    </div>
-</div>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+
+                        <div class="dropdown-cart-products">
+
+                            <div ng-repeat="c in listCartIndex" ng-if="listCartIndex.length > 0" class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="">{{c.product.name | uppercase }}
+                                            [Màu: <span ng-repeat="color in listColorIndex">
+                                                <span ng-if="color.id == c.idColor">
+                                                    {{color.name}}
+                                                </span>
+                                            </span>]
+                                            [ Size: <span ng-repeat="size in listSizeIndex">
+                                                <span ng-if="size.id == c.idSize">
+                                                    {{size.name}}
+                                                </span>
+                                            </span>]
+                                        </a>
+                                    </h4>
+                                    <span class="cart-product-info">
+                                        <span class="cart-product-qty">{{c.quantity}}</span>
+                                        x {{c.unitPrice | currency:'':0}} VNĐ
+                                    </span> | 
+                                    <span class="cart-product-info">
+                                        {{c.unitPrice * c.quantity | currency:'':0}} VNĐ
+                                    </span>
+                                </div><!-- End .product-cart-details -->
+
+                                <figure class="product-image-container">
+                                    <a href="" class="product-image">
+                                        <span ng-repeat="img in c.product.productImages">
+                                            <span ng-if="img.mainImage == true">
+                                                <img class="cart__image" src="{{img.url}}">
+                                            </span>
+                                        </span>
+                                    </a>
+                                </figure>
+                                <a ng-click="deleteByCartIndex(c.id)" href="" class="btn-remove"
+                                    title="Remove Product"><i class="icon-close"></i></a>
+                            </div><!-- End .product -->
+
+                            <div ng-if="listCartIndex.length == 0" class="product">
+                                <center style="margin: 0 auto;">
+                                    <img width="50px" height="50px" src="./assets/images/empty-cart.png">
+                                    <p class="text-center">Không có sản phẩm nào trong giỏ</p>
+                                </center>
+                            </div>
+
+                        </div><!-- End .cart-product -->
+
+                        <div class="dropdown-cart-total">
+                            <span>Tổng cộng</span>
+
+                            <span class="cart-total-price">{{tongTienIndex | currency:'':0}} VNĐ</span>
+                        </div><!-- End .dropdown-cart-total -->
+
+                        <div class="dropdown-cart-action">
+                            <a href="#/cart" class="btn btn-primary">Xem giỏ hàng</a>
+                            <a href="#/checkout" class="btn btn-outline-primary-2"><span>Thanh toán</span><i
+                                    class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .dropdown-cart-total -->
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .cart-dropdown -->
+
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-middle -->
+</header><!-- End .header -->

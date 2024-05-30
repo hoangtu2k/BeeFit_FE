@@ -287,9 +287,9 @@ window.CartController = function ($http, $scope, $rootScope, AuthService, CartSe
         };
 
       })
-    }else{
+    } else{
   
-      let url = "http://localhost:8080/api/product";
+      let url = "http://localhost:8080/api/product/getall";
       $http.get(url).then(function (response){
         $scope.list1 = response.data;
       
@@ -381,6 +381,7 @@ window.CartController = function ($http, $scope, $rootScope, AuthService, CartSe
            for (let i = 0; i < $scope.listCart1.length; i++) {
              $scope.tongTien1 +=
                $scope.listCart1[i].unitPrice * $scope.listCart1[i].quantity;
+               
            }
            $rootScope.tongTienIndex1 = 0;
            for (let i = 0; i < $rootScope.listCartIndex1.length; i++) {

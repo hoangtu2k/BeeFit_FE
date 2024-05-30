@@ -116,6 +116,35 @@
     /* Scrollbar color (thumb color, track color) */
   
   }
+
+  .popup-content {
+    width: 800px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 700px;
+    overflow: auto;
+    scrollbar-width: thin;
+    /* Width of the scrollbar (thin, auto, none) */
+    scrollbar-color: #333 #999;
+    /* Scrollbar color (thumb color, track color) */
+  }
+.popup-content2 {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
    
 
 /* Hiển thị popup khi có class 'show' */
@@ -142,3 +171,53 @@
     bottom: 150px;
     left: 150px;
 }
+
+.table-quantity::-webkit-inner-spin-button,
+.table-quantity::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.table-quantity {
+  -moz-appearance: textfield;
+  border-width: 0 0 1px;
+  width: 20%;
+}
+
+.table-quantity:hover,
+.table-quantity:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+.radio-button {
+  display: inline-block;
+}
+
+.radio-button input[type="radio"] {
+  display: none;
+}
+
+.radio-button label {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #00583c;
+  cursor: pointer;
+  margin: 0 -1px; /* Fix alignment issue */
+  text-align: center;
+  width: 147.8px;
+  margin: 3px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.radio-button input[type="radio"]:checked + label {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.kh-select {
+  width: 310px;
+}
+

@@ -1,0 +1,74 @@
+<main class="main">
+     <div class="page-content">
+        <div class="dashboard">
+            <div class="container">
+                <div class="row">
+                    <aside class="col-md-4 col-lg-2">
+                        <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tab-dashboard-link" href="#/profile">Tổng quan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-orders-link" href="#/myorder">Đơn hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab-account-link" href="#/profile-edit">Chi tiết tài khoản</a>
+                            </li>
+                        </ul>
+                    </aside><!-- End .col-lg-3 -->
+
+                    <div class="col-md-8 col-lg-10">
+                        <div class="tab-content">
+                            <p>Xin chào
+                                <br>
+                                Người dùng từ bảng điều khiển tài khoản,
+                                bạn có thể xem các <a href="#/myorder" class="tab-trigger-link link-underline">đơn đặt
+                                    hàng gần đây</a>,
+                                quản lý địa chỉ giao hàng và thanh toán,
+                                đồng thời
+                                <a href="#/profile-edit" class="tab-trigger-link">chỉnh sửa mật khẩu và chi tiết tài
+                                    khoản</a>..
+                                Các địa chỉ sau sẽ được sử dụng trên trang thanh toán theo mặc định.
+                            </p>
+                            <!-- .End .tab-pane -->
+
+                            <div>
+                                <p>Các địa chỉ sau sẽ được sử dụng trên trang thanh toán theo mặc định.</p>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="card card-dashboard">
+                                            <div class="card-body">
+                                                <h3 class="card-title">Địa chỉ thanh toán</h3><!-- End .card-title -->
+
+                                                <p>
+                                                    Tên người dùng: {{ user.fullname }}<br>
+                                                    Số điện thoại: <br>
+                                                    New York, NY 10001<br>                                            
+                                                    <a href="#/profile-edit">Sửa <i class="icon-edit"></i></a>
+                                                </p>
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .card-dashboard -->
+                                    </div><!-- End .col-lg-6 -->
+
+                                    <div class="col-lg-6">
+                                        <div class="card card-dashboard">
+                                            <div class="card-body">
+                                                <h3 class="card-title">Địa chỉ giao hàng</h3><!-- End .card-title -->
+                                                <p>Bạn chưa thiết lập loại địa chỉ này.<br>
+                                                    <a href="#">Sửa <i class="icon-edit"></i></a>
+                                                </p>
+                                            </div><!-- End .card-body -->
+                                        </div><!-- End .card-dashboard -->
+                                    </div><!-- End .col-lg-6 -->
+                                </div><!-- End .row -->
+                            </div><!-- .End .tab-pane -->
+
+
+                        </div>
+                    </div><!-- End .col-lg-9 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .dashboard -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->

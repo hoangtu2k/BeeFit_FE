@@ -2,11 +2,17 @@ window.DetailController = function ($http, $scope, $routeParams, $location, $roo
   $scope.detail = function () {
 
     let IdCustomer = AuthService.getCustomer();
-    console.log(IdCustomer);
     var selectedVal = "";
     var selectedVal1 = "";
     let urlcolor = "http://localhost:8080/api/color";
     let urlsize = "http://localhost:8080/api/size";
+    let urlmaterial = "http://localhost:8080/api/material";
+
+    // load material
+    $scope.listMaterial = [];
+    $http.get(urlmaterial).then(function (response) {
+      $scope.listMaterial = response.data;
+    });
     // load color
     $scope.listColor = [];
     $http.get(urlcolor).then(function (response) {
@@ -160,24 +166,25 @@ window.DetailController = function ($http, $scope, $routeParams, $location, $roo
         }
 
 
-        $http
-          .get(
-            "http://localhost:8080/api/product/category?id=" +  response.data.category.id + "&idBrand=" + response.data.brand.id + "&idDesign=" + response.data.design.id
-           + "&idProduct=" + id
-          )
-          .then(function (e) {
-            $scope.listCungLoai = e.data;
+        // $http
+        //   .get(
+        //     "http://localhost:8080/api/product/category?id=" + 
+        //     response.data.category.id + "&idBrand=" + response.data.brand.id + "&idDesign=" + response.data.design.id + "&idProduct=" + id
+        //   )
+        //   .then(function (e) {
+        //     $scope.listCungLoai = e.data;
 
-            // pagation
-            $scope.pagerCungLoai = {
-              page: 0,
-              size: 4,
-              get items() {
-                var start = this.page * this.size;
-                return $scope.listCungLoai.slice(start, start + this.size);
-              },
-            };
-          });
+        //     // pagation
+        //     $scope.pagerCungLoai = {
+        //       page: 0,
+        //       size: 4,
+        //       get items() {
+        //         var start = this.page * this.size;
+        //         return $scope.listCungLoai.slice(start, start + this.size);
+        //       },
+        //     };
+        //   });
+
       });
 
 
@@ -193,6 +200,12 @@ window.DetailController = function ($http, $scope, $routeParams, $location, $roo
     }).then(function (resp) {
       $scope.quantityHT = resp.data;
     });
+
+    $http
+      .get("http://localhost:8080/api/material/get/" + id)
+      .then(function (material) {
+        $scope.materialid = material.data;           
+      });
 
     $http
       .get("http://localhost:8080/api/color/get/" + id)
@@ -349,189 +362,189 @@ window.DetailController = function ($http, $scope, $routeParams, $location, $roo
         document.getElementById("Quantity").value = 1;
         return;
       }
-      if(IdCustomer != null){
+      if (IdCustomer != null) {
         $http
-        .get("http://localhost:8080/api/product/" + id)
-        .then(function (response) {
-          var unitPrice = 0;
-          if (response.data.discount > 0) {
-            unitPrice =
-              response.data.price -
-              response.data.price * (response.data.discount * 0.01);
-            $scope.unitPrice = unitPrice;
-          } else {
-            unitPrice = response.data.price;
-            $scope.unitPrice = unitPrice;
-          }
-        
-          $http.get("http://localhost:8080/api/cart/getCartByCustomer/"+ IdCustomer).then(function(idd){
-            
-            let idCart = idd.data.id;
-          
-              //get cart by user
-          $scope.listCart = [];
-          $http.get("http://localhost:8080/api/cart/"+ IdCustomer).then(function (cart) {
-         
-          
-            $scope.listCart = cart.data;
-           
-            // add to cart
-            if ($scope.listCart.length === 0) {
-              $http
-                .post("http://localhost:8080/api/cart", {
-                  idCart: idCart,
-                  idProduct: id,
-                  idColor: selectedVal,
-                  idSize: selectedVal1,
-                  quantity: soLuong,
-                  unitPrice: unitPrice,
-                })
-                .then(function (cart) {
-                  if (cart.status === 200) {
-                    $http.get("http://localhost:8080/api/cart/"+ IdCustomer).then(function (cartL) {
-                      $rootScope.listCartIndex = cartL.data;
-                      $rootScope.tongTienIndex = 0;
-                      for (let i = 0; i < $rootScope.listCartIndex.length; i++) {
-                        $rootScope.tongTienIndex +=
-                          $rootScope.listCartIndex[i].unitPrice * $rootScope.listCartIndex[i].quantity;
-                      }
-                  })
-                    Swal.fire("Đã thêm vào giỏ !!", "", "success");
-                  }
-                });
+          .get("http://localhost:8080/api/product/" + id)
+          .then(function (response) {
+            var unitPrice = 0;
+            if (response.data.discount > 0) {
+              unitPrice =
+                response.data.price -
+                response.data.price * (response.data.discount * 0.01);
+              $scope.unitPrice = unitPrice;
+            } else {
+              unitPrice = response.data.price;
+              $scope.unitPrice = unitPrice;
             }
-            //check list cart by user
-            if ($scope.listCart.length > 0) {
-              for (let i = 0; i < $scope.listCart.length; i++) {
-                // if product in cart
-                if (
-                  $scope.listCart[i].product.id == id &&
-                  $scope.listCart[i].idColor == selectedVal &&
-                  $scope.listCart[i].idSize == selectedVal1
-                ) {
-                  if ($scope.listCart[i].quantity >= $scope.quantity) {
-                    Swal.fire(
-                      "Bạn đã thêm số lượng tối đa hiện có của sản phẩm vào giỏ hàng !!",
-                      "",
-                      "error"
-                    );
-                    return;
-                  }
 
+            $http.get("http://localhost:8080/api/cart/getCartByCustomer/" + IdCustomer).then(function (idd) {
+
+              let idCart = idd.data.id;
+
+              //get cart by user
+              $scope.listCart = [];
+              $http.get("http://localhost:8080/api/cart/" + IdCustomer).then(function (cart) {
+
+
+                $scope.listCart = cart.data;
+
+                // add to cart
+                if ($scope.listCart.length === 0) {
                   $http
-                    .put(
-                      "http://localhost:8080/api/cart/updateCart/" +
-                        $scope.listCart[i].id,
-                      {
-                        idCart: idCart,
-                        idProduct: id,
-                        idColor: selectedVal,
-                        idSize: selectedVal1,
-                        quantity:
-                          parseInt(soLuong) +
-                          parseInt($scope.listCart[i].quantity),
-                        unitPrice: unitPrice,
-                      }
-                    )
+                    .post("http://localhost:8080/api/cart", {
+                      idCart: idCart,
+                      idProduct: id,
+                      idColor: selectedVal,
+                      idSize: selectedVal1,
+                      quantity: soLuong,
+                      unitPrice: unitPrice,
+                    })
                     .then(function (cart) {
                       if (cart.status === 200) {
-                        $http.get("http://localhost:8080/api/cart/"+ IdCustomer).then(function (cartL) {
+                        $http.get("http://localhost:8080/api/cart/" + IdCustomer).then(function (cartL) {
                           $rootScope.listCartIndex = cartL.data;
                           $rootScope.tongTienIndex = 0;
                           for (let i = 0; i < $rootScope.listCartIndex.length; i++) {
                             $rootScope.tongTienIndex +=
                               $rootScope.listCartIndex[i].unitPrice * $rootScope.listCartIndex[i].quantity;
                           }
-                      })
-                       
+                        })
                         Swal.fire("Đã thêm vào giỏ !!", "", "success");
                       }
                     });
-                  return;
                 }
-              }
-              // add to cart
-              $http
-                .post("http://localhost:8080/api/cart", {
-                  idCart: idCart,
-                  idProduct: id,
-                  idColor: selectedVal,
-                  idSize: selectedVal1,
-                  quantity: soLuong,
-                  unitPrice: unitPrice,
-                })
-                .then(function (cart) {
-                  if (cart.status === 200) {
-                    $http.get("http://localhost:8080/api/cart/"+ IdCustomer).then(function (cartL) {
-                      $rootScope.listCartIndex = cartL.data;
-                      $rootScope.tongTienIndex = 0;
-                      for (let i = 0; i < $rootScope.listCartIndex.length; i++) {
-                        $rootScope.tongTienIndex +=
-                          $rootScope.listCartIndex[i].unitPrice * $rootScope.listCartIndex[i].quantity;
+                //check list cart by user
+                if ($scope.listCart.length > 0) {
+                  for (let i = 0; i < $scope.listCart.length; i++) {
+                    // if product in cart
+                    if (
+                      $scope.listCart[i].product.id == id &&
+                      $scope.listCart[i].idColor == selectedVal &&
+                      $scope.listCart[i].idSize == selectedVal1
+                    ) {
+                      if ($scope.listCart[i].quantity >= $scope.quantity) {
+                        Swal.fire(
+                          "Bạn đã thêm số lượng tối đa hiện có của sản phẩm vào giỏ hàng !!",
+                          "",
+                          "error"
+                        );
+                        return;
                       }
-                  })
-                    Swal.fire("Đã thêm vào giỏ !!", "", "success");
+
+                      $http
+                        .put(
+                          "http://localhost:8080/api/cart/updateCart/" +
+                          $scope.listCart[i].id,
+                          {
+                            idCart: idCart,
+                            idProduct: id,
+                            idColor: selectedVal,
+                            idSize: selectedVal1,
+                            quantity:
+                              parseInt(soLuong) +
+                              parseInt($scope.listCart[i].quantity),
+                            unitPrice: unitPrice,
+                          }
+                        )
+                        .then(function (cart) {
+                          if (cart.status === 200) {
+                            $http.get("http://localhost:8080/api/cart/" + IdCustomer).then(function (cartL) {
+                              $rootScope.listCartIndex = cartL.data;
+                              $rootScope.tongTienIndex = 0;
+                              for (let i = 0; i < $rootScope.listCartIndex.length; i++) {
+                                $rootScope.tongTienIndex +=
+                                  $rootScope.listCartIndex[i].unitPrice * $rootScope.listCartIndex[i].quantity;
+                              }
+                            })
+
+                            Swal.fire("Đã thêm vào giỏ !!", "", "success");
+                          }
+                        });
+                      return;
+                    }
                   }
-                });
-            }
+                  // add to cart
+                  $http
+                    .post("http://localhost:8080/api/cart", {
+                      idCart: idCart,
+                      idProduct: id,
+                      idColor: selectedVal,
+                      idSize: selectedVal1,
+                      quantity: soLuong,
+                      unitPrice: unitPrice,
+                    })
+                    .then(function (cart) {
+                      if (cart.status === 200) {
+                        $http.get("http://localhost:8080/api/cart/" + IdCustomer).then(function (cartL) {
+                          $rootScope.listCartIndex = cartL.data;
+                          $rootScope.tongTienIndex = 0;
+                          for (let i = 0; i < $rootScope.listCartIndex.length; i++) {
+                            $rootScope.tongTienIndex +=
+                              $rootScope.listCartIndex[i].unitPrice * $rootScope.listCartIndex[i].quantity;
+                          }
+                        })
+                        Swal.fire("Đã thêm vào giỏ !!", "", "success");
+                      }
+                    });
+                }
+              });
+            })
+
           });
-          })
-        
-        });
-      }else{
+      } else {
         $http
-        .get("http://localhost:8080/api/product/" + id)
-        .then(function (response) {
-          var unitPrice = 0;
-          if (response.data.discount > 0) {
-            unitPrice =
-              response.data.price -
-              response.data.price * (response.data.discount * 0.01);
-            $scope.unitPrice = unitPrice;
-          } else {
-            unitPrice = response.data.price;
-            $scope.unitPrice = unitPrice;
-          }
-         
-          var index = CartService.findItemIndexById(id,selectedVal,selectedVal1);
-         
-
-          if(index == -1){
-            var cartAdd = {
-              idProduct : response.data,
-              idColor : parseInt(selectedVal),
-              idSize : parseInt(selectedVal1),
-              quantity: parseInt(soLuong),
-              unitPrice: unitPrice
+          .get("http://localhost:8080/api/product/" + id)
+          .then(function (response) {
+            var unitPrice = 0;
+            if (response.data.discount > 0) {
+              unitPrice =
+                response.data.price -
+                response.data.price * (response.data.discount * 0.01);
+              $scope.unitPrice = unitPrice;
+            } else {
+              unitPrice = response.data.price;
+              $scope.unitPrice = unitPrice;
             }
-            CartService.addToCart(cartAdd);
-            
-          }
-          else{
-            
-            var cartUpdate = {
-              idProduct : response.data,
-              idColor : parseInt(selectedVal),
-              idSize : parseInt(selectedVal1),
-              quantity: parseInt(CartService.getCartItemAtIndex(index).quantity) + parseInt(soLuong),
-              unitPrice: unitPrice
+
+            var index = CartService.findItemIndexById(id, selectedVal, selectedVal1);
+
+
+            if (index == -1) {
+              var cartAdd = {
+                idProduct: response.data,
+                idColor: parseInt(selectedVal),
+                idSize: parseInt(selectedVal1),
+                quantity: parseInt(soLuong),
+                unitPrice: unitPrice
+              }
+              CartService.addToCart(cartAdd);
+
             }
-            CartService.updateCartItem(index, cartUpdate);
-           
-          }
+            else {
 
-          Swal.fire("Đã thêm vào giỏ !!", "", "success");
-          $rootScope.tongTienIndex1 = 0;
-          for (let i = 0; i < $rootScope.listCartIndex1.length; i++) {
-            $rootScope.tongTienIndex1 +=
-              $rootScope.listCartIndex1[i].unitPrice * $rootScope.listCartIndex1[i].quantity;
-          }
+              var cartUpdate = {
+                idProduct: response.data,
+                idColor: parseInt(selectedVal),
+                idSize: parseInt(selectedVal1),
+                quantity: parseInt(CartService.getCartItemAtIndex(index).quantity) + parseInt(soLuong),
+                unitPrice: unitPrice
+              }
+              CartService.updateCartItem(index, cartUpdate);
+
+            }
+
+            Swal.fire("Đã thêm vào giỏ !!", "", "success");
+            $rootScope.tongTienIndex1 = 0;
+            for (let i = 0; i < $rootScope.listCartIndex1.length; i++) {
+              $rootScope.tongTienIndex1 +=
+                $rootScope.listCartIndex1[i].unitPrice * $rootScope.listCartIndex1[i].quantity;
+            }
 
 
-        })
+          })
 
       }
-    
+
     };
 
   };

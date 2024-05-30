@@ -88,7 +88,7 @@ window.ProductController = function ($scope, $http, $location, $routeParams, $ro
     // pagation
     $scope.pager = {
       page: 0,
-      size: 16,
+      size: 12,
       get items() {
         var start = this.page * this.size;
         return $scope.list.slice(start, start + this.size);

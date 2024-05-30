@@ -1,197 +1,393 @@
-<!-- Page Header Start -->
-<div class="container-fluid bg-secondary mb-5">
-    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
-        <h1 class="font-weight-semi-bold text-uppercase mb-3">Thủ tục thanh toán</h1>
-        <div class="d-inline-flex">
-            <p class="m-0"><a href="#.home">Trang chủ</a></p>
-            <p class="m-0 px-2">-</p>
-            <p class="m-0">Thủ tục thanh toán</p>
-        </div>
-    </div>
-</div>
-<!-- Page Header End -->
+<main class="main">
+
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Checkout<span>BeeFit</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#/home">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="#/products">Sản phẩm</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
 
 
-<!-- Checkout Start -->
-<div class="container-fluid pt-5">
-    <div class="row px-xl-5">
-        <div class="col-lg-7">
-            <div class="mb-4">
-                <h4 class="font-weight-semi-bold mb-4">Thông tin giao hàng</h4>
+    <div ng-if="user != null" class="page-content">
+        <div class="checkout">
+            <div class="container">
                 <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label>Tên người nhận</label>
-                        <input id="tennguoimua1" class="form-control">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Số điện thoại người nhận</label>
-                        <input id="sodienthoai1" class="form-control">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Tỉnh/TP</label>
-                        <select class="custom-select" id="tinh" ng-click="getHuyen();getXa();tinhShip()">
-                            <option ng-repeat="tinh in listTinh" value="{{tinh.ProvinceID}}">{{tinh.ProvinceName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Quận/Huyện</label>
-                        <select class="custom-select" id="huyen" ng-click="getXa();tinhShip()">
-                            <option ng-repeat="huyen in listHuyen" value="{{huyen.DistrictID}}">
-                                {{huyen.DistrictName}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Phường/Xã</label>
-                        <select class="custom-select" id="xa" ng-click="tinhShip()">
-                            <option ng-repeat="xa in listXa" value="{{xa.WardCode}}">{{xa.WardName}}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Địa chỉ cụ thể</label>
-                        <textarea id="diachicuthe1" class="form-control">
-                        </textarea>
-                    </div>
+                    <div class="cart col-lg-9">
+                        <h2 class="checkout-title">Đơn hàng của bạn</h2>
+                        <table class="table table-cart table-mobile text-center">
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Đơn giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
 
-                </div>
+                            <tbody>
+                                <tr ng-repeat="cart in listCart">
+                                    <td class="product-col">
+                                        <div class="product">
+                                            <figure ng-repeat="img in cart.product.productImages" class="product-media">
+                                                <span ng-if="img.mainImage == true">
+                                                    <a href=""><img style="width: 50px;" src="{{img.url}}"
+                                                            alt="Product image"></a>
+                                                </span>
+                                            </figure>
+
+                                            <h3 class="product-title">
+                                                <a href="#/detail/{{cart.product.id}}">
+                                                    {{cart.product.name |uppercase}}
+
+                                                    [ Màu: <span ng-repeat="color in listColor">
+                                                        <span ng-if="color.id == cart.idColor">
+                                                            {{color.name}} ]
+                                                        </span>
+                                                    </span>
+                                                    [ Size: <span ng-repeat="size in listSize">
+                                                        <span ng-if="size.id == cart.idSize">
+                                                            {{size.name}} ]
+                                                        </span>
+                                                    </span><br>
+                                                </a>
+                                            </h3><!-- End .product-title -->
+                                        </div><!-- End .product -->
+                                    </td>
+                                    <td class="price-col">
+                                        <span ng-if="cart.product.discount > 0">
+                                            {{cart.product.price - (cart.product.price * (cart.product.discount * 0.01))
+                                            | currency:'':0}} VNĐ
+                                        </span>
+
+                                        <span ng-if="cart.product.discount == 0 || cart.product.discount == null">
+                                            {{cart.product.price | currency:'':0}} VNĐ
+                                        </span>
+                                    </td>
+                                    <td class="quantity-col">
+                                        {{cart.quantity}}
+                                    </td>
+                                    <td class="total-col">
+                                        <span ng-if="cart.product.discount > 0">
+                                            {{(cart.product.price - (cart.product.price * (cart.product.discount *
+                                            0.01))) * cart.quantity | currency:'':0}} VNĐ
+                                        </span>
+                                        <span ng-if="cart.product.discount == 0 || cart.product.discount == null ">
+                                            {{cart.product.price * cart.quantity | currency:'':0}} VNĐ
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <h6 class="font-weight-bolder">Tổng tiền:</h6>
+                                        <h6 class="font-weight-bolder">Giảm giá:</h6>
+                                        <h6 class="font-weight-bolder">Phí ship:</h6>
+                                        <h5 class="font-weight-bolder">Tổng tiền cần thanh toán:</h5>
+                                    </td>
+                                    <td colspan="3">
+                                        <h6 class="font-weight-medium price-col">{{tongTien | currency:'':0}} VNĐ</h6>
+                                        <h6 class="font-weight-medium price-col">{{giamGia | currency:'':0}} VNĐ</h6>
+                                        <h6 class="font-weight-medium price-col">{{phiShip | currency:'':0}} VNĐ</h6>
+                                        <h6 class="font-weight-bold total-col">{{tienThanhToan | currency:'':0}} VNĐ
+                                        </h6>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table><!-- End .table table-wishlist -->
+
+                        <div class="cart-bottom">
+                            <div class="cart-discount" style="max-width: 380px;">
+                                <div class="input-group" id="coupon">
+                                    <input id="coupon-code" type="text" class="form-control"
+                                        placeholder="Áp mã giảm giá (Nếu có)">
+                                    <div class="input-group-round">
+                                        <button ng-click="apMa()" class="btn btn-outline-primary-2"><i
+                                                class="icon-long-arrow-right"> Áp mã giảm giá </i>
+                                        </button>
+                                    </div><!-- .End .input-group-append -->
+                                </div><!-- End .input-group -->
+                            </div><!-- End .cart-discount -->
+                        </div><!-- End .cart-bottom -->
+
+                    </div><!-- End .col-lg-9 -->
+
+                    <aside class="col-lg-3">
+                        <div class="summary">
+                            <h3 class="summary-title">Thông tin giao hàng</h3><!-- End .summary-title -->
+
+                            <table class="table table-summary">
+                                <thead>
+                                    <th class="header-left">Địa chỉ nhận hàng</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select class="custom-select" id="idAddress" ng-click="changeAddress()">
+                                                <option ng-repeat="add in listAddress" value="{{add.id}}">
+                                                    {{add.fullname}} -
+                                                    {{add.phone}} | {{add.address}}, {{add.wardName}},
+                                                    {{add.districtName}},
+                                                    {{add.cityName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-left">
+                                            <button ng-click="themDiaChi()"
+                                                class="btn btn-outline-primary-2 btn-block">Thêm địa chỉ mới</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-left">Ghi chú:</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <textarea id="note" class="form-control"></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table><!-- End .table table-summary -->
+
+                            <div class="accordion-summary" id="accordion-payment">
+                                <div class="card">
+
+                                    <h2 class="checkout-title text-center">
+                                        Phương thức thanh toán
+                                    </h2>
+
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="payment"
+                                                    id="pay1" checked>
+                                                <label class="custom-control-label" for="pay1">Thanh toán khi nhận
+                                                    hàng</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="payment"
+                                                    id="pay2">
+                                                <label class="custom-control-label" for="pay2">Thanh toán qua
+                                                    VNPAY</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- End .card -->
+
+                            </div><!-- End .accordion -->
+
+                            <button ng-click="buy()" class="btn btn-outline-primary-2 btn-order btn-block">
+                                <span class="btn-text">Đặt hàng</span>
+                                <span class="btn-hover-text">Tiến hành kiểm tra</span>
+                            </button>
+                        </div><!-- End .summary -->
+                    </aside><!-- End .col-lg-3 -->
+
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .checkout -->
+    </div><!-- End .page-content -->
+
+    <div class="popup" ng-class="{ 'show': isDiaChi }">
+        <div class="popup-content2">
+            <!-- Nội dung của popup -->
+
+            <h4>Thêm địa chỉ mới</h4>
+            <div class="close-diachi">
+                <button class="btn btn-danger" style="min-width: 0;" ng-click="themDiaChi()">X</button>
             </div>
-        </div>
-        <div class="col-lg-5">
 
-            <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Tổng số đơn hàng</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Tên người nhận <span class="text-danger">*</span></label>
+                    <input class="form-control" id="tennguoimua">
                 </div>
-                <div class="card-body">
-                    <h5 class="font-weight-medium mb-3">Các sản phẩm</h5>
-                    <div ng-repeat="cart in listCart1" class="d-flex justify-content-between">
-                        <p><span ng-repeat="img in cart.product.productImages">
-                                <span ng-if="img.mainImage == true">
-                                    <a href="#"><img class="cart__image" src="{{img.url}}" alt="ao phong"></a>
-                                </span>
-                            </span></p>
-                        <p>{{cart.idProduct.name | uppercase}} <br> SKU
-                            : {{cart.idProduc.code}}
-                        </p>
-
-                        <p>
-                            <span
-                                ng-if="cart.product.promotion != null && cart.product.promotion.discount > 0 && cart.product.promotion.cash > 0">
-                                {{cart.product.price - (cart.product.price * (cart.product.promotion.discount * 0.01)) -
-                                cart.product.promotion.cash | currency:'':0}} VNĐ
-                            </span>
-
-                            <span
-                                ng-if="cart.product.promotion != null && cart.product.promotion.discount > 0 && (cart.product.promotion.cash == 0 || cart.product.promotion.cash == null)">
-                                {{cart.product.price - (cart.product.price * (cart.product.promotion.discount * 0.01)) |
-                                currency:'':0}} VNĐ
-                            </span>
-
-                            <span
-                                ng-if="cart.product.promotion != null && cart.product.promotion.cash > 0 && (cart.product.promotion.discount == 0 || cart.product.promotion.discount == null)">
-                                {{cart.product.price - cart.product.promotion.cash | currency:'':0}} VNĐ
-                            </span>
-
-                            <span
-                                ng-if="cart.product.promotion == null || (cart.product.promotion.discount == 0 && cart.product.promotion.cash == 0)">
-                                {{cart.product.price | currency:'':0}} VNĐ
-                            </span>
-                        </p>
-
-                        <p>
-                            <span ng-repeat="color in listColor">
-                                <span ng-if="color.id == cart.idColor">
-                                    {{color.name}}
-                                </span>
-                            </span>
-                        </p>
-                        <p>
-                            <span ng-repeat="size in listSize">
-                                <span ng-if="size.id == cart.idSize">
-                                    {{size.name}}
-                                </span>
-                            </span>
-                        </p>
-                        <p>
-                            {{cart.quantity}}
-                        </p>
-                        <p>
-                            <span
-                                ng-if="cart.product.promotion != null && cart.product.promotion.discount > 0 && cart.product.promotion.cash > 0">
-                                {{(cart.product.price - (cart.product.price * (cart.product.promotion.discount * 0.01))
-                                - cart.product.promotion.cash) * cart.quantity | currency:'':0}} VNĐ
-                            </span>
-
-                            <span
-                                ng-if="cart.product.promotion != null && cart.product.promotion.discount > 0 && (cart.product.promotion.cash == 0 || cart.product.promotion.cash == null)">
-                                {{(cart.product.price - (cart.product.price * (cart.product.promotion.discount * 0.01)))
-                                * cart.quantity | currency:'':0}} VNĐ
-                            </span>
-
-                            <span
-                                ng-if="cart.product.promotion != null && cart.product.promotion.cash > 0 && (cart.product.promotion.discount == 0 || cart.product.promotion.discount == null)">
-                                {{(cart.product.price - cart.product.promotion.cash) * cart.quantity | currency:'':0}}
-                                VNĐ
-                            </span>
-
-                            <span
-                                ng-if="cart.product.promotion == null || (cart.product.promotion.discount == 0 && cart.product.promotion.cash == 0)">
-                                {{cart.product.price * cart.quantity | currency:'':0}} VNĐ
-                            </span>
-                        </p>
-                        <p>{{tongTien1 | currency:'':0}} VNĐ</p>
-                    </div>
-                    <hr class="mt-0">
-                    <div class="d-flex justify-content-between mb-3 pt-1">
-                        <h6 class="font-weight-medium">Tổng tiền</h6>
-                        <h6 class="font-weight-medium">{{tongTien1 | currency:'':0}} VNĐ</h6>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="font-weight-medium">Giảm giá</h6>
-                        <h6 class="font-weight-medium">{{giamGia | currency:'':0}} VNĐ</h6>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <h6 class="font-weight-medium">Phí ship</h6>
-                        <h6 class="font-weight-medium">{{phiShip | currency:'':0}} VNĐ</h6>
-                    </div>
+                <div class="col-md-6">
+                    <label>SĐT người nhận <span class="text-danger">*</span></label>
+                    <input class="form-control" id="sodienthoai">
                 </div>
-                <div class="card-footer border-secondary bg-transparent">
-                    <div class="d-flex justify-content-between mt-2">
-                        <h5 class="font-weight-bold">Tổng tiền cần thanh toán</h5>
-                        <h5 class="font-weight-bold">{{tienThanhToan | currency:'':0}} VNĐ</h5>
-                    </div>
+                <div class="col-md-6">
+                    <label>Tỉnh/Thành <span class="text-danger">*</span></label>
+                    <select class="form-control" id="tinh" ng-click="getHuyen();getXa()">
+                        <option ng-repeat="tinh in listTinh" value="{{tinh.ProvinceID}}">{{tinh.ProvinceName}}</option>
+                    </select>
                 </div>
-            </div>
+                <div class="col-md-6">
+                    <label>Quận/Huyện <span class="text-danger">*</span></label>
+                    <select class="form-control" id="huyen" ng-click="getXa()">
+                        <option ng-repeat="huyen in listHuyen" value="{{huyen.DistrictID}}">{{huyen.DistrictName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label>Phường/Xã <span class="text-danger">*</span></label>
+                    <select class="form-control" id="xa">
+                        <option ng-repeat="xa in listXa" value="{{xa.WardCode}}">{{xa.WardName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label>Địa chỉ cụ thể</label>
+                    <textarea class="form-control" id="diachicuthe" style="min-height: 50px;"></textarea>
+                </div>
+                <center class="col-md-12">
+                    <button class="btn btn-outline-primary-2" ng-click="addDiaChi()">Thêm</button>
+                </center>
 
-            <div class="card border-secondary mb-5">
-                <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Thanh toán</h4>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                            <label class="custom-control-label" for="paypal">Paypal</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                            <label class="custom-control-label" for="directcheck">Direct Check</label>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="custom-control custom-radio">
-                            <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                            <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer border-secondary bg-transparent">
-                    <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Đặt hàng</button>
-                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Checkout End -->
+
+    <!-- exportbill -->
+    <div style="display: none;">
+        <section id="exportbill"
+            style="width: 1000px; height: auto; background: #f4f4f4; padding: 50px 60px; position: relative; margin: 20px auto; box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);font-family: Tahoma;">
+            <div class="header">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 30px;" class="i_row">
+                    <div style="width: 100%" class="i_logo">
+                        <img style="width: 200px; height: 100px;margin: 10px;" src="">
+                    </div>
+                    <div style="font-size: 32px; color: #00845d;text-align: center;" class="i_title">
+                        <h2>Hóa Đơn</h2>
+                    </div>
+                </div>
+                <div class="i_row">
+                    <div class="i_number">
+                        <p style="font-weight: 700; font-size: 14px; color: #333;">Mã Hóa Đơn: {{billexport.code}}</p>
+                        <p style="font-weight: 700; font-size: 14px; color: #333;" ng-if="billexport.typeStatus === 0">
+                            Thông
+                            tin giao hàng : {{addressexport.fullname}} - {{addressexport.phone}} |
+                            {{addressexport.address}}, {{addressexport.wardName}}, {{addressexport.districtName}},
+                            {{addressexport.cityName}}</p>
+                        <p style="font-weight: 700; font-size: 14px; color: #333;">Phương thức thanh toán :
+                            {{billexport.payType === 0 ? 'Tiền mặt' : 'Online qua VNPay'}}</p>
+                        <p style="font-weight: 700; font-size: 14px; color: #333;">Phương thức mua hàng :
+                            {{billexport.typeStatus === 1 ? 'Mua tại quầy' : 'Mua online'}}</p>
+                        <p style="font-weight: 700; font-size: 14px; color: #333;">Trạng thái đơn hàng : <span
+                                style="color: #00845d;">{{billexport.status === 0 ? 'Chờ xác nhận' : billexport.status
+                                === 1
+                                ? 'Chờ giao hàng' : billexport.status === 2 ? 'Đang giao hàng' : billexport.status === 3
+                                ?
+                                'Đã giao hàng' : billexport.status === 4 ? 'Đã hủy' : billexport.status === 5 ? 'Đổi
+                                trả' :
+                                ''}}</span></p>
+                        <p style="font-weight: 700; font-size: 14px; color: #333;">Trạng thái thanh toán : <span
+                                style="color: #840000;">{{billexport.payStatus === 0 ? 'Chưa thanh toán' :
+                                billexport.payStatus === 1 ? 'Đã thanh toán' : ''}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="body">
+                <div class="i_table">
+                    <div class="i_table_head">
+                        <div style="display: flex; color: #fff; border-radius: 5px 5px 0 0;" class="i_row">
+                            <div style="width: 45%;" class="i_col">
+                                <p style="font-weight: 700; font-size: 14px;color: #333;">Sản Phẩm</p>
+                            </div>
+                            <div style="width: 15%;" class="i_col">
+                                <p style="font-weight: 700; font-size: 14px;color: #333;">Số Lượng</p>
+                            </div>
+                            <div style="width: 20%;" class="i_col">
+                                <p style="font-weight: 700; font-size: 14px;color: #333;">Đơn Giá</p>
+                            </div>
+                            <div style="width: 20%;" class="i_col">
+                                <p style="font-weight: 700; font-size: 14px;color: #333;">Thành Tiền</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="i_table_body">
+                        <div class="i_row" style="display: flex;align-items: center;"
+                            ng-repeat="bill in listItemExport">
+                            <div style="width: 45%;" class="i_col">
+                                <span ng-repeat="img in bill.product.productImages">
+                                    <span ng-if="img.mainImage == true">
+                                        <img style="width: 50px; height: 50px;" src="{{img.url}}">
+                                    </span>
+                                </span>
+                                <div class="list-view-item__title">
+                                    {{bill.product.name | uppercase}}
+                                    <br>
+                                    SKU : {{bill.product.code}}
+                                </div>
+                                <div class="cart__meta-text">
+                                    Màu:
+                                    <span ng-repeat="color in listColor">
+                                        <span ng-if="color.id == bill.idColor">
+                                            {{color.name}}
+                                        </span>
+                                    </span>
+                                    <br>
+                                    Kích Thước:
+                                    <span ng-repeat="size in listSize">
+                                        <span ng-if="size.id == bill.idSize">
+                                            {{size.name}}
+                                        </span>
+                                    </span>
+                                    <br>
+                                </div>
+                            </div>
+                            <div style="width: 15%;" class="i_col">
+                                <p>{{bill.quantity}}</p>
+                            </div>
+                            <div style="width: 20%;" class="i_col">
+                                <p>{{bill.unitPrice | currency:'':0}}</p>
+                            </div>
+                            <div style="width: 20%;" class="i_col">
+                                <p>{{bill.unitPrice * bill.quantity | currency:'':0}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="i_table_foot">
+                        <div style="display: flex;" class="i_row">
+                            <div style="width: 25%;" class="i_col">
+                                <p></p>
+                            </div>
+                            <div style="width: 25%;" class="i_col">
+                                <p></p>
+                            </div>
+                            <div style="width: 25%;" class="i_col">
+                                <p style="font-weight: 700; font-size: 14px; color: #333;">Tổng Tiền</p>
+                                <p style="font-weight: 700; font-size: 14px; color: #333;">Phí Ship</p>
+                                <p style="font-weight: 700; font-size: 14px; color: #333;">Giảm Giá</p>
+                            </div>
+                            <div style="width: 25%;" class="i_col">
+                                <p style="color: #333;">{{billexport.totalPrice | currency:'':0}}</p>
+                                <p style="color: #333;">{{billexport.shipPrice | currency:'':0}}</p>
+                                <p style="color: #333;">{{billexport.totalPriceLast | currency:'':0}}</p>
+                            </div>
+                        </div>
+                        <div class="i_row grand_total_wrap">
+                            <div style="width: 100%;" class="i_col">
+                            </div>
+                            <div style="width: 100%; background: #00845d; color: #fff; padding: 10px 15px; border-radius: 0 0 5px 5px;"
+                                class="i_col grand_total">
+                                <p
+                                    style="display: flex; justify-content: space-between; color: white;font-weight: bold;">
+                                    <span>Tổng Tiền Thanh Toán :</span>
+                                    <span>{{billexport.totalPrice + billexport.shipPrice - billexport.totalPriceLast |
+                                        currency:'':0}} VNĐ</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div style="text-align: center; font-weight: bold; color: #333;">Cảm ơn bạn đã mua sắm tại BeeFit!
+                        <br>
+                        Chúc bạn một ngày tốt lành.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</main><!-- End .main -->

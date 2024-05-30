@@ -4,16 +4,16 @@ app.config(function ($routeProvider, $locationProvider) {
   $locationProvider.hashPrefix("");
   $routeProvider
 
+
+
     .when("/home", {
       templateUrl: "layout/home.html",
       controller: HomeController,
     })
-
     .when("/products", {
       templateUrl: "shop/shop.html",
       controller: ProductController,
     })
-
     .when("/detail/:id", {
       templateUrl: "shop/detail.html",
       controller: DetailController,
@@ -27,16 +27,35 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: CheckOutController,
     })
 
+
+
+
+
     .when("/login", {
-      templateUrl: "login.html",
+      templateUrl: "account/login.html",
       controller: LoginController,
     })
+    .when("/profile", {
+      templateUrl: "account/dashboard.html",
+      controller: 'ProfileController',
+    })
+    .when("/profile-edit", {
+      templateUrl: "account/edit-profile.html",
+      controller: 'ProfileController',
+    })
     .when("/register", {
-      templateUrl: "register.html",
+      templateUrl: "account/register.html",
       controller: RegisterController,
     })
-    
+    .when("/myorder", {
+      templateUrl: "account/myorder.html",
+      controller : MyOrderController
+    })
 
+
+
+
+    
     .when("/404", {
       templateUrl: "404.html",
     })
