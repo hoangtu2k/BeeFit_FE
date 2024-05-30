@@ -40,10 +40,10 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: KhuyenMaiController,
     })
 
-    .when("/voucher/view", {
-      templateUrl: "phieu/index.html",
-      controller: PhieuController,
-    })
+
+
+
+    
 
     .when("/login", {
       templateUrl: "nhanvien/login.html",

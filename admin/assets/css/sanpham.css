@@ -117,8 +117,8 @@
   
   }
 
-  .popup-content {
-    width: 800px;
+  .add-thuoctinh {
+    width: 400px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -127,7 +127,25 @@
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 700px;
+    height: 250px;
+    overflow: auto;
+    scrollbar-width: thin;
+    /* Width of the scrollbar (thin, auto, none) */
+    scrollbar-color: #333 #999;
+    /* Scrollbar color (thumb color, track color) */
+  }
+
+  .popup-content {
+    width: 900px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 600px;
     overflow: auto;
     scrollbar-width: thin;
     /* Width of the scrollbar (thin, auto, none) */
@@ -168,8 +186,8 @@
 
 .map--btn-addkm{
     position: absolute;
-    bottom: 150px;
-    left: 150px;
+    bottom: 10px;
+    left: 170px;
 }
 
 .table-quantity::-webkit-inner-spin-button,

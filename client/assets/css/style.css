@@ -24745,6 +24745,7 @@ button:focus {
 }
 
 .popup-content {
+  width: 1000px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -24753,6 +24754,12 @@ button:focus {
   padding: 20px;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 600px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
 }
 
 .popup-content2 {
@@ -24775,5 +24782,17 @@ button:focus {
 .close-diachi {
   position: absolute;
   right: 10px;
+  top: 10px;
+}
+
+.myorder-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.myorder-history {
+  position: absolute;
+  right: 190px;
   top: 10px;
 }

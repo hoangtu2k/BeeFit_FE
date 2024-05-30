@@ -1706,9 +1706,6 @@ window.BanHangController = function (
           }
         }
 
-
-
-
         else {
           Swal.fire("Có lỗi xảy ra !", "", "error");
         }
