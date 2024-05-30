@@ -1,7 +1,6 @@
 window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $location, AuthService, CartService) {
+
   //trang thanh toán
-
-
   $scope.checkOut = function () {
 
     let IdCustomer = AuthService.getCustomer();
@@ -23,6 +22,7 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
     $http.get(urlsize).then(function (response) {
       $scope.listSize = response.data;
     });
+
 
     $scope.billexport = {};
     $scope.addressexport = {};
@@ -328,240 +328,12 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
                                         });
 
                                     });
-
-
                                 })
-
                             });
                         } else if (document.getElementById("pay2").checked === true) {
                           //thanh toán qua vnpay
-                          // Biến để kiểm tra xem có sản phẩm nào số lượng không đủ không
-                          let quantityNotEnough = false;
-                          //check số lượng còn hàng trước khi cho đặt hàng
-                          $http
-                            .get("http://localhost:8080/api/cart/" + IdCustomer)
-                            .then(function (CheckCart) {
-                              // Dùng Promise.all để chờ tất cả các request hoàn thành
-                              let promises = CheckCart.data.map((cartItem) => {
-                                // Lấy số lượng sản phẩm đang có
-                                var getPram = {
-                                  IdProduct: cartItem.product.id,
-                                  IdColor: cartItem.idColor,
-                                  IdSize: cartItem.idSize,
-                                };
-
-
-                                // Trả về promise của request
-                                return $http({
-                                  method: "GET",
-                                  url: "http://localhost:8080/api/productdetail_color_size/getQuantityProductAndColorAndSize",
-                                  params: getPram,
-                                }).then(function (resp) {
-                                  if (parseInt(resp.data) == 0) {
-                                    // Nếu số lượng hết, cập nhật biến kiểm tra
-                                    quantityNotEnough = true;
-                                    Swal.fire(
-                                      "Số lượng sản phẩm " +
-                                      cartItem.product.name +
-                                      " đã hết ! Sản phẩm sẽ được xóa khỏi giỏ hàng",
-                                      "",
-                                      "warning",
-                                    );
-                                    $http.delete(
-                                      "http://localhost:8080/api/cart/" +
-                                      cartItem.id
-                                    );
-
-                                  }
-                                  else if (resp.data === '') {
-                                    quantityNotEnough = true;
-                                    $http.delete(
-                                      "http://localhost:8080/api/cart/" +
-                                      cartItem.id
-                                    );
-                                    Swal.fire(
-                                      "Sản phẩm " +
-                                      cartItem.product.name +
-                                      " không khả dụng ! Sản phẩm sẽ được xóa khỏi giỏ hàng",
-                                      "",
-                                      "warning"
-                                    );
-                                  }
-                                  else if (cartItem.quantity > parseInt(resp.data)) {
-                                    // Nếu số lượng không đủ, cập nhật biến kiểm tra
-                                    quantityNotEnough = true;
-                                    Swal.fire(
-                                      "Số lượng sản phẩm " +
-                                      cartItem.product.name +
-                                      " không đủ! Số lượng sản phẩm này trong giỏ hàng của bạn sẽ được cập nhật về số lượng hiện có!",
-                                      "",
-                                      "warning"
-                                    );
-                                    // Cập nhật số lượng hiện có vào giỏ hàng
-                                    return $http
-                                      .put(
-                                        "http://localhost:8080/api/cart/updateCart/" +
-                                        cartItem.id,
-                                        {
-                                          idCart: idCart,
-                                          idProduct:
-                                            cartItem.product.id,
-                                          idColor: cartItem.idColor,
-                                          idSize: cartItem.idSize,
-                                          quantity: resp.data,
-                                          unitPrice: cartItem.unitPrice,
-                                        }
-                                      );
-
-                                  }
-
-                                });
-
-                              });
-                              // Sau khi tất cả các request hoàn thành
-                              Promise.all(promises)
-                                .then(() => {
-                                  // Nếu có sản phẩm nào số lượng không đủ, không thực hiện các bước tiếp theo
-                                  if (quantityNotEnough) {
-                                    $http.get("http://localhost:8080/api/cart/" + IdCustomer).then(function (cartL) {
-                                      $rootScope.listCartIndex = cartL.data;
-                                      $rootScope.tongTienIndex = 0;
-                                      for (let i = 0; i < $rootScope.listCartIndex.length; i++) {
-                                        $rootScope.tongTienIndex +=
-                                          $rootScope.listCartIndex[i].unitPrice * $rootScope.listCartIndex[i].quantity;
-                                      }
-                                    })
-                                    location.href = "#/cart"
-                                    return;
-                                  }
-                                  $scope.checkTienTT = $scope.tienThanhToan - $scope.giamGia;
-                                  if ($scope.checkTienTT > 20000000) {
-                                    Swal.fire(
-                                      "Vượt quá hạn mức thanh toán qua VNPay",
-                                      "Tổng giá trị thanh toán đơn hàng của bạn qua VNPay đang vượt quá 20,000,000 VNĐ. Vui lòng giảm bớt số lượng sản phảm trong giỏ",
-                                      "warning"
-                                    );
-                                    location.href = "#/cart"
-                                    return;
-
-                                  }
-
-                                  // add bill
-                                  $http.post("http://localhost:8080/api/bill", {
-                                    totalPrice: TotalPrice,
-                                    shipPrice: ship.data.data.total,
-                                    totalPriceLast:
-                                      $scope.giamGia,
-                                    note: document.getElementById("note").value,
-                                    payType: 1,
-                                    payStatus: 0,
-                                    idCoupon: 0,
-                                    idAddress: idAddress,
-                                    idCustomer: IdCustomer,
-                                    status: 0,
-                                    typeStatus: 0
-                                  })
-                                    .then(function (bill) {
-                                      $http.post('http://localhost:8080/api/billhistory', {
-                                        createBy: null,
-                                        note: null,
-                                        status: 0,
-                                        idBill: bill.data.id
-                                      });
-                                      $http
-                                        .get("http://localhost:8080/api/cart/" + IdCustomer)
-                                        .then(function (CartToBill) {
-                                          for (
-                                            let i = 0;
-                                            i < CartToBill.data.length;
-                                            i++
-                                          ) {
-                                            $http
-                                              .post(
-                                                "http://localhost:8080/api/bill/addBillDetail",
-                                                {
-                                                  // add bill detail
-                                                  idBill: bill.data.id,
-                                                  idProduct:
-                                                    CartToBill.data[i].product
-                                                      .id,
-                                                  idColor:
-                                                    CartToBill.data[i].idColor,
-                                                  idSize: CartToBill.data[i].idSize,
-                                                  quantity:
-                                                    CartToBill.data[i].quantity,
-                                                  unitPrice:
-                                                    CartToBill.data[i].unitPrice,
-                                                }
-                                              )
-                                              .then(function (billdetail) {
-                                                //xóa giỏ hàng by user
-                                                $http.delete(
-                                                  "http://localhost:8080/api/cart/deleteAllCart/" + IdCustomer
-                                                );
-
-                                                //get số lượng sản phẩm đang có
-                                                var getPram = {
-                                                  IdProduct:
-                                                    CartToBill.data[i].product
-                                                      .id,
-                                                  IdColor:
-                                                    CartToBill.data[i].idColor,
-                                                  IdSize: CartToBill.data[i].idSize,
-                                                };
-                                                $http({
-                                                  method: "GET",
-                                                  url: "http://localhost:8080/api/productdetail_color_size/getQuantityProductAndColorAndSize",
-                                                  params: getPram,
-                                                }).then(function (resp) {
-                                                  var param2 = {
-                                                    IdProduct:
-                                                      CartToBill.data[i]
-                                                        .product.id,
-                                                    IdColor:
-                                                      CartToBill.data[i].idColor,
-                                                    IdSize:
-                                                      CartToBill.data[i].idSize,
-                                                    Quantity:
-                                                      parseInt(resp.data) -
-                                                      parseInt(
-                                                        CartToBill.data[i].quantity
-                                                      ),
-                                                  };
-                                                  $http({
-                                                    method: "PUT",
-                                                    url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
-                                                    params: param2,
-                                                  }).then(function (resp) {
-                                                    let params = {
-                                                      totalPrice:
-                                                        $scope.tienThanhToan - $scope.giamGia,
-                                                      code: bill.data.code,
-                                                    };
-                                                    $http({
-                                                      method: "GET",
-                                                      url: "http://localhost:8080/api/vnpay",
-                                                      params: params,
-                                                      transformResponse: [
-                                                        function (data) {
-                                                          location.href = data;
-                                                        },
-                                                      ],
-                                                    });
-                                                  });
-                                                });
-                                              });
-                                          }
-                                        });
-                                    });
-
-
-                                })
-
-
-
-                            });
-
+                          Swal.fire("Đang phát triển...", "", "warning");
+                          return;
                         } else {
                           Swal.fire("Có lỗi xảy ra !", "", "error");
                         }
@@ -877,6 +649,7 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
 
     }
 
+    /////////////////////////////////////////////////////////////
     $scope.sendBillToMail = function (code) {
 
       $http.get('http://localhost:8080/api/bill/getbycode/' + code).then(function (billexport) {
@@ -886,9 +659,6 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
         }).then(function (resp) {
           $http.get("http://localhost:8080/api/bill/getallbybill/" + code).then(function (resp) {
             $scope.listItemExport = resp.data;
-
-
-
 
             $http.get("http://localhost:8080/api/customer/" + IdCustomer).then(function (response) {
               // Lấy phần tử bằng ID
@@ -933,6 +703,7 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
 
 
     }
+    /////////////////////////////////////////////////////////////
   };
 
   $scope.checkOut();
