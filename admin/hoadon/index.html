@@ -1,100 +1,134 @@
 <main id="main" class="main">
-    <section class="section dashboard">
+  <section class="section dashboard">
+
+    <div class="row">
+
+      <div class="card">
+        <div class="card-body">
+
+          <h1 class="card-title" style="margin-left: 5px;"><i class="fa-solid fa-receipt"></i> Quản lý hóa đơn</h1>
   
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-12">
-  
-              <div class="row">
-  
-                <div class="col-lg-4">
-  
-                  <div class="product-search">
-                    <div class="search-bar">
-                      <form class="search-form d-flex align-items-center">
-                        <input type="text" name="query" placeholder="Nhập mã hoặc tên khuyến mãi"
-                          title="Tìm kiếm khuyến mãi">
-                        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-                      </form>
-                    </div><!-- End Search Bar -->
-                  </div>
-  
-                </div>
-  
-                <div class="col-lg-6">
-                  <button class="btn btn-primary" ng-click="openaddkhuyenmai()" title="Thêm khuyến mãi">
-                    <i class="far fa-plus"></i> Thêm khuyến mãi</button>
-                </div>
-  
-              </div>
-  
-            </div>
+          <div class="radio-button-group">
+            <input type="radio" id="radioButton1" name="radioGroup" checked ng-click="loc(null)">
+            <label for="radioButton1">Tất cả ({{tatca}})</label>
+            <input type="radio" id="radioButton2" name="radioGroup" ng-click="loc(0)">
+            <label for="radioButton2">Chờ xác nhận ({{choxacnhan}})</label>
+            <input type="radio" id="radioButton3" name="radioGroup" ng-click="loc(1)">
+            <label for="radioButton3">Chờ giao hàng ({{chogiaohang}})</label>
+            <input type="radio" id="radioButton4" name="radioGroup" ng-click="loc(2)">
+            <label for="radioButton4">Đang giao hàng ({{danggiaohang}})</label>
+            <input type="radio" id="radioButton5" name="radioGroup" ng-click="loc(3)">
+            <label for="radioButton5">Đã giao hàng ({{dagiaohang}})</label>
+            <input type="radio" id="radioButton6" name="radioGroup" ng-click="loc(4)">
+            <label for="radioButton6">Đã hủy ({{dahuy}})</label>
           </div>
+
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-4">
+              <label class="form-label">Hình thức thanh toán</label>
+              <select class="form-select" id="httt" ng-click="filter()">
+                <option value="">Tất cả</option>
+                <option value="0">Thanh toán khi nhận hàng</option>
+                <option value="1">Thanh toán online qua VNPay</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Trạng thái thanh toán</label>
+              <select class="form-select" id="tttt" ng-click="filter()">
+                <option value="">Tất cả</option>
+                <option value="1">Đã thanh toán</option>
+                <option value="0">Chưa thanh toán</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Trạng thái đơn hàng</label>
+              <select class="form-select" id="ttdh" ng-click="filter()">
+                <option value="">Tất cả</option>
+                <option value="0">Chờ xác nhận</option>
+                <option value="1">Chờ giao hàng</option>
+                <option value="2">Đang giao hàng</option>
+                <option value="3">Đã giao hàng</option>
+                <option value="4">Đã hủy</option>
+                <option value="5">Đổi hàng</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Hình thức mua hàng</label>
+              <select class="form-select" id="htmh" ng-click="filter()">
+                <option value="">Tất cả</option>
+                <option value="0">Mua online</option>
+                <option value="1">Mua tại quầy</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Từ ngày</label>
+              <input ng-model="selectedDate" type="date" class="form-control" id="tungay">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Đến ngày</label>
+              <input ng-model="selectedDate" type="date" class="form-control" id="denngay">
+            </div>
+           <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6">
+              <input id="timkiem" type="text" placeholder="Tìm theo mã hóa đơn" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <button ng-click="search()"class="btn btn-primary">Tìm kiếm</button>
+            </div>
+           </div>
+          </div>
+
+          <table class="table">
+            <thead>
+              <th>Hóa Đơn</th>
+              <th>Ngày Mua</th>
+              <th>Tổng Tiền</th>
+              <th>Hình Thức Thanh Toán</th>
+              <th>T.T Thanh Toán</th>
+              <th>T.T Đơn Hàng</th>
+              <th>Hình Thức Mua Hàng</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="bill in pager.items" ng-click="redirect(bill.code)" ng-if="list.length > 0">
+                <td>{{bill.code}}</td>
+                <td>{{bill.purchaseDate | date:'dd-MM-yyyy'}}</td>
+                <td>{{bill.totalPrice + bill.shipPrice - bill.totalPriceLast | currency:'':0}} VNĐ</td>
+                <td>
+                  <span class="" ng-if="bill.payType == 0">Thanh toán khi nhận hàng</span>
+                  <span class="" ng-if="bill.payType == 1">Thanh toán online qua VNPAY</span>
+                </td>
+                <td>
+                  <span class="" ng-if="bill.payStatus == 1">Đã thanh toán</span>
+                  <span class="" ng-if="bill.payStatus == 0">Chưa thanh toán</span>
+                </td>
+                <td>
+                  <span class="" ng-if="bill.status == 0">Chờ xác nhận</span>
+                  <span class="" ng-if="bill.status == 1">Chờ giao hàng</span>
+                  <span class="" ng-if="bill.status == 2">Đang giao hàng</span>
+                  <span class="" ng-if="bill.status == 3">Đã giao hàng</span>
+                  <span class="" ng-if="bill.status == 4">Đã hủy</span>
+                  <span class="" ng-if="bill.status == 5">Đổi hàng</span>
+                </td>
+                <td>
+                  <span class="" ng-if="bill.typeStatus == 1">Tại quầy</span>
+                  <span class="" ng-if="bill.typeStatus != 1">Mua online</span>
+                </td>
+              </tr>
+              <tr ng-if="list.length == 0">
+                <td colspan="13">
+                  <div style="text-align: center;">
+                    <div><img style="width: 80px; height: 80px;" src="././assets/img/empty-folder.png"></div>
+                    <h4>Không có dữ liệu</h4>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
         </div>
       </div>
-  
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-12">
-  
-              <div class="card">
-  
-                <div class="card-body">
-  
-                  <table class="table">
-                    <thead>
-                      <th scope="row">Mã khuyến mãi</td>
-                      <th scope="row">Tên khuyến mãi</td>
-                      <th scope="row">Kiểu khuyến mãi</td>
-                      <th scope="row">Giá trị khuyến mãi</td>
-                      <th scope="row">Ngày bắt đầu</td>
-                      <th scope="row">Ngày kết thúc</th>
-                      <th scope="row">Trạng thái</th>
-  
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="v in pagerkm.items">
-                        <td>{{v.code}}</td>
-                        <td>{{v.name}}</td>
-                        <td>{{v.discountType == false ? 'Giảm giá theo %' : 'Giảm giá theo tiền'}}</td>
-                        <td>{{v.discountType == false ? v.discount + '%' : (v.cash | currency:'':0) + ' VND'}}</td>
-                        <td>{{ formatDateTime(v.startDate) }}</td>
-                        <td>{{ formatDateTime(v.endDate) }}</td>
-                        <td>{{v.status == 0 ? 'Hoạt động' : v.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
-                        <td><a href="#/promotion/update/{{v.id}}"><button class="btn btn-indigo"> Sửa</button></a>
-                          <button style="margin-top: 5px" class="btn btn-danger" ng-click="delete(v.id)"> Xóa</button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-  
-                  <div class="text-center">
-                    <div class="btn-group" role="group" aria-label="Basic outlined example">
-                      <button ng-click="pagerkm.first()" type="button" class="btn btn-outline-secondary"><i
-                          class="fa-solid fa-angles-left"></i></button>
-                      <button ng-click="pagerkm.prev()" type="button" class="btn btn-outline-secondary"><i
-                          class="fa-solid fa-angle-left"></i></button>
-                      <button type="button" class="btn btn-outline-secondary">{{pagerkm.page+1}}
-                        of
-                        {{pagerkm.count}}</button>
-                      <button ng-click="pagerkm.next()" type="button" class="btn btn-outline-secondary"><i
-                          class="fa-solid fa-angle-right"></i></button>
-                      <button ng-click="pagerkm.last()" type="button" class="btn btn-outline-secondary"><i
-                          class="fa-solid fa-angles-right"></i></button>
-                    </div>
-                  </div>
-  
-                </div>
-  
-              </div>
-  
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ======= end row ======= -->
-  
-    </section>
-  </main><!-- End #main -->
+
+    </div>
+
+  </section>
+</main><!-- End #main -->
