@@ -203,6 +203,13 @@
                       <input ng-click="chondiachi1()" type="radio" id="diachicosan" name="diachi">
                       <label for="diachicosan">Địa chỉ có sẵn</label>
                     </div>
+                    <div id="diachichon1" style="display: none;">
+                      Địa chỉ giao hàng
+                      <select class="form-select" id="diachiCustomer" ng-click="doidiachi()">
+                        <option ng-repeat="add in listAddress" value="{{add.id}}">{{add.fullname}} - {{add.phone}} |
+                          {{add.address}}, {{add.wardName}}, {{add.districtName}}, {{add.cityName}}</option>
+                      </select>
+                    </div>
                     <div id="diachichon2" style="display: none;">
 
                       <div>
@@ -233,15 +240,7 @@
                       </div>
                       <label for="">Địa chỉ cụ thể</label>
                       <textarea class="form-control" type="text" id="diachicuthe" style="display: block;"></textarea>
-                    </div>
-
-                    <div id="diachichon1" style="display: none;">
-                      Địa chỉ giao hàng
-                      <select class="form-select" id="diachiCustomer" ng-click="doidiachi()">
-                        <option ng-repeat="add in listAddress" value="{{add.id}}">{{add.fullname}} - {{add.phone}} |
-                          {{add.address}}, {{add.wardName}}, {{add.districtName}}, {{add.cityName}}</option>
-                      </select>
-                    </div>
+                    </div>                  
                   </div>
 
                 </div>
@@ -264,48 +263,73 @@
                     <label for="">Ghi chú</label>
                     <textarea class="form-control" id="ghichu"></textarea>
                   </div>
+                </div>
 
-                  <div>
+                <div>
 
-                    <div class="custom-radio">
-                      <input ng-click="magiamgia()" type="radio" id="chuongtrinhkhuyenmaiCheck" name="magiam" checked><label for="chuongtrinhkhuyenmaiCheck">Chương trình khuyến mãi</label>
-                      <span id="maGiamGiaKH" style="display: none;"><input ng-click="magiamgia()" type="radio"
-                          id="magiamgiaCheck" name="magiam"><label for="magiamgiaCheck">Phiếu giảm giá</label></span>
-                    </div>
-
-                    <div id="magiamgia" style="display: none;">
-                      <input class="form-control" type="text" id="code-coupon" placeholder="Mã giảm giá nếu có...">
-                      <button ng-click="apCoupon()" class="btn btn-primary">Áp dụng</button>
-                    </div>
-
-                    <div id="chuongtrinhkhuyenmai" style="display: block;">
-                      <select class="form-select" id="ctkm">
-                        <option ng-repeat="km in listVoucher" value="{{km.code}}">{{km.code}} - {{km.name}} | Áp dụng
-                          cho
-                          {{km.typeVoucher != true ? 'Sản phẩm' : 'Hóa đơn'}} </option>
-                      </select>
-                      <button class="btn btn-primary" ng-click="apCTKM()">Áp dụng</button>
-                    </div>
-
+                  <div class="custom-radio">
+                    <input ng-click="magiamgia()" type="radio" id="chuongtrinhkhuyenmaiCheck" name="magiam" checked>
+                    <label for="chuongtrinhkhuyenmaiCheck">Chương trình khuyến mãi</label>
+            
+                    <span id="maGiamGiaKH" style="display: none;">
+                      <input ng-click="magiamgia()" type="radio" id="magiamgiaCheck" name="magiam">
+                      <label for="magiamgiaCheck">Phiếu giảm giá</label>
+                    </span>
                   </div>
 
-                  <div class="discount-coupon">
-                    
-                    <div id="coupon" class="coupon-dec tab-pane active">
+                  <div id="magiamgia" style="display: none;">
+                    <input class="form-control" style="width: 230px; float: left;" type="text" id="code-coupon"
+                      placeholder="Mã giảm giá nếu có...">
+                    <button ng-click="apCoupon()" style="padding: 5px; margin-left: 10px; margin-top: 1px; float: right;" class="btn btn-primary">Áp dụng</button>
+                  </div>
+                  
+                  <div id="chuongtrinhkhuyenmai" style="display: block;">
+                    <select class="form-select" style="width: 230px;height: 40px; float: left;" id="ctkm">
+                      <option ng-repeat="km in listVoucher" value="{{km.Idvoucher}}">{{km.Idvoucher}} - {{km.Name}} | Áp dụng cho hóa đơn</option>
+                    </select>
+                    <button  ng-click="apCTKM()" style="padding: 5px; margin-left: 10px; margin-top: 2px;" class="btn btn-primary">Áp dụng</button>
+                  </div>
 
-                      <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === true">
-                        {{voucherName}} | Giảm {{discountVoucher}} áp dụng trên trên hóa đơn (- {{voucherGiamGia |
-                        currency:'':0}} VNĐ)
-                        <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
-                            class="fa-solid fa-trash-can"></i></button>
-                      </div>
-                      <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === false">
-                        {{voucherName}} | Giảm {{cashVoucher}} áp dụng trên hóa đơn (- {{voucherGiamGia |
-                        currency:'':0}} VNĐ)
-                        <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
-                            class="fa-solid fa-trash-can"></i></button>
-                      </div>
+                </div>
+                
+                <br>
 
+                <div class="discount-coupon">
+
+                  <div id="coupon" class="coupon-dec tab-pane active">
+
+                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === true">
+                      {{voucherName}} | Giảm {{discountVoucher}} áp dụng trên trên hóa đơn (- {{voucherGiamGia |
+                      currency:'':0}} VNĐ)
+                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
+                          class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === false">
+                      {{voucherName}} | Giảm {{cashVoucher}} áp dụng trên hóa đơn (- {{voucherGiamGia |
+                      currency:'':0}} VNĐ)
+                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
+                          class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == true && voucherType === true">
+                      {{voucherName}} | Giảm {{discountVoucher}} áp dụng trên trên sản phẩm (- {{voucherGiamGia |
+                      currency:'':0}} VNĐ)
+                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
+                          class="fa-solid fa-trash-can"></i></button>
+
+                      <div>Áp dụng cho sản phẩm : </div>
+                      <div ng-repeat="sp in listSPVoucher">
+                        - [{{sp.productDetail.product.name}} - SKU : {{sp.productDetail.product.code}}]
+                      </div>
+                    </div>
+                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == true && voucherType === false">
+                      {{voucherName}} | Giảm tối đa {{cashVoucher}} áp dụng trên sản phẩm (- {{voucherGiamGia |
+                      currency:'':0}} VNĐ)
+                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
+                          class="fa-solid fa-trash-can"></i></button>
+                      <div>Áp dụng cho sản phẩm : </div>
+                      <div ng-repeat="sp in listSPVoucher">
+                        - [{{sp.productDetail.product.name}} - SKU : {{sp.productDetail.product.code}}]
+                      </div>
                     </div>
 
                     <div id="voucher1" ng-if="checkCoupon == true && couponType == true">{{couponName}} | Giảm
@@ -323,21 +347,26 @@
                   </div>
                 </div>
 
+
+  
                 <div>
-                  <label for="">Tổng tiền : </label>
-                  <input value="{{tongTien}}" class="form-control" disabled>
-                </div>
-                <div id="muaonline1" style="display: none;">
-                  <label for="">Phí ship : </label>
-                  <input value="{{phiShip}}" class="form-control" disabled>
-                </div>
-                <div>
-                  <label for="">Giảm giá : </label>
-                  <input value="{{giamGia}}" class="form-control" disabled>
-                </div>
-                <div>
-                  <label for="">Tổng tiền cần thanh toán :</label>
-                  <input value="{{tienThanhToan}}" class="form-control" disabled>
+                  <br>
+                  <div>
+                    <label class="form-label">Tổng tiền : </label>
+                    <input value="{{tongTien}}" class="form-control" disabled>
+                  </div>
+                  <div id="muaonline1" style="display: none;">
+                    <label class="form-label">Phí ship : </label>
+                    <input value="{{phiShip}}" class="form-control" disabled>
+                  </div>
+                  <div>
+                    <label class="form-label">Giảm giá : </label>
+                    <input value="{{giamGia}}" class="form-control" disabled>
+                  </div>
+                  <div>
+                    <label class="form-label">Tổng tiền cần thanh toán :</label>
+                    <input value="{{tienThanhToan}}" class="form-control" disabled>
+                  </div>
                 </div>
 
                 <div style="padding-top: 10px;">

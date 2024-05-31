@@ -132,10 +132,24 @@ window.BanHangController = function (
     };
   };
   $scope.getAllBill();
+  /////////////////////////////////////////////////////
+
+  $scope.magiamgia = function () {
+    if (document.getElementById("chuongtrinhkhuyenmaiCheck").checked == true) {
+      document.getElementById("magiamgia").style.display = "none";
+      document.getElementById("chuongtrinhkhuyenmai").style.display = "block";
+    }
+    else {
+      document.getElementById("magiamgia").style.display = "block";
+      document.getElementById("chuongtrinhkhuyenmai").style.display = "none";
+    }
+
+  }
 
   $scope.phiShip = 0;
   $scope.tienThanhToan = 0;
   $scope.giamGia = 0;
+  $scope.magiamgia();
   let idBill = null;
   let codeBill = null;
 
@@ -161,7 +175,7 @@ window.BanHangController = function (
     //get all voucher
     $scope.listVoucher = [];
     $http
-      .get("http://localhost:8080/api/product/getAllVoucher")
+      .get("https://66593f12de346625136bb615.mockapi.io/voucher")
       .then(function (resp) {
         $scope.listVoucher = resp.data;
       });
@@ -997,7 +1011,6 @@ window.BanHangController = function (
         });
     })
   };
-
   //tính phí ship địa chỉ custom
   $scope.tinhPhiShip = function () {
     //get
@@ -1301,143 +1314,281 @@ window.BanHangController = function (
 
 
   /////////////////////////////////////////////////////////////////////////////////
-  //check trạng thái thanh toán online khi trả về
 
-  if ($location.search().vnp_TransactionStatus === "00") {
+  $scope.listCheck = [];
+  $scope.listCheck1 = [];
+  $scope.voucherGiamGia = 0;
+  $scope.couponGiamGia = 0;
+  $scope.phiShip = 0;
+  let checkk = 0;
+  let idCoupon = null;
+  $scope.apCoupon = function () {
+    let code = document.getElementById('code-coupon').value;
 
-    $http.put('http://localhost:8080/api/bill/updateStatus1/' + $location.search().vnp_OrderInfo, {
-      payStatus: 1,
+    //check coupon
+    $http.get('http://localhost:8080/api/getcoupon/' + document.getElementById("khachhang").value).then(function (resp) {
+      $scope.listCoupon = resp.data
+      for (let i = 0; i < $scope.listCoupon.length; i++) {
+        if (code === $scope.listCoupon[i].code) {
 
-    }).then(function (response) {
+          if ($scope.listCheck1.length > 0) {
+            Swal.fire('Bạn chỉ được áp dụng 1 phiếu giảm giá !', "", "error");
+            return;
+          }
 
-      Swal.fire('Thanh toán thành công', '', 'success');
-      let urlcolor = "http://localhost:8080/api/color";
-      let urlsize = "http://localhost:8080/api/size";
-      // load color
-      $scope.listColor = [];
-      $http.get(urlcolor).then(function (response) {
-        $scope.listColor = response.data;
-      });
-      // load size
-      $scope.listSize = [];
-      $http.get(urlsize).then(function (response) {
-        $scope.listSize = response.data;
-      });
+          $scope.couponName = $scope.listCoupon[i].name;
+          $scope.couponType = $scope.listCoupon[i].isType;
+          $scope.discountCoupon = $scope.listCoupon[i].discount + '%';
+          $scope.cashCoupon = $scope.listCoupon[i].cash.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+          if ($scope.listCoupon[i].isType === 0) {
 
-      $scope.billexport = {};
-      $scope.addressexport = {};
-      $scope.listItemExport = [];
-      $http.get('http://localhost:8080/api/bill/getbycode/' + $location.search().vnp_OrderInfo).then(function (billexport) {
-        $scope.billexport = billexport.data;
-        $scope.cus = null;
-        $scope.thoigian = new Date();
-        if ($scope.billexport.idCustomer != "") {
-          $http.get("http://localhost:8080/api/customer/" + $scope.billexport.idCustomer).then(function (cus) {
-            $scope.cus = cus.data;
-          })
-        }
+            if ($scope.listCoupon[i].cash > $scope.tongTien) {
+              $scope.giamGia += $scope.tongTien;
+              $scope.couponGiamGia = $scope.tongTien;
 
-        $http.get('http://localhost:8080/api/address/get/' + billexport.data.idAddress).then(function (add) {
-          $scope.addressexport = add.data;
+            }
+            else {
+              $scope.giamGia += $scope.listCoupon[i].cash
+              $scope.couponGiamGia = $scope.listCoupon[i].cash;
+            }
 
-
-        })
-
-      })
-      $http.get("http://localhost:8080/api/bill/getallbybill/" + $location.search().vnp_OrderInfo).then(function (resp) {
-        $scope.listItemExport = resp.data;
-      })
-
-      setTimeout(() => {
-        Swal.fire({
-          title: 'Bạn có muốn in hóa đơn cho đơn hàng ' + $location.search().vnp_OrderInfo + ' ?',
-          showCancelButton: true,
-          confirmButtonText: 'In',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            var element = document.getElementById('exportbill');
-            //custom file name
-            html2pdf().set({ filename: $location.search().vnp_OrderInfo + '.pdf' }).from(element).save();
-            Swal.fire('Đã xuất hóa đơn', '', 'success');
-            setTimeout(() => {
-              location.href = '#/sell/view'
-            }, 2000);
           }
           else {
-            location.href = '#/sell/view'
+            $scope.giamGia += ($scope.tongTien * ($scope.listCoupon[i].discount * 0.01));
+            $scope.couponGiamGia = ($scope.tongTien * ($scope.listCoupon[i].discount * 0.01));
           }
-        })
-      }, 2000);
 
-    })
+          checkCode1 = {
+            code: code
+          }
+          checkk++;
+          $scope.listCheck1.push(checkCode1);
+          $scope.checkCoupon = true;
+          idCoupon = $scope.listCoupon[i].id;
+          Swal.fire("Áp mã thành công !", "", "success");
+          $scope.hinhThucMuaHang();
+          $scope.tinhPhiShip();
+          document.getElementById('code-coupon').value = '';
+          $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
 
-  }
-  if ($location.search().vnp_TransactionStatus === "02") {
-    $http.delete("http://localhost:8080/api/billhistory/deletebillhistory/" + $location.search().vnp_OrderInfo);
-    $http.put('http://localhost:8080/api/bill/updateStatus/' + $location.search().vnp_OrderInfo, {
-      payStatus: 0,
-      paymentDate: null,
-      delyveryDate: null,
-      status: 10
+        }
 
-    });
-    Swal.fire('Đơn hàng ' + $location.search().vnp_OrderInfo + ' chưa được thanh toán !', '', 'error');
-    setTimeout(() => {
-      location.href = '#/sell/view';
-    }, 2000);
-  }
-
-  //export bill
-  $scope.exportBill = function () {
-    Swal.fire('Thanh toán thành công', '', 'success');
-    $scope.isLoading = false;
-    $scope.billexport = {};
-    $scope.addressexport = {};
-    $scope.listItemExport = [];
-    $http.get('http://localhost:8080/api/bill/getbycode/' + codeBill).then(function (billexport) {
-      $scope.billexport = billexport.data;
-      $scope.cus = null;
-      $scope.thoigian = new Date();
-      if ($scope.billexport.idCustomer != "") {
-        $http.get("http://localhost:8080/api/customer/" + $scope.billexport.idCustomer).then(function (cus) {
-          $scope.cus = cus.data;
-        })
       }
-      $http.get('http://localhost:8080/api/address/get/' + billexport.data.idAddress).then(function (add) {
-        $scope.addressexport = add.data;
-      })
+      if ($scope.tongTien < $scope.giamGia) {
+        Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
+        $scope.checkCoupon = false;
+        $scope.listCheck1 = [];
+        $scope.giamGia = $scope.voucherGiamGia;
+        $scope.couponGiamGia = 0;
+        $scope.tienThanhToan = TotalPrice + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+      }
 
     })
-    $http.get("http://localhost:8080/api/bill/getallbybill/" + codeBill).then(function (resp) {
-      $scope.listItemExport = resp.data;
-    })
-    setTimeout(() => {
 
+    if (checkk === 0) {
+      Swal.fire('Mã không tồn tại !', "", "error");
+      // document.getElementById('voucher').style.display = 'none';
+      return;
+    }
 
-      Swal.fire({
-        title: 'Bạn có muốn in hóa đơn cho đơn hàng ' + codeBill + ' ?',
-        showCancelButton: true,
-        confirmButtonText: 'In',
-      }).then((result) => {
-
-        if (result.isConfirmed) {
-
-          var element = document.getElementById('exportbill');
-
-          //custom file name
-          html2pdf().set({ filename: codeBill + '.pdf' }).from(element).save();
-          Swal.fire('Đã xuất hóa đơn', '', 'success');
-          setTimeout(() => {
-            location.reload();
-          }, 2000);
-        }
-        else {
-          location.reload();
-        }
-      })
-    }, 2000);
   }
 
+  let idVoucher = null;
+  $scope.apCTKM = function () {
+    $scope.phiShip = 0;
+    $scope.giamGia = $scope.giamGia - $scope.voucherGiamGia;
+    $scope.voucherGiamGia = 0;
+    let code = document.getElementById('ctkm').value;
+    $http.get('http://localhost:8080/api/getvoucher').then(function (resp) {
+      $scope.listVoucher = resp.data
+      for (let i = 0; i < $scope.listVoucher.length; i++) {
+        if (code === $scope.listVoucher[i].code) {
+          $scope.voucherName = $scope.listVoucher[i].name;
+          $scope.voucherType = $scope.listVoucher[i].typeVoucher;
+          $scope.voucherIs = $scope.listVoucher[i].isVoucher;
+          $scope.discountVoucher = $scope.listVoucher[i].discount + '%';
+          //  $scope.cashVoucher = $scope.listVoucher[i].cash.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+          if ($scope.listVoucher[i].isVoucher === false) {
+            if ($scope.listVoucher[i].typeVoucher === false) {
+
+              if ($scope.listVoucher[i].cash > $scope.tongTien) {
+                $scope.giamGia += $scope.tongTien;
+                $scope.voucherGiamGia += $scope.tongTien;
+
+              }
+              else {
+                $scope.giamGia += $scope.listVoucher[i].cash;
+                $scope.voucherGiamGia += $scope.listVoucher[i].cash;
+              }
+
+            }
+            else {
+              $scope.giamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
+              $scope.voucherGiamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
+            }
+            $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+            checkCode = {
+              code: code
+            }
+
+
+
+
+
+
+            $scope.checkVoucher = true;
+            idVoucher = $scope.listVoucher[i].id;
+            Swal.fire("Áp mã thành công !", "", "success");
+            $scope.hinhThucMuaHang();
+            $scope.tinhPhiShip();
+            if ($scope.tongTien < $scope.giamGia) {
+              Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
+              $scope.checkVoucher = true;
+              $scope.listCheck = [];
+              $scope.giamGia = $scope.couponGiamGia;
+              $scope.voucherGiamGia = 0;
+              $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+            }
+          }
+
+          else {
+
+            $scope.listSPVoucher = [];
+            $http.get("http://localhost:8080/api/bill/getallbybill/" + codeBill).then(function (cart) {
+
+              for (let j = 0; j < cart.data.length; j++) {
+                $http.get("http://localhost:8080/api/productvoucher/getbyproduct/" + cart.data[j].product.id).then(function (resp) {
+
+
+                  if (resp.data.length > 0) {
+                    let Price = cart.data[j].quantity * cart.data[j].unitPrice;
+
+                    for (let i = 0; i < resp.data.length; i++) {
+
+
+                      if (resp.data[i].voucher.code == code) {
+
+                        $scope.listSPVoucher.push(cart.data[j]);
+
+
+                        if (resp.data[i].voucher.typeVoucher === false) {
+
+                          if (resp.data[i].voucher.cash > Price) {
+
+                            $scope.giamGia += Price;
+                            $scope.voucherGiamGia += Price;
+
+                          }
+                          else {
+                            $scope.giamGia += resp.data[i].voucher.cash;
+                            $scope.voucherGiamGia += resp.data[i].voucher.cash;
+                          }
+
+                        }
+                        else {
+                          $scope.giamGia += (Price * (resp.data[i].voucher.discount * 0.01));
+                          $scope.voucherGiamGia += (Price * (resp.data[i].voucher.discount * 0.01));
+                        }
+
+                      }
+
+
+                    }
+
+
+                  }
+
+
+                  checkCode = {
+                    code: code
+                  }
+
+                  if ($scope.listSPVoucher.length === 0) {
+                    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + 0);
+
+                    Swal.fire("Rất tiếc voucher này không áp dụng cho sản phẩm nào trong giỏ hàng của bạn !", "", "error");
+                  }
+                  else {
+                    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+                    idVoucher = $scope.listVoucher[i].id;
+                    $scope.checkVoucher = true;
+                    Swal.fire("Áp mã thành công !", "", "success");
+                    $scope.hinhThucMuaHang();
+                    $scope.tinhPhiShip();
+                  }
+                  if ($scope.tongTien < $scope.giamGia) {
+                    Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
+                    $scope.checkVoucher = false;
+
+                    $scope.giamGia = $scope.couponGiamGia;
+                    $scope.voucherGiamGia = 0;
+                    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+                  }
+
+                })
+
+
+
+
+              }
+            })
+
+
+
+
+
+
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+      }
+
+
+
+
+    })
+
+  }
+
+  $scope.removeVoucher = function () {
+    $scope.voucherGiamGia = 0;
+    $scope.listCheck = [];
+    $scope.giamGia = 0;
+    $scope.voucherType = false;
+    idVoucher = null;
+
+    $scope.checkVoucher = false;
+    $scope.giamGia = $scope.couponGiamGia - $scope.giamGia;
+    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - $scope.couponGiamGia + $scope.voucherGiamGia;
+
+
+  }
+  $scope.removeCoupon = function () {
+    $scope.couponGiamGia = 0;
+    $scope.listCheck1 = [];
+    $scope.giamGia = 0;
+    idCoupon = null;
+    $scope.checkCoupon = false;
+    $scope.giamGia = $scope.voucherGiamGia - $scope.giamGia;
+    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - $scope.voucherGiamGia + $scope.couponGiamGia;
+
+  }
+
+  //check trạng thái thanh toán online khi trả về
   // dat hang
   $scope.buy = function (code) {
     if ($scope.listItem.length === 0) {
@@ -1490,7 +1641,7 @@ window.BanHangController = function (
     const wardName = selectElement2.options[selectElement2.selectedIndex].textContent;
 
     Swal.fire({
-      title: "Xác nhận thanh toán đơn hàng " + code + " ?",
+      title: "Xác nhận thanh toán đơn hàng " + codeBill + " ?",
       showCancelButton: true,
       confirmButtonText: "Thanh toán",
     }).then((result) => {
@@ -1712,6 +1863,143 @@ window.BanHangController = function (
       }
     });
   };
+
+  if ($location.search().vnp_TransactionStatus === "00") {
+
+    $http.put('http://localhost:8080/api/bill/updateStatus1/' + $location.search().vnp_OrderInfo, {
+      payStatus: 1,
+
+    }).then(function (response) {
+
+      Swal.fire('Thanh toán thành công', '', 'success');
+      let urlcolor = "http://localhost:8080/api/color";
+      let urlsize = "http://localhost:8080/api/size";
+      // load color
+      $scope.listColor = [];
+      $http.get(urlcolor).then(function (response) {
+        $scope.listColor = response.data;
+      });
+      // load size
+      $scope.listSize = [];
+      $http.get(urlsize).then(function (response) {
+        $scope.listSize = response.data;
+      });
+
+      $scope.billexport = {};
+      $scope.addressexport = {};
+      $scope.listItemExport = [];
+      $http.get('http://localhost:8080/api/bill/getbycode/' + $location.search().vnp_OrderInfo).then(function (billexport) {
+        $scope.billexport = billexport.data;
+        $scope.cus = null;
+        $scope.thoigian = new Date();
+        if ($scope.billexport.idCustomer != "") {
+          $http.get("http://localhost:8080/api/customer/" + $scope.billexport.idCustomer).then(function (cus) {
+            $scope.cus = cus.data;
+          })
+        }
+
+        $http.get('http://localhost:8080/api/address/get/' + billexport.data.idAddress).then(function (add) {
+          $scope.addressexport = add.data;
+
+
+        })
+
+      })
+      $http.get("http://localhost:8080/api/bill/getallbybill/" + $location.search().vnp_OrderInfo).then(function (resp) {
+        $scope.listItemExport = resp.data;
+      })
+
+      setTimeout(() => {
+        Swal.fire({
+          title: 'Bạn có muốn in hóa đơn cho đơn hàng ' + $location.search().vnp_OrderInfo + ' ?',
+          showCancelButton: true,
+          confirmButtonText: 'In',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var element = document.getElementById('exportbill');
+            //custom file name
+            html2pdf().set({ filename: $location.search().vnp_OrderInfo + '.pdf' }).from(element).save();
+            Swal.fire('Đã xuất hóa đơn', '', 'success');
+            setTimeout(() => {
+              location.href = '#/sell/view'
+            }, 2000);
+          }
+          else {
+            location.href = '#/sell/view'
+          }
+        })
+      }, 2000);
+
+    })
+
+  }
+  if ($location.search().vnp_TransactionStatus === "02") {
+    $http.delete("http://localhost:8080/api/billhistory/deletebillhistory/" + $location.search().vnp_OrderInfo);
+    $http.put('http://localhost:8080/api/bill/updateStatus/' + $location.search().vnp_OrderInfo, {
+      payStatus: 0,
+      paymentDate: null,
+      delyveryDate: null,
+      status: 10
+
+    });
+    Swal.fire('Đơn hàng ' + $location.search().vnp_OrderInfo + ' chưa được thanh toán !', '', 'error');
+    setTimeout(() => {
+      location.href = '#/sell/view';
+    }, 2000);
+  }
+
+  //export bill
+  $scope.exportBill = function () {
+    Swal.fire('Thanh toán thành công', '', 'success');
+    $scope.isLoading = false;
+    $scope.billexport = {};
+    $scope.addressexport = {};
+    $scope.listItemExport = [];
+    $http.get('http://localhost:8080/api/bill/getbycode/' + codeBill).then(function (billexport) {
+      $scope.billexport = billexport.data;
+      $scope.cus = null;
+      $scope.thoigian = new Date();
+      if ($scope.billexport.idCustomer != "") {
+        $http.get("http://localhost:8080/api/customer/" + $scope.billexport.idCustomer).then(function (cus) {
+          $scope.cus = cus.data;
+        })
+      }
+      $http.get('http://localhost:8080/api/address/get/' + billexport.data.idAddress).then(function (add) {
+        $scope.addressexport = add.data;
+      })
+
+    })
+    $http.get("http://localhost:8080/api/bill/getallbybill/" + codeBill).then(function (resp) {
+      $scope.listItemExport = resp.data;
+    })
+    setTimeout(() => {
+
+
+      Swal.fire({
+        title: 'Bạn có muốn in hóa đơn cho đơn hàng ' + codeBill + ' ?',
+        showCancelButton: true,
+        confirmButtonText: 'In',
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+
+          var element = document.getElementById('exportbill');
+
+          //custom file name
+          html2pdf().set({ filename: codeBill + '.pdf' }).from(element).save();
+          Swal.fire('Đã xuất hóa đơn', '', 'success');
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        }
+        else {
+          location.reload();
+        }
+      })
+    }, 2000);
+  }
+
+  
 
   $scope.$watch('tongTien', function () {
     console.log($scope.tongTien)
