@@ -117,8 +117,8 @@
   
   }
 
-  .popup-content {
-    width: 800px;
+  .add-thuoctinh {
+    width: 400px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -127,7 +127,25 @@
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 700px;
+    height: 250px;
+    overflow: auto;
+    scrollbar-width: thin;
+    /* Width of the scrollbar (thin, auto, none) */
+    scrollbar-color: #333 #999;
+    /* Scrollbar color (thumb color, track color) */
+  }
+
+  .popup-content {
+    width: 900px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    height: 600px;
     overflow: auto;
     scrollbar-width: thin;
     /* Width of the scrollbar (thin, auto, none) */
@@ -168,8 +186,8 @@
 
 .map--btn-addkm{
     position: absolute;
-    bottom: 150px;
-    left: 150px;
+    bottom: 10px;
+    left: 170px;
 }
 
 .table-quantity::-webkit-inner-spin-button,
@@ -221,3 +239,58 @@
   width: 310px;
 }
 
+/* Hide the default radio buttons */
+.radio-button-group input[type="radio"] {
+  display: none;
+}
+
+/* Style the labels as buttons */
+.radio-button-group label {
+  display: inline-block;
+  padding: 20px 10px;
+  background-color: #0d6efd;
+  color: #fff;
+  border: 1px solid #0d6efd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 185px;
+  height: 70px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Style the labels when the radio button is checked */
+.radio-button-group input[type="radio"]:checked + label {
+  background-color: #0049b7;
+  border: 1px solid #0a58ca;
+}
+/* Tùy chỉnh thanh cuộn trong trình duyệt Chrome và Safari */
+/* Các thuộc tính này không hoạt động trong Firefox hoặc Edge */
+
+/* Chỉnh màu của thanh cuộn */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00693c; /* Màu của thanh cuộn khi di chuyển */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu của phần còn lại của thanh cuộn */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #000; /* Màu của thanh cuộn khi rê chuột lên */
+}
+
+
+/* Styling for the timeline container */
+.timeline {
+  display: flex;
+  width: 100%;
+  overflow-x: auto; /* Tạo thanh cuộn ngang khi nội dung vượt quá kích thước container */
+  white-space: nowrap; /* Ngăn chặn xuống dòng khi nội dung quá rộng */
+}

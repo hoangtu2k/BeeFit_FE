@@ -12,6 +12,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "hoadon/index.html",
       controller: HoaDonController,
     })
+    .when("/bill/view/:code", {
+      templateUrl: "hoadon/detail.html",
+      controller : HoaDonController
+  })
 
     .when("/chart/view", {
       templateUrl: "thongke/index.html",
@@ -40,10 +44,10 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: KhuyenMaiController,
     })
 
-    .when("/voucher/view", {
-      templateUrl: "phieu/index.html",
-      controller: PhieuController,
-    })
+
+
+
+    
 
     .when("/login", {
       templateUrl: "nhanvien/login.html",

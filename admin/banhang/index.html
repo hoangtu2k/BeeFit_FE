@@ -8,7 +8,7 @@
       <button ng-click="webcam()" class="btn btn-primary"><i class="fa-solid fa-qrcode"></i> QR </button>
       <span ng-if="listBill.length < 5">
         <span ng-repeat="bill in pager.items">
-          <button ng-click="choose(bill.code,bill.id)" style="margin: 2px 1px; width: 150px;"
+          <button ng-click="choose(bill.code,bill.id)" style="margin: 2px 1px; width: 100px;"
             class="btn btn-primary">{{bill.code}}</button>
         </span>
       </span>
@@ -85,12 +85,12 @@
 
 <!-- ======= Main ======= -->
 <main id="main" class="main" style="margin: 60px 0 0 0; padding: 20px 20px;">
-  <section class="section dashboard">
+  <section class="section dashboard" id="chitiet" style="display: none;">
     <div class="row">
 
       <!-- Left side columns -->
       <div class="col-lg-9">
-        <div class="row" id="chitiet" style="display: none;">
+        <div class="row">
 
           <div class="col-lg-12">
 
@@ -268,8 +268,7 @@
                   <div>
 
                     <div class="custom-radio">
-                      <input ng-click="magiamgia()" type="radio" id="chuongtrinhkhuyenmaiCheck" name="magiam"
-                        checked><label for="chuongtrinhkhuyenmaiCheck">Chương trình khuyến mãi</label></span>
+                      <input ng-click="magiamgia()" type="radio" id="chuongtrinhkhuyenmaiCheck" name="magiam" checked><label for="chuongtrinhkhuyenmaiCheck">Chương trình khuyến mãi</label>
                       <span id="maGiamGiaKH" style="display: none;"><input ng-click="magiamgia()" type="radio"
                           id="magiamgiaCheck" name="magiam"><label for="magiamgiaCheck">Phiếu giảm giá</label></span>
                     </div>
@@ -291,6 +290,7 @@
                   </div>
 
                   <div class="discount-coupon">
+                    
                     <div id="coupon" class="coupon-dec tab-pane active">
 
                       <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === true">
@@ -411,7 +411,7 @@
                       <span ng-repeat="img in pro.productImages">
                         <span ng-if="img.mainImage == true">
                           <a href="#"><img style="height: 100px;width: 100px;" class="cart__image" src="{{img.url}}"
-                              alt="Elastic Waist Dress - Navy / Small"></a>
+                              alt=""></a>
                         </span>
                       </span>
                     </span>
