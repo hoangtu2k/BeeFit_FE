@@ -1,5 +1,7 @@
-window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $rootScope, AuthService ) {
+window.BanHangController = function ($scope, $http, $location, $routeParams, $rootScope, AuthService) {
   document.getElementById("header-wrapper").style.display = "none";
+
+  
 
   // tạo hóa đơn
   $scope.addbill = function () {
@@ -149,6 +151,7 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
 
     if (code == null || id == null) {
       document.getElementById("chitiet").style.display = "none";
+      document.getElementById("search-bar").style.display = "none";
       return;
     }
     document.getElementById('hinhThuc1').checked = true;
@@ -159,6 +162,10 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
     document.getElementById("diachichon1").style.display = 'none';
     document.getElementById('chuongtrinhkhuyenmai').style.display = 'block';
     document.getElementById('magiamgia').style.display = 'none';
+
+    
+    
+
 
 
     idBill = id;
@@ -273,6 +280,7 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
     $scope.listItem = [];
     idBill = id;
     document.getElementById("chitiet").style.display = "block";
+    document.getElementById("search-bar").style.display = "block";
     $scope.hoadon = {};
     $http
       .get("http://localhost:8080/api/bill/getbycode/" + code)
@@ -311,6 +319,72 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
     };
   };
   //////////////////////////////////////////////////////////////////////////////
+
+  $scope.isPopupSearch = false;
+  $scope.searchQuery = '';
+  $scope.filteredList = [];
+
+  // Hàm để tải tất cả dữ liệu cần thiết
+  $scope.getAllData = function () {
+    let url = "http://localhost:8080/api/product/getall";
+    let urlcolor = "http://localhost:8080/api/color";
+    let urlsize = "http://localhost:8080/api/size";
+
+    // load color
+    $scope.listColor = [];
+    $http.get(urlcolor).then(function (response) {
+      $scope.listColor = response.data;
+    });
+    // load size
+    $scope.listSize = [];
+    $http.get(urlsize).then(function (response) {
+      $scope.listSize = response.data;
+    });
+    //load product
+    $scope.listPro = [];
+    $http.get(url).then(function (response) {
+      $scope.listPro = response.data;
+    });
+    $scope.listQuantity = [];
+    //load size and color of product
+    $http
+      .get("http://localhost:8080/api/productdetail_color_size/getall")
+      .then(function (resp) {
+        $scope.listQuantity = resp.data;
+      });
+  };
+
+  // Hàm filterProducts để lọc sản phẩm dựa trên tìm kiếm
+  $scope.filterProducts = function () {
+    let searchQueryLower = $scope.searchQuery.toLowerCase();
+    $scope.filteredList = $scope.listQuantity.filter(function (cart) {
+      let product = $scope.listPro.find(pro => pro.id === cart.idProduct);
+      if (product) {
+        return product.name.toLowerCase().includes(searchQueryLower) || product.code.toLowerCase().includes(searchQueryLower);
+      }
+      return false;
+    });
+    $scope.isPopupSearch = $scope.filteredList.length > 0;
+    $scope.isPopupSearch = !$scope.isPopupSearch;
+  };
+
+  // Kiểm tra giá trị của input search và hiển thị hoặc ẩn popup tìm kiếm
+  $scope.$watch('searchQuery', function (newValue) {
+    if (!newValue || newValue.length === 0) {
+      document.getElementById('header-search-sp').style.display = 'none';
+      $scope.isPopupSearch = false;
+    } else {
+      document.getElementById('header-search-sp').style.display = 'block';
+      $scope.isPopupSearch = !$scope.isPopupSearch;
+    }
+  });
+
+  $scope.getAllData();
+  // Gọi hàm getAllData khi controller được khởi tạo
+
+  //////////////////////////////////////////////////////////////////////////////
+
+
   $scope.isPopupVisible = false;
   $scope.togglePopup = function () {
     $scope.isPopupVisible = !$scope.isPopupVisible;
@@ -558,7 +632,6 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
 
   }
   // thêm giỏ hàng
-  let idPro = null;
   $scope.themvaogio = function (id) {
     $http
       .get("http://localhost:8080/api/productdetail_color_size/getbyid/" + id)
@@ -669,11 +742,15 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
                                     url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
                                     params: param2,
                                   }).then(function (resp) {
-                                    Swal.fire(
-                                      "Đã thêm vào giỏ !",
-                                      "",
-                                      "success"
-                                    );
+                                    //    Swal.fire("Đã thêm vào giỏ !", "", "success" );
+
+                                    // Gọi lại hàm getAllData để cập nhật lại dữ liệu
+                                    $scope.getAllData();
+
+                                    // Xóa trắng input tìm kiếm
+                                    $scope.searchQuery = '';
+                                    document.getElementById('input__search-bh').value = '';
+                                    document.getElementById('header-search-sp').style.display = 'none';
 
                                     $scope.choose(codeBill, idBill);
 
@@ -730,14 +807,28 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
                                 url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
                                 params: param2,
                               }).then(function (resp) {
-                                Swal.fire("Đã thêm vào giỏ !", "", "success");
+                                // Swal.fire("Đã thêm vào giỏ !", "", "success");
+
+                                // Gọi lại hàm choose với codeBill và idBill
                                 $scope.choose(codeBill, idBill);
-                                if ($scope.isPopupVisible == true) {
+
+                                // Kiểm tra trạng thái của isPopupVisible
+                                if ($scope.isPopupVisible) {
+                                  // Gọi hàm getAllProduct nếu popup đang hiển thị
                                   $scope.getAllProduct();
                                 } else {
-                                  console.log(pro.data.id);
+                                  // Nếu không, gọi hàm getAllByQR với id sản phẩm
                                   $scope.getAllByQR(pro.data.id);
                                 }
+
+                                // Gọi lại hàm getAllData để cập nhật lại dữ liệu
+                                $scope.getAllData();
+
+                                // Xóa trắng input tìm kiếm
+                                $scope.searchQuery = '';
+                                document.getElementById('input__search-bh').value = '';
+                                document.getElementById('header-search-sp').style.display = 'none';
+
                               });
                             });
                           });
@@ -749,6 +840,118 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
           });
       });
   };
+  $scope.themvaogio1 = function (id) {
+    $http.get("http://localhost:8080/api/productdetail_color_size/getbyid/" + id).then(function (resp) {
+      $http.get("http://localhost:8080/api/product/" + resp.data.idProduct).then(function (pro) {
+        if (resp.data.quantity == 0) {
+          Swal.fire("Số lượng sản phẩm này đang tạm hết !", "", "error");
+        } else {
+          // Số lượng mặc định là 1
+          const quantityToAdd = 1;
+
+          var getPram = {
+            IdProduct: resp.data.idProduct,
+            IdColor: resp.data.idColor,
+            IdSize: resp.data.idSize,
+          };
+
+          $http({
+            method: "GET",
+            url: "http://localhost:8080/api/productdetail_color_size/getQuantityProductAndColorAndSize",
+            params: getPram,
+          }).then(function (soluong) {
+            if (parseInt(soluong.data) < quantityToAdd) {
+              Swal.fire("Số lượng bạn nhập đang lớn hơn số lượng còn hàng !!", "", "error");
+              return;
+            }
+
+            $http.get("http://localhost:8080/api/bill/getallbybill/" + codeBill).then(function (bill) {
+              for (let i = 0; i < bill.data.length; i++) {
+                if (
+                  bill.data[i].product.id == resp.data.idProduct &&
+                  bill.data[i].idColor == resp.data.idColor &&
+                  bill.data[i].idSize == resp.data.idSize
+                ) {
+                  // nếu tồn tại rồi thì updatate số lượng
+                  $http.put("http://localhost:8080/api/bill/updateBillDetail/" + bill.data[i].id, {
+                    idBill: idBill,
+                    idProduct: resp.data.idProduct,
+                    idColor: resp.data.idColor,
+                    idSize: resp.data.idSize,
+                    quantity: parseInt(quantityToAdd) + parseInt(bill.data[i].quantity),
+                    unitPrice: pro.data.price,
+                  }).then(function (billdetail) {
+                    var param2 = {
+                      IdProduct: resp.data.idProduct,
+                      IdColor: resp.data.idColor,
+                      IdSize: resp.data.idSize,
+                      Quantity: parseInt(soluong.data) - parseInt(quantityToAdd),
+                    };
+
+                    $http({
+                      method: "PUT",
+                      url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
+                      params: param2,
+                    }).then(function (resp) {
+                      $scope.getAllData();
+                      $scope.searchQuery = '';
+                      document.getElementById('input__search-bh').value = '';
+                      document.getElementById('header-search-sp').style.display = 'none';
+                      $scope.choose(codeBill, idBill);
+
+                      if ($scope.isPopupVisible) {
+                        $scope.getAllProduct();
+                      } else {
+                        $scope.getAllByQR(pro.data.id);
+                      }
+                    });
+                  });
+                  return;
+                }
+              }
+
+              // nếu chưa tồn tại thì thêm vào giỏ
+              $http.post("http://localhost:8080/api/bill/addBillDetail", {
+                idBill: idBill,
+                idProduct: resp.data.idProduct,
+                idColor: resp.data.idColor,
+                idSize: resp.data.idSize,
+                quantity: quantityToAdd,
+                unitPrice: pro.data.price,
+              }).then(function (billdetail) {
+                var param2 = {
+                  IdProduct: resp.data.idProduct,
+                  IdColor: resp.data.idColor,
+                  IdSize: resp.data.idSize,
+                  Quantity: parseInt(soluong.data) - parseInt(quantityToAdd),
+                };
+
+                $http({
+                  method: "PUT",
+                  url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
+                  params: param2,
+                }).then(function (resp) {
+                  $scope.choose(codeBill, idBill);
+
+                  if ($scope.isPopupVisible) {
+                    $scope.getAllProduct();
+                  } else {
+                    $scope.getAllByQR(pro.data.id);
+                  }
+
+                  $scope.getAllData();
+                  $scope.searchQuery = '';
+                  document.getElementById('input__search-bh').value = '';
+                  document.getElementById('header-search-sp').style.display = 'none';
+                });
+              });
+            });
+          });
+        }
+      });
+    });
+  };
+
   // giảm số lượng giỏ
   $scope.giam = function (id) {
     if (document.getElementById("quantity" + id).value == 1) {
@@ -809,6 +1012,11 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
                             url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
                             params: param2,
                           }).then(function (resp) {
+                            $scope.getAllData();
+                            // Xóa trắng input tìm kiếm
+                            $scope.searchQuery = '';
+                            document.getElementById('input__search-bh').value = '';
+                            document.getElementById('header-search-sp').style.display = 'none';
                             $scope.choose(codeBill, idBill);
                             $scope.getAllProduct();
                           });
@@ -891,6 +1099,11 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
                               url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
                               params: param2,
                             }).then(function (resp) {
+                              $scope.getAllData();
+                              // Xóa trắng input tìm kiếm
+                              $scope.searchQuery = '';
+                              document.getElementById('input__search-bh').value = '';
+                              document.getElementById('header-search-sp').style.display = 'none';
                               $scope.choose(codeBill, idBill);
                               $scope.getAllProduct();
                             });
@@ -904,51 +1117,76 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
           });
       });
   };
-  //xóa bill detail
+
   $scope.deleteBillDetail = function (id) {
+    // Bước 1: Lấy thông tin chi tiết hóa đơn
     $http.get("http://localhost:8080/api/bill/getbilldetail/" + id).then(function (resp) {
-      $http.get("http://localhost:8080/api/product/" + resp.data.product.id).then(function (pro) {
-        //get số lượng sản phẩm đang có
-        var getPram = {
-          IdProduct:
-            resp.data.product.id,
-          IdColor:
-            resp.data.idColor,
-          IdSize: resp.data.idSize,
+      const billDetail = resp.data;
+
+      // Bước 2: Lấy thông tin sản phẩm
+      $http.get("http://localhost:8080/api/product/" + billDetail.product.id).then(function (pro) {
+        const product = pro.data;
+
+        // Bước 3: Lấy số lượng sản phẩm hiện tại
+        const getPram = {
+          IdProduct: billDetail.product.id,
+          IdColor: billDetail.idColor,
+          IdSize: billDetail.idSize,
         };
+
         $http({
           method: "GET",
           url: "http://localhost:8080/api/productdetail_color_size/getQuantityProductAndColorAndSize",
           params: getPram,
         }).then(function (soluong) {
-          //  cập nhật số lượng sản phẩm
-          var param2 = {
-            IdProduct:
-              resp.data.product.id,
-            IdColor:
-              resp.data.idColor,
-            IdSize:
-              resp.data.idSize,
-            Quantity:
-              parseInt(soluong.data) + parseInt(resp.data.quantity)
-            ,
+          const currentQuantity = soluong.data;
+
+          // Bước 4: Cập nhật số lượng sản phẩm
+          const param2 = {
+            IdProduct: billDetail.product.id,
+            IdColor: billDetail.idColor,
+            IdSize: billDetail.idSize,
+            Quantity: parseInt(currentQuantity) + parseInt(billDetail.quantity),
           };
+
           $http({
             method: "PUT",
             url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
             params: param2,
-          }).then(function (resp) {
-            $http.get("http://localhost:8080/api/bill/deleteBillDetail/" + id).then(function (resp) {
+          }).then(function (updateResp) {
+
+            // Bước 5: Xóa chi tiết hóa đơn
+            $http.get("http://localhost:8080/api/bill/deleteBillDetail/" + id).then(function (deleteResp) {
+              // Swal.fire("Chi tiết hóa đơn đã được xóa!", "", "success");
+
+              $scope.getAllData();
+              // Xóa trắng input tìm kiếm
+              $scope.searchQuery = '';
+              document.getElementById('input__search-bh').value = '';
+              document.getElementById('header-search-sp').style.display = 'none';
+              // Gọi lại các hàm để cập nhật dữ liệu
               $scope.choose(codeBill, idBill);
               $scope.getAllProduct();
-            })
-          })
-        })
-      })
-    })
-  }
+
+
+            }, function (error) {
+              Swal.fire("Lỗi khi xóa chi tiết hóa đơn", "", "error");
+            });
+          }, function (error) {
+            Swal.fire("Lỗi khi cập nhật số lượng sản phẩm", "", "error");
+          });
+        }, function (error) {
+          Swal.fire("Lỗi khi lấy số lượng sản phẩm", "", "error");
+        });
+      }, function (error) {
+        Swal.fire("Lỗi khi lấy thông tin sản phẩm", "", "error");
+      });
+    }, function (error) {
+      Swal.fire("Lỗi khi lấy thông tin chi tiết hóa đơn", "", "error");
+    });
+  };
   /////////////////////////////////////////////////////////////////////////////
-  
+
   $scope.chondiachi = function () {
     var check = document.getElementById("khachhang").value;
     if (check === '0') {
@@ -1786,9 +2024,9 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
               }
             }
           }
-        } 
-        
-        
+        }
+
+
         else if (document.getElementById("pay2").checked === true) {
           //thanh toán qua vnpay
           //mua tại quầy thanh toán online
@@ -1954,7 +2192,7 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
           Swal.fire('Đã xuất hóa đơn', '', 'success');
           setTimeout(() => {
             location.reload();
-          }, 1000);
+          }, 2000);
         }
         else {
           location.reload();
@@ -1964,6 +2202,6 @@ window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $r
   }
   $scope.$watch('tongTien', function () {
     console.log($scope.tongTien)
-  }); 
+  });
   /////////////////////////////////////////////////////////////////////////////////
 };
