@@ -204,17 +204,64 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     $scope.isChiTietSanPham = !$scope.isChiTietSanPham;
   };
   $scope.openChiTiet = function (id) {
-    document.getElementById("qrcode").innerHTML = "";
-    var qrcod = new QRCode(document.getElementById("qrcode"));
+    document.getElementById('qrcode').innerHTML = '';
+    var qrcod = new QRCode(document.getElementById('qrcode'));
     $scope.isChiTietSanPham = !$scope.isChiTietSanPham;
     qrcod.makeCode(id.toString());
     $scope.form = {};
 
-    $http
-      .get("http://localhost:8080/api/product/" + id)
-      .then(function (detail) {
+    $http.get("http://localhost:8080/api/product/" + id).then(function (detail) {
         $scope.form = detail.data;
-      });
+
+
+    })
+    $http.get("http://localhost:8080/api/product/quantitySold/" + id).then(function (detail) {
+        $scope.quantitySold = detail.data == '' ? 0 : detail.data;
+
+
+    })
+    $http.get("http://localhost:8080/api/product/totalSold/" + id).then(function (detail) {
+        $scope.totalSold = detail.data == '' ? 0 : detail.data;
+
+
+    })
+    $http.get("http://localhost:8080/api/bill/getallbyproduct/" + id).then(function (detail) {
+        $scope.listProductSold = detail.data;
+        // pagation
+        $scope.pagerSold = {
+            page: 0,
+            size: 5,
+            get items() {
+                var start = this.page * this.size;
+                return $scope.listProductSold.slice(start, start + this.size);
+            },
+            get count() {
+                return Math.ceil(1.0 * $scope.listProductSold.length / this.size);
+            },
+
+            first() {
+                this.page = 0;
+            },
+            prev() {
+                this.page--;
+                if (this.page < 0) {
+                    this.last();
+                }
+            },
+            next() {
+                this.page++;
+                if (this.page >= this.count) {
+                    this.first();
+                }
+            },
+            last() {
+                this.page = this.count - 1;
+            }
+        }
+
+
+    })
+
 
   };
 

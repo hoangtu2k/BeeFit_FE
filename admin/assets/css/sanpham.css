@@ -162,13 +162,34 @@
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  }
+}
    
 
 /* Hiển thị popup khi có class 'show' */
 .popup.show {
     display: block;
 }
+
+
+.popup-search {
+  display: none;
+  height: 300px;
+  width: 600px;
+  background-color: #f4eeee;
+  position: fixed;
+  top: 65px;
+  left: 40px;
+  overflow-y: auto;
+  color: #000;
+  font-size: 13px;
+}
+.popup-search.show {
+  display: block;
+}
+
+
+
+
 
 .label--ctsp {
     color: #000;
@@ -235,9 +256,7 @@
   color: #fff;
 }
 
-.kh-select {
-  width: 310px;
-}
+
 
 /* Hide the default radio buttons */
 .radio-button-group input[type="radio"] {
@@ -275,7 +294,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #00693c; /* Màu của thanh cuộn khi di chuyển */
+  background-color: #0d38d4; /* Màu của thanh cuộn khi di chuyển */
 }
 
 ::-webkit-scrollbar-track {
@@ -293,4 +312,147 @@
   width: 100%;
   overflow-x: auto; /* Tạo thanh cuộn ngang khi nội dung vượt quá kích thước container */
   white-space: nowrap; /* Ngăn chặn xuống dòng khi nội dung quá rộng */
+}
+
+:root {
+  --bg-clr: #ead376;
+  --white: #fff;
+  --primary-clr: #2f2929;
+  --secondary-clr: #0d6efd;
+}
+
+.invoice {
+  width: 800px;
+  max-width: 100%;
+  height: auto;
+  background: var(--white);
+  padding: 50px 60px;
+  position: relative;
+  margin: 20px auto;
+}
+
+.w_15 {
+  width: 15%;
+}
+
+.w_50 {
+  width: 50%;
+}
+
+.w_55 {
+  width: 55%;
+}
+
+.p_title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.i_row {
+  display: flex;
+}
+
+.text_right {
+  text-align: right;
+}
+
+.invoice .headerbill .i_row {
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.invoice .headerbill .i_row:last-child {
+  align-items: flex-end;
+}
+
+.invoice .headerbill .i_row .i_logo p {
+  font-family: "Redressed", cursive;
+}
+
+.invoice .headerbill .i_row .i_logo p,
+.invoice .headerbill .i_row .i_title h2 {
+  font-size: 32px;
+  line-height: 38px;
+  color: var(--secondary-clr);
+}
+
+.invoice .headerbill .i_row .i_address .p_title span {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.invoice .bodybill .i_table .i_col p {
+  font-weight: 700;
+}
+
+.invoice .bodybill .i_table .i_row .i_col {
+  padding: 12px 5px;
+}
+
+.invoice .bodybill .i_table .i_table_head .i_row {
+  border: 2px solid;
+  border-color: var(--primary-clr) transparent var(--primary-clr) transparent;
+}
+
+.invoice .bodybill .i_table .i_table_body .i_row:last-child {
+  border-bottom: 2px solid var(--primary-clr);
+}
+
+.invoice .bodybill .i_table .i_table_foot .grand_total_wrap {
+  margin-top: 20px;
+}
+
+.invoice .bodybill .i_table .i_table_foot .grand_total_wrap .grand_total {
+  background: var(--secondary-clr);
+  color: var(--white);
+  padding: 10px 15px;
+}
+
+.invoice .bodybill .i_table .i_table_foot .grand_total_wrap .grand_total p {
+  display: flex;
+  justify-content: space-between;
+}
+
+.invoice .footerbill {
+  margin-top: 30px;
+}
+
+.card-footer-bill {
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  transition: all 0.5s;
+  z-index: 997;
+  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  background-color: #fff;
+  font-size: 13px;
+}
+
+.card-total-bill{
+  position: fixed;
+  bottom: 60px;
+  width: 990px;
+  transition: all 0.5s;
+  z-index: 997;
+  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  background-color: #fff;
+  padding: 10px;
+  left: 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.card-infornation {
+  height: 555px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+.card-cart {
+  height: 400px;
+  overflow-y: auto;
+  font-size: 13px;
+
 }
