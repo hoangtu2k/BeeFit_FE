@@ -1,11 +1,4 @@
-window.BanHangController = function (
-  $scope,
-  $http,
-  $location,
-  $routeParams,
-  $rootScope,
-  AuthService
-) {
+window.BanHangController = function ( $scope, $http ,$location ,$routeParams, $rootScope, AuthService ) {
   document.getElementById("header-wrapper").style.display = "none";
 
   // tạo hóa đơn
@@ -132,8 +125,7 @@ window.BanHangController = function (
     };
   };
   $scope.getAllBill();
-  /////////////////////////////////////////////////////
-
+  /////////////////////////////////////////////////////////////////////////
   $scope.magiamgia = function () {
     if (document.getElementById("chuongtrinhkhuyenmaiCheck").checked == true) {
       document.getElementById("magiamgia").style.display = "none";
@@ -145,14 +137,14 @@ window.BanHangController = function (
     }
 
   }
-
+  $scope.magiamgia();
+  ////////////////////////////////////////////////////////////////////////////
   $scope.phiShip = 0;
   $scope.tienThanhToan = 0;
   $scope.giamGia = 0;
-  $scope.magiamgia();
   let idBill = null;
   let codeBill = null;
-
+  // chọn hóa đơn
   $scope.choose = function (code, id) {
 
     if (code == null || id == null) {
@@ -318,11 +310,8 @@ window.BanHangController = function (
       $scope.tienThanhToan;
     };
   };
-
-  ////////////////////////////////////////////////////
-
+  //////////////////////////////////////////////////////////////////////////////
   $scope.isPopupVisible = false;
-
   $scope.togglePopup = function () {
     $scope.isPopupVisible = !$scope.isPopupVisible;
 
@@ -388,7 +377,186 @@ window.BanHangController = function (
 
     $scope.getAllProduct();
   };
+  $scope.getAllByQR = function (id) {
+    let url = "http://localhost:8080/api/product/getall";
+    let urlcolor = "http://localhost:8080/api/color";
+    let urlsize = "http://localhost:8080/api/size";
 
+    // load color
+    $scope.listColor = [];
+    $http.get(urlcolor).then(function (response) {
+      $scope.listColor = response.data;
+    });
+    // load size
+    $scope.listSize = [];
+    $http.get(urlsize).then(function (response) {
+      $scope.listSize = response.data;
+    });
+    //load product
+    $scope.listPro = [];
+    $http.get(url).then(function (response) {
+      $scope.listPro = response.data;
+    });
+
+    $scope.listProduct = [];
+    $http.get("http://localhost:8080/api/productdetail_color_size/getbyproduct/" + parseInt(id)).then(function (response) {
+      $scope.listProduct = response.data;
+      $scope.choose(codeBill, idBill);
+
+    });
+    // pagation
+    $scope.pager1 = {
+      page: 0,
+      size: 6,
+      get items() {
+        var start = this.page * this.size;
+        return $scope.listProduct.slice(start, start + this.size);
+      },
+      get count() {
+        return Math.ceil((1.0 * $scope.listProduct.length) / this.size);
+      },
+
+      first() {
+        this.page = 0;
+      },
+      prev() {
+        this.page--;
+        if (this.page < 0) {
+          this.last();
+        }
+      },
+      next() {
+        this.page++;
+        if (this.page >= this.count) {
+          this.first();
+        }
+      },
+      last() {
+        this.page = this.count - 1;
+      },
+    };
+  }
+  $scope.isQR1 = false;
+  $scope.isSanPhamQR = false;
+  $scope.SanPhamQR = function (id) {
+    $scope.isSanPhamQR = !$scope.isSanPhamQR;
+    document.getElementById('qrsp').style.display = 'none';
+    $scope.getAllByQR(id);
+  }
+  $scope.webcam = function () {
+    $scope.isQR1 = !$scope.isQR1;
+    if ($scope.isQR1 == false) {
+      const video1 = document.getElementById('video');
+      const stream1 = video1.srcObject;
+      const tracks1 = stream1.getTracks();
+
+      tracks1.forEach(function (track) {
+        track.stop();
+      });
+      video1.srcObject = null;
+      document.getElementById('qr').style.display = 'none';
+      return;
+    }
+    document.getElementById('qr').style.display = 'block';
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function (stream) {
+        const video = document.getElementById('video');
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(function (error) {
+        console.error('Lỗi truy cập máy ảnh: ', error);
+      });
+
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const video = document.getElementById('video');
+
+    const scan = () => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, canvas.width, canvas.height);
+      if (code) {
+        // Có dữ liệu từ mã QR, tắt model quét QR
+        $scope.SanPhamQR(code.data);
+        $scope.isQR1 = false;
+        document.getElementById('qr').style.display = 'none';
+        document.getElementById('qrsp').style.display = 'block';
+        const video1 = document.getElementById('video');
+        const stream1 = video1.srcObject;
+        const tracks1 = stream1.getTracks();
+
+        tracks1.forEach(function (track) {
+          track.stop();
+        });
+        video1.srcObject = null;
+        return;
+      } else {
+        document.getElementById('result').textContent = 'Không tìm thấy mã QR.';
+      }
+      requestAnimationFrame(scan);
+    };
+    video.onloadedmetadata = function () {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      scan();
+    };
+  }
+  $scope.timkiem = function () {
+    var text = document.getElementById("name").value;
+    var idColor = document.getElementById("mausac").value;
+    var idSize = document.getElementById("kichthuoc").value;
+    let idcolor = (idColor != '') ? idColor : null;
+    let idsize = (idSize != '') ? idSize : null;
+    let text1 = (text != '' ? text : null)
+
+
+    var param = {
+      keyword: text1,
+      idColor: idcolor,
+      idSize: idsize
+
+    }
+    $http({
+      method: "GET",
+      url: "http://localhost:8080/api/productdetail_color_size/getallbykeyword",
+      params: param
+    }).then(function (resp) {
+      $scope.listQuantity = resp.data;
+      // pagation
+      $scope.pager1 = {
+        page: 0,
+        size: 8,
+        get items() {
+          var start = this.page * this.size;
+          return $scope.listQuantity.slice(start, start + this.size);
+        },
+        get count() {
+          return Math.ceil((1.0 * $scope.listQuantity.length) / this.size);
+        },
+
+        first() {
+          this.page = 0;
+        },
+        prev() {
+          this.page--;
+          if (this.page < 0) {
+            this.last();
+          }
+        },
+        next() {
+          this.page++;
+          if (this.page >= this.count) {
+            this.first();
+          }
+        },
+        last() {
+          this.page = this.count - 1;
+        },
+      };
+    })
+
+  }
   // thêm giỏ hàng
   let idPro = null;
   $scope.themvaogio = function (id) {
@@ -581,8 +749,6 @@ window.BanHangController = function (
           });
       });
   };
-
-  ////////////////////////////////////////////////////
   // giảm số lượng giỏ
   $scope.giam = function (id) {
     if (document.getElementById("quantity" + id).value == 1) {
@@ -781,20 +947,8 @@ window.BanHangController = function (
       })
     })
   }
-  /////////////////////////////////////////////////////
-  $scope.magiamgia = function () {
-    if (document.getElementById("chuongtrinhkhuyenmaiCheck").checked == true) {
-      document.getElementById("magiamgia").style.display = "none";
-      document.getElementById("chuongtrinhkhuyenmai").style.display = "block";
-    }
-    else {
-      document.getElementById("magiamgia").style.display = "block";
-      document.getElementById("chuongtrinhkhuyenmai").style.display = "none";
-    }
-
-  }
-  $scope.magiamgia();
-  /////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  
   $scope.chondiachi = function () {
     var check = document.getElementById("khachhang").value;
     if (check === '0') {
@@ -1127,194 +1281,8 @@ window.BanHangController = function (
     }
 
   }
-  /////////////////////////////////////////////////////////////////////////////////
-
-  $scope.getAllByQR = function (id) {
-    let url = "http://localhost:8080/api/product/getall";
-    let urlcolor = "http://localhost:8080/api/color";
-    let urlsize = "http://localhost:8080/api/size";
-
-    // load color
-    $scope.listColor = [];
-    $http.get(urlcolor).then(function (response) {
-      $scope.listColor = response.data;
-    });
-    // load size
-    $scope.listSize = [];
-    $http.get(urlsize).then(function (response) {
-      $scope.listSize = response.data;
-    });
-    //load product
-    $scope.listPro = [];
-    $http.get(url).then(function (response) {
-      $scope.listPro = response.data;
-    });
-
-    $scope.listProduct = [];
-    $http.get("http://localhost:8080/api/productdetail_color_size/getbyproduct/" + parseInt(id)).then(function (response) {
-      $scope.listProduct = response.data;
-      $scope.choose(codeBill, idBill);
-
-    });
-    // pagation
-    $scope.pager1 = {
-      page: 0,
-      size: 6,
-      get items() {
-        var start = this.page * this.size;
-        return $scope.listProduct.slice(start, start + this.size);
-      },
-      get count() {
-        return Math.ceil((1.0 * $scope.listProduct.length) / this.size);
-      },
-
-      first() {
-        this.page = 0;
-      },
-      prev() {
-        this.page--;
-        if (this.page < 0) {
-          this.last();
-        }
-      },
-      next() {
-        this.page++;
-        if (this.page >= this.count) {
-          this.first();
-        }
-      },
-      last() {
-        this.page = this.count - 1;
-      },
-    };
-  }
-
-  $scope.isQR1 = false;
-  $scope.isSanPhamQR = false;
-  $scope.SanPhamQR = function (id) {
-    $scope.isSanPhamQR = !$scope.isSanPhamQR;
-    document.getElementById('qrsp').style.display = 'none';
-    $scope.getAllByQR(id);
-  }
-  $scope.webcam = function () {
-    $scope.isQR1 = !$scope.isQR1;
-    if ($scope.isQR1 == false) {
-      const video1 = document.getElementById('video');
-      const stream1 = video1.srcObject;
-      const tracks1 = stream1.getTracks();
-
-      tracks1.forEach(function (track) {
-        track.stop();
-      });
-      video1.srcObject = null;
-      document.getElementById('qr').style.display = 'none';
-      return;
-    }
-    document.getElementById('qr').style.display = 'block';
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function (stream) {
-        const video = document.getElementById('video');
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(function (error) {
-        console.error('Lỗi truy cập máy ảnh: ', error);
-      });
-
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-    const video = document.getElementById('video');
-
-    const scan = () => {
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-      const code = jsQR(imageData.data, canvas.width, canvas.height);
-      if (code) {
-        // Có dữ liệu từ mã QR, tắt model quét QR
-        $scope.SanPhamQR(code.data);
-        $scope.isQR1 = false;
-        document.getElementById('qr').style.display = 'none';
-        document.getElementById('qrsp').style.display = 'block';
-        const video1 = document.getElementById('video');
-        const stream1 = video1.srcObject;
-        const tracks1 = stream1.getTracks();
-
-        tracks1.forEach(function (track) {
-          track.stop();
-        });
-        video1.srcObject = null;
-        return;
-      } else {
-        document.getElementById('result').textContent = 'Không tìm thấy mã QR.';
-      }
-      requestAnimationFrame(scan);
-    };
-    video.onloadedmetadata = function () {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      scan();
-    };
-  }
-
-  $scope.timkiem = function () {
-    var text = document.getElementById("name").value;
-    var idColor = document.getElementById("mausac").value;
-    var idSize = document.getElementById("kichthuoc").value;
-    let idcolor = (idColor != '') ? idColor : null;
-    let idsize = (idSize != '') ? idSize : null;
-    let text1 = (text != '' ? text : null)
-
-
-    var param = {
-      keyword: text1,
-      idColor: idcolor,
-      idSize: idsize
-
-    }
-    $http({
-      method: "GET",
-      url: "http://localhost:8080/api/productdetail_color_size/getallbykeyword",
-      params: param
-    }).then(function (resp) {
-      $scope.listQuantity = resp.data;
-      // pagation
-      $scope.pager1 = {
-        page: 0,
-        size: 8,
-        get items() {
-          var start = this.page * this.size;
-          return $scope.listQuantity.slice(start, start + this.size);
-        },
-        get count() {
-          return Math.ceil((1.0 * $scope.listQuantity.length) / this.size);
-        },
-
-        first() {
-          this.page = 0;
-        },
-        prev() {
-          this.page--;
-          if (this.page < 0) {
-            this.last();
-          }
-        },
-        next() {
-          this.page++;
-          if (this.page >= this.count) {
-            this.first();
-          }
-        },
-        last() {
-          this.page = this.count - 1;
-        },
-      };
-    })
-
-  }
-
 
   /////////////////////////////////////////////////////////////////////////////////
-
   $scope.listCheck = [];
   $scope.listCheck1 = [];
   $scope.voucherGiamGia = 0;
@@ -1392,7 +1360,6 @@ window.BanHangController = function (
     }
 
   }
-
   let idVoucher = null;
   $scope.apCTKM = function () {
     $scope.phiShip = 0;
@@ -1563,7 +1530,6 @@ window.BanHangController = function (
     })
 
   }
-
   $scope.removeVoucher = function () {
     $scope.voucherGiamGia = 0;
     $scope.listCheck = [];
@@ -1828,7 +1794,7 @@ window.BanHangController = function (
           //mua tại quầy thanh toán online
           if (document.getElementById("hinhThuc1").checked === true) {
 
-            Swal.fire("Đang phát triển thanh toán qua VNPay...", "", "warning");
+            Swal.fire("Đang phát triển thanh toán qua VNPay vui lòng thử lại sau ...", "", "warning");
             return;
 
             // //khách lẻ
@@ -1843,7 +1809,7 @@ window.BanHangController = function (
           //mua online thanh toán online
           else {
 
-            Swal.fire("Đang phát triển thanh toán qua VNPay...", "", "warning");
+            Swal.fire("Đang phát triển thanh toán qua VNPay vui lòng thử lại sau ...", "", "warning");
             return;
 
             // //khách lẻ
@@ -1863,7 +1829,6 @@ window.BanHangController = function (
       }
     });
   };
-
   if ($location.search().vnp_TransactionStatus === "00") {
 
     $http.put('http://localhost:8080/api/bill/updateStatus1/' + $location.search().vnp_OrderInfo, {
@@ -1947,7 +1912,6 @@ window.BanHangController = function (
       location.href = '#/sell/view';
     }, 2000);
   }
-
   //export bill
   $scope.exportBill = function () {
     Swal.fire('Thanh toán thành công', '', 'success');
@@ -1990,7 +1954,7 @@ window.BanHangController = function (
           Swal.fire('Đã xuất hóa đơn', '', 'success');
           setTimeout(() => {
             location.reload();
-          }, 2000);
+          }, 1000);
         }
         else {
           location.reload();
@@ -1998,11 +1962,8 @@ window.BanHangController = function (
       })
     }, 2000);
   }
-
-  
-
   $scope.$watch('tongTien', function () {
     console.log($scope.tongTien)
-  });
+  }); 
   /////////////////////////////////////////////////////////////////////////////////
 };
