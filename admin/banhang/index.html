@@ -414,7 +414,7 @@
 <div class="popup-search" ng-class="{'show': isPopupSearch}" id="header-search-sp">
   <table class="table">
     <tbody>
-      <tr ng-if="filteredList.length > 0" ng-repeat="cart in filteredList" ng-click="themvaogio1(cart.id)">
+      <tr ng-if="filteredList.length > 0" ng-repeat="cart in pager2.items" ng-click="themvaogio1(cart.id)">
         <td>
           <span ng-repeat="pro in listPro">
             <span ng-if="pro.id == cart.idProduct">

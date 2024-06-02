@@ -352,6 +352,37 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       .then(function (resp) {
         $scope.listQuantity = resp.data;
       });
+      // pagation
+      $scope.pager2 = {
+        page: 0,
+        size: 20,
+        get items() {
+          var start = this.page * this.size;
+          return $scope.listQuantity.slice(start, start + this.size);
+        },
+        get count() {
+          return Math.ceil((1.0 * $scope.listQuantity.length) / this.size);
+        },
+
+        first() {
+          this.page = 0;
+        },
+        prev() {
+          this.page--;
+          if (this.page < 0) {
+            this.last();
+          }
+        },
+        next() {
+          this.page++;
+          if (this.page >= this.count) {
+            this.first();
+          }
+        },
+        last() {
+          this.page = this.count - 1;
+        },
+      };
   };
 
   // Hàm filterProducts để lọc sản phẩm dựa trên tìm kiếm
