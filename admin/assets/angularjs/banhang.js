@@ -1617,6 +1617,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         $scope.tienThanhToan = Math.max(0, $scope.tongTien + $scope.phiShip - $scope.voucherGiamGia);
       }
     });
+    
   };
 
   let idVoucher = null;

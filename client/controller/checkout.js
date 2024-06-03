@@ -397,7 +397,11 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
           };
         });
 
-
+        $scope.listCheck = [];
+        $scope.listCheck1 = [];
+        $scope.voucherGiamGia = 0;
+        $scope.couponGiamGia = 0;
+        $scope.phiShip = 0;
         $scope.giamGia = 0;
         $scope.couponGiamGia = 0;
         $scope.apMa = function () {
