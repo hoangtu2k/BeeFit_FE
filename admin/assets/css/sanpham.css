@@ -426,7 +426,7 @@
   z-index: 997;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .card-total-bill{
@@ -441,18 +441,17 @@
   left: 20px;
   border: none;
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .card-infornation {
-  height: 555px;
+  height: 590px;
   overflow-y: auto;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .card-cart {
   height: 400px;
   overflow-y: auto;
-  font-size: 13px;
-
+  font-size: 14px;
 }
