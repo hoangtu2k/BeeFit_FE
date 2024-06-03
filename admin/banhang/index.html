@@ -191,6 +191,7 @@
                       <option value="0">Khách lẻ</option>
                       <option ng-repeat="kh in listCustomer" value="{{kh.id}}">{{kh.fullname}} ({{kh.code}})</option>
                     </select>
+                    <br>
                     <div id="diachi" style="display: none;" class="custom-radio">
                       <input ng-click="chondiachi1()" type="radio" id="diachichon" name="diachi" checked>
                       <label for="diachichon">Địa chỉ chọn</label>
@@ -228,10 +229,10 @@
                           </select>
                         </div>
                       </div>
-
+                      <br>
                       <div id="nguoimua" style="display: block;">
-                        <input id="tennguoimua" class="form-control" type="text" placeholder="Tên người nhận">
-                        <input id="sodienthoai" class="form-control" type="text" placeholder="Số điện thoại">
+                        <input id="tennguoimua" class="form-control" type="text" placeholder="Tên người nhận"> <br>
+                        <input id="sodienthoai" class="form-control" type="text" placeholder="Số điện thoại"> <br>
                       </div>
                       <textarea placeholder="Số nhà, tòa nhà, ngõ, đường" class="form-control" type="text"
                         id="diachicuthe" style="display: block;"></textarea>
@@ -241,8 +242,9 @@
                 </div>
 
                 <div>
+                  <br>
                   <span>Hình thức thanh toán</span>
-                  <div class="">
+                  <div>
                     <input type="radio" id="pay1" name="radio-group1" checked> Tiền mặt</label>
                     <input type="radio" id="pay2" name="radio-group1"> VNPAY</label>
                   </div>
@@ -251,11 +253,10 @@
                     <!-- <label for="">Đơn vị vận chuyển</label>
                     <img width="150px" height="75px" src="././assets/img/Logo-GHN.png"> -->
                   </div>
-
-
                 </div>
 
                 <div>
+                  <br>
 
                   <div class="custom-radio">
                     <input ng-click="magiamgia()" type="radio" id="chuongtrinhkhuyenmaiCheck" name="magiam" checked>
@@ -271,13 +272,13 @@
                     <input class="form-control" style="width: 230px; float: left;" type="text" id="code-coupon"
                       placeholder="Mã giảm giá nếu có...">
                     <button ng-click="apCoupon()"
-                      style="padding: 5px; margin-left: 10px; margin-top: 1px; float: right;" class="btn btn-primary">Áp
+                      style="padding: 5px; margin-left: 10px; margin-top: 1px;" class="btn btn-primary">Áp
                       dụng</button>
                   </div>
 
                   <div id="chuongtrinhkhuyenmai" style="display: block;">
                     <select class="form-select" style="width: 230px;height: 40px; float: left;" id="ctkm">
-                      <option ng-repeat="km in listVoucher" value="{{km.Idvoucher}}">{{km.Idvoucher}} - {{km.Name}} | Áp
+                      <option ng-repeat="km in listVoucher" value="{{km.code}}">{{km.code}} - {{km.name}} | Áp
                         dụng cho hóa đơn</option>
                     </select>
                     <button ng-click="apCTKM()" style="padding: 5px; margin-left: 10px; margin-top: 2px;"
@@ -286,70 +287,46 @@
 
                 </div>
 
-                <br>
-
                 <div class="discount-coupon">
-
+                  <br>
                   <div id="coupon" class="coupon-dec tab-pane active">
-
-                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === true">
-                      {{voucherName}} | Giảm {{discountVoucher}} áp dụng trên trên hóa đơn (- {{voucherGiamGia |
-                      currency:'':0}} VNĐ)
-                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
-                          class="fa-solid fa-trash-can"></i></button>
+                    <div id="voucher" ng-if="checkVoucher == true">
+                      <span ng-switch="voucherType">
+                        <span ng-switch-when="true">
+                          {{voucherName}} | Giảm {{discountVoucher}} áp dụng trên hóa đơn (- {{voucherGiamGia | currency:'':0}} VNĐ)
+                        </span>
+                        <span ng-switch-when="false">
+                          {{voucherName}} | Giảm {{cashVoucher}} áp dụng trên hóa đơn (- {{voucherGiamGia | currency:'':0}} VNĐ)
+                        </span>
+                      </span>
+                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
                     </div>
-                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == false && voucherType === false">
-                      {{voucherName}} | Giảm {{cashVoucher}} áp dụng trên hóa đơn (- {{voucherGiamGia |
-                      currency:'':0}} VNĐ)
-                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
-                          class="fa-solid fa-trash-can"></i></button>
+                    <div id="voucher1" ng-if="checkCoupon == true && couponType == true">
+                      {{couponName}} | Giảm {{discountCoupon}} trên hóa đơn (- {{couponGiamGia | currency:'':0}} VNĐ)
+                      <button ng-click="removeCoupon()" style="color: rgb(247, 3, 3);border: none;">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
                     </div>
-                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == true && voucherType === true">
-                      {{voucherName}} | Giảm {{discountVoucher}} áp dụng trên trên sản phẩm (- {{voucherGiamGia |
-                      currency:'':0}} VNĐ)
-                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
-                          class="fa-solid fa-trash-can"></i></button>
-
-                      <div>Áp dụng cho sản phẩm : </div>
-                      <div ng-repeat="sp in listSPVoucher">
-                        - [{{sp.productDetail.product.name}} - SKU : {{sp.productDetail.product.code}}]
-                      </div>
+                    <div id="voucher1" ng-if="checkCoupon == true && couponType == false">
+                      {{couponName}} | Giảm {{cashCoupon}} trên hóa đơn (- {{couponGiamGia | currency:'':0}} VNĐ)
+                      <button ng-click="removeCoupon()" style="color: rgb(247, 3, 3);border: none;">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
                     </div>
-                    <div id="voucher" ng-if="checkVoucher == true && voucherIs == true && voucherType === false">
-                      {{voucherName}} | Giảm tối đa {{cashVoucher}} áp dụng trên sản phẩm (- {{voucherGiamGia |
-                      currency:'':0}} VNĐ)
-                      <button ng-click="removeVoucher()" style="color: rgb(247, 3, 3);border: none;"><i
-                          class="fa-solid fa-trash-can"></i></button>
-                      <div>Áp dụng cho sản phẩm : </div>
-                      <div ng-repeat="sp in listSPVoucher">
-                        - [{{sp.productDetail.product.name}} - SKU : {{sp.productDetail.product.code}}]
-                      </div>
-                    </div>
-
-                    <div id="voucher1" ng-if="checkCoupon == true && couponType == true">{{couponName}} | Giảm
-                      {{discountCoupon}} trên hóa đơn (- {{couponGiamGia | currency:'':0}} VNĐ)
-                      <button ng-click="removeCoupon()" style="color: rgb(247, 3, 3);border: none;"><i
-                          class="fa-solid fa-trash-can"></i></button>
-                    </div>
-                    <div id="voucher1" ng-if="checkCoupon == true && couponType == false">{{couponName}} | Giảm
-                      {{cashCoupon}}
-                      trên hóa đơn (- {{couponGiamGia | currency:'':0}} VNĐ)
-                      <button ng-click="removeCoupon()" style="color: rgb(247, 3, 3);border: none;"><i
-                          class="fa-solid fa-trash-can"></i></button>
-                    </div>
-
                   </div>
                 </div>
 
-
-
                 <div style="padding-top: 10px;">
+                  <br>
                   <button ng-click="huyhoadon(hoadon.code)" class="btn btn-primary"><i class="fa-solid fa-ban"></i>
                     Hủy</button>
                   <button ng-click="buy(hoadon.code)" class="btn btn-primary"><i
                       class="fa-solid fa-money-check-dollar"></i>
                     Thanh Toán</button>
                 </div>
+
               </div>
 
             </div>
@@ -363,8 +340,6 @@
     </div>
 
     <!-- End Right side columns -->
-
-    </div>
 
     <!-- ///////////////////////////////////////////////////////////////////////////////////// -->
 
@@ -394,20 +369,22 @@
       </div>
     </div>
 
+    <div class="card-footer-bill">
+      <div class="radio-button">
+        <input type="radio" id="hinhThuc1" ng-click="hinhThucMuaHang();chondiachi()" value="hinhThuc1" name="radio-group"
+          checked>
+        <label for="hinhThuc1"><i class="fa-solid fa-store"></i> Tại quầy</label>
+        <input type="radio" id="hinhThuc2" ng-click="hinhThucMuaHang();tinhPhiShip();chondiachi()" value="hinhThuc2"
+          name="radio-group">
+        <label for="hinhThuc2"><i class="fa-solid fa-earth-americas"></i> Online</label>
+      </div>
+    </div>
+
   </section>
 </main>
 <!-- End #main -->
 
-<div class="card-footer-bill">
-  <div class="radio-button">
-    <input type="radio" id="hinhThuc1" ng-click="hinhThucMuaHang();chondiachi()" value="hinhThuc1" name="radio-group"
-      checked>
-    <label for="hinhThuc1"><i class="fa-solid fa-store"></i> Tại quầy</label>
-    <input type="radio" id="hinhThuc2" ng-click="hinhThucMuaHang();tinhPhiShip();chondiachi()" value="hinhThuc2"
-      name="radio-group">
-    <label for="hinhThuc2"><i class="fa-solid fa-earth-americas"></i> Online</label>
-  </div>
-</div>
+
 
 
 <!-- Tìm sản phẩm header -->
@@ -470,7 +447,6 @@
     </tbody>
   </table>
 </div>
-
 
 
 <!-- Tìm sản phẩm -->
@@ -695,7 +671,6 @@
     </div>
   </div>
 </div>
-
 <!-- exportbill -->
 <div style="display: none;">
   <section id="exportbill">

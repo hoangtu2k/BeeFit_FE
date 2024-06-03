@@ -1,8 +1,6 @@
 window.BanHangController = function ($scope, $http, $location, $routeParams, $rootScope, AuthService) {
   document.getElementById("header-wrapper").style.display = "none";
 
-  
-
   // tạo hóa đơn
   $scope.addbill = function () {
     // add bill
@@ -128,18 +126,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
   };
   $scope.getAllBill();
   /////////////////////////////////////////////////////////////////////////
-  $scope.magiamgia = function () {
-    if (document.getElementById("chuongtrinhkhuyenmaiCheck").checked == true) {
-      document.getElementById("magiamgia").style.display = "none";
-      document.getElementById("chuongtrinhkhuyenmai").style.display = "block";
-    }
-    else {
-      document.getElementById("magiamgia").style.display = "block";
-      document.getElementById("chuongtrinhkhuyenmai").style.display = "none";
-    }
 
-  }
-  $scope.magiamgia();
   ////////////////////////////////////////////////////////////////////////////
   $scope.phiShip = 0;
   $scope.tienThanhToan = 0;
@@ -163,8 +150,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     document.getElementById('chuongtrinhkhuyenmai').style.display = 'block';
     document.getElementById('magiamgia').style.display = 'none';
 
-    
-    
+
+
 
 
 
@@ -352,37 +339,37 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       .then(function (resp) {
         $scope.listQuantity = resp.data;
       });
-      // pagation
-      $scope.pager2 = {
-        page: 0,
-        size: 20,
-        get items() {
-          var start = this.page * this.size;
-          return $scope.listQuantity.slice(start, start + this.size);
-        },
-        get count() {
-          return Math.ceil((1.0 * $scope.listQuantity.length) / this.size);
-        },
+    // pagation
+    $scope.pager2 = {
+      page: 0,
+      size: 20,
+      get items() {
+        var start = this.page * this.size;
+        return $scope.listQuantity.slice(start, start + this.size);
+      },
+      get count() {
+        return Math.ceil((1.0 * $scope.listQuantity.length) / this.size);
+      },
 
-        first() {
-          this.page = 0;
-        },
-        prev() {
-          this.page--;
-          if (this.page < 0) {
-            this.last();
-          }
-        },
-        next() {
-          this.page++;
-          if (this.page >= this.count) {
-            this.first();
-          }
-        },
-        last() {
-          this.page = this.count - 1;
-        },
-      };
+      first() {
+        this.page = 0;
+      },
+      prev() {
+        this.page--;
+        if (this.page < 0) {
+          this.last();
+        }
+      },
+      next() {
+        this.page++;
+        if (this.page >= this.count) {
+          this.first();
+        }
+      },
+      last() {
+        this.page = this.count - 1;
+      },
+    };
   };
 
   // Hàm filterProducts để lọc sản phẩm dựa trên tìm kiếm
@@ -414,7 +401,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
   // Gọi hàm getAllData khi controller được khởi tạo
 
   //////////////////////////////////////////////////////////////////////////////
-
 
   $scope.isPopupVisible = false;
   $scope.togglePopup = function () {
@@ -1251,7 +1237,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         $scope.phiShip = 0;
       }
       else {
-        document.getElementById("diachi").style.display = 'block';
+        document.getElementById("diachi").style.display = 'none';
         document.getElementById('maGiamGiaKH').style.display = 'block';
       }
 
@@ -1550,8 +1536,21 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     }
 
   }
-
   /////////////////////////////////////////////////////////////////////////////////
+
+  $scope.magiamgia = function () {
+    if (document.getElementById("chuongtrinhkhuyenmaiCheck").checked == true) {
+      document.getElementById("magiamgia").style.display = "none";
+      document.getElementById("chuongtrinhkhuyenmai").style.display = "block";
+    }
+    else {
+      document.getElementById("magiamgia").style.display = "block";
+      document.getElementById("chuongtrinhkhuyenmai").style.display = "none";
+    }
+
+  }
+  $scope.magiamgia();
+
   $scope.listCheck = [];
   $scope.listCheck1 = [];
   $scope.voucherGiamGia = 0;
@@ -1607,9 +1606,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           $scope.tinhPhiShip();
           document.getElementById('code-coupon').value = '';
           $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
-
         }
-
       }
       if ($scope.tongTien < $scope.giamGia) {
         Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
@@ -1619,7 +1616,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         $scope.couponGiamGia = 0;
         $scope.tienThanhToan = TotalPrice + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
       }
-
     })
 
     if (checkk === 0) {
@@ -1629,188 +1625,75 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     }
 
   }
+
   let idVoucher = null;
   $scope.apCTKM = function () {
     $scope.phiShip = 0;
-    $scope.giamGia = $scope.giamGia - $scope.voucherGiamGia;
+    $scope.giamGia -= $scope.voucherGiamGia;
     $scope.voucherGiamGia = 0;
     let code = document.getElementById('ctkm').value;
-    $http.get('http://localhost:8080/api/getvoucher').then(function (resp) {
-      $scope.listVoucher = resp.data
+    $http.get('https://66593f12de346625136bb615.mockapi.io/voucher').then(function (resp) {
+      $scope.listVoucher = resp.data;
+
+      let voucherFound = false; // Flag to track if voucher is found
+
       for (let i = 0; i < $scope.listVoucher.length; i++) {
         if (code === $scope.listVoucher[i].code) {
+          voucherFound = true; // Voucher found, set the flag to true
+
           $scope.voucherName = $scope.listVoucher[i].name;
           $scope.voucherType = $scope.listVoucher[i].typeVoucher;
-          $scope.voucherIs = $scope.listVoucher[i].isVoucher;
           $scope.discountVoucher = $scope.listVoucher[i].discount + '%';
-          //  $scope.cashVoucher = $scope.listVoucher[i].cash.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-          if ($scope.listVoucher[i].isVoucher === false) {
-            if ($scope.listVoucher[i].typeVoucher === false) {
 
-              if ($scope.listVoucher[i].cash > $scope.tongTien) {
-                $scope.giamGia += $scope.tongTien;
-                $scope.voucherGiamGia += $scope.tongTien;
-
-              }
-              else {
-                $scope.giamGia += $scope.listVoucher[i].cash;
-                $scope.voucherGiamGia += $scope.listVoucher[i].cash;
-              }
-
+          if ($scope.listVoucher[i].typeVoucher === false) {
+            if ($scope.listVoucher[i].cash > $scope.tongTien) {
+              $scope.giamGia += $scope.tongTien;
+              $scope.voucherGiamGia += $scope.tongTien;
+            } else {
+              $scope.giamGia += $scope.listVoucher[i].cash;
+              $scope.voucherGiamGia += $scope.listVoucher[i].cash;
             }
-            else {
-              $scope.giamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
-              $scope.voucherGiamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
-            }
-            $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
-            checkCode = {
-              code: code
-            }
+          } else {
+            $scope.giamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
+            $scope.voucherGiamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
+          }
 
+          $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+          $scope.checkVoucher = true;
+          idVoucher = $scope.listVoucher[i].id;
 
+          Swal.fire("Áp mã thành công !", "", "success");
+          $scope.hinhThucMuaHang();
+          $scope.tinhPhiShip();
 
-
-
-
+          if ($scope.tongTien < $scope.giamGia) {
+            Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
             $scope.checkVoucher = true;
-            idVoucher = $scope.listVoucher[i].id;
-            Swal.fire("Áp mã thành công !", "", "success");
-            $scope.hinhThucMuaHang();
-            $scope.tinhPhiShip();
-            if ($scope.tongTien < $scope.giamGia) {
-              Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
-              $scope.checkVoucher = true;
-              $scope.listCheck = [];
-              $scope.giamGia = $scope.couponGiamGia;
-              $scope.voucherGiamGia = 0;
-              $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
-            }
+            $scope.listCheck = [];
+            $scope.giamGia = $scope.couponGiamGia;
+            $scope.voucherGiamGia = 0;
+            $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
           }
 
-          else {
-
-            $scope.listSPVoucher = [];
-            $http.get("http://localhost:8080/api/bill/getallbybill/" + codeBill).then(function (cart) {
-
-              for (let j = 0; j < cart.data.length; j++) {
-                $http.get("http://localhost:8080/api/productvoucher/getbyproduct/" + cart.data[j].product.id).then(function (resp) {
-
-
-                  if (resp.data.length > 0) {
-                    let Price = cart.data[j].quantity * cart.data[j].unitPrice;
-
-                    for (let i = 0; i < resp.data.length; i++) {
-
-
-                      if (resp.data[i].voucher.code == code) {
-
-                        $scope.listSPVoucher.push(cart.data[j]);
-
-
-                        if (resp.data[i].voucher.typeVoucher === false) {
-
-                          if (resp.data[i].voucher.cash > Price) {
-
-                            $scope.giamGia += Price;
-                            $scope.voucherGiamGia += Price;
-
-                          }
-                          else {
-                            $scope.giamGia += resp.data[i].voucher.cash;
-                            $scope.voucherGiamGia += resp.data[i].voucher.cash;
-                          }
-
-                        }
-                        else {
-                          $scope.giamGia += (Price * (resp.data[i].voucher.discount * 0.01));
-                          $scope.voucherGiamGia += (Price * (resp.data[i].voucher.discount * 0.01));
-                        }
-
-                      }
-
-
-                    }
-
-
-                  }
-
-
-                  checkCode = {
-                    code: code
-                  }
-
-                  if ($scope.listSPVoucher.length === 0) {
-                    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + 0);
-
-                    Swal.fire("Rất tiếc voucher này không áp dụng cho sản phẩm nào trong giỏ hàng của bạn !", "", "error");
-                  }
-                  else {
-                    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
-                    idVoucher = $scope.listVoucher[i].id;
-                    $scope.checkVoucher = true;
-                    Swal.fire("Áp mã thành công !", "", "success");
-                    $scope.hinhThucMuaHang();
-                    $scope.tinhPhiShip();
-                  }
-                  if ($scope.tongTien < $scope.giamGia) {
-                    Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
-                    $scope.checkVoucher = false;
-
-                    $scope.giamGia = $scope.couponGiamGia;
-                    $scope.voucherGiamGia = 0;
-                    $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
-                  }
-
-                })
-
-
-
-
-              }
-            })
-
-
-
-
-
-
-          }
-
-
-
-
-
-
-
-
-
-
-
-
-
+          return; // Exit loop and function once matching code is found
         }
-
-
       }
 
+      if (!voucherFound) {
+        Swal.fire("Voucher không tồn tại !", "", "error");
+      }
+    });
+  };
 
-
-
-    })
-
-  }
   $scope.removeVoucher = function () {
     $scope.voucherGiamGia = 0;
     $scope.listCheck = [];
     $scope.giamGia = 0;
     $scope.voucherType = false;
     idVoucher = null;
-
     $scope.checkVoucher = false;
     $scope.giamGia = $scope.couponGiamGia - $scope.giamGia;
     $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - $scope.couponGiamGia + $scope.voucherGiamGia;
-
-
   }
   $scope.removeCoupon = function () {
     $scope.couponGiamGia = 0;
