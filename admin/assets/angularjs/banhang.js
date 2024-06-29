@@ -127,7 +127,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
   $scope.getAllBill();
   /////////////////////////////////////////////////////////////////////////
 
-  ////////////////////////////////////////////////////////////////////////////
   $scope.phiShip = 0;
   $scope.tienThanhToan = 0;
   $scope.giamGia = 0;
@@ -149,10 +148,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     document.getElementById("diachichon1").style.display = 'none';
     document.getElementById('chuongtrinhkhuyenmai').style.display = 'block';
     document.getElementById('magiamgia').style.display = 'none';
-
-
-
-
 
 
     idBill = id;
@@ -177,7 +172,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       }
     }).then(function (resp) {
       $scope.listTinh = resp.data.data;
-
     })
     $scope.getHuyen = function () {
       let tinh = document.getElementById("tinh").value
@@ -189,11 +183,10 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         method: "GET",
         url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + tinh,
         headers: {
-          'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+          'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
         }
       }).then(function (resp) {
         $scope.listHuyen = resp.data.data;
-
       })
     }
     $scope.getXa = function () {
@@ -206,11 +199,10 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         method: "GET",
         url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + huyen,
         headers: {
-          'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+          'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
         }
       }).then(function (resp) {
         $scope.listXa = resp.data.data;
-
       })
     }
 
@@ -1237,12 +1229,13 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         $scope.phiShip = 0;
       }
       else {
-        document.getElementById("diachi").style.display = 'none';
+        document.getElementById("diachi").style.display = 'block';
         document.getElementById('maGiamGiaKH').style.display = 'block';
       }
 
     }
   }
+
   $scope.chondiachi1 = function () {
     var check = document.getElementById("diachichon");
     if (check.checked === true) {
@@ -1282,8 +1275,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           params: params,
           headers: {
             "Content-Type": undefined,
-            token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-            shop_id: 4603004,
+            token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+            shop_id: 5095646,
           },
         }).then(function (resp) {
           if (document.getElementById("hinhThuc1").checked === true) {
@@ -1345,8 +1338,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
                   params: params,
                   headers: {
                     "Content-Type": undefined,
-                    token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-                    shop_id: 4603004,
+                    token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+                    shop_id: 5095646,
                   },
                 }).then(function (resp) {
                   // $scope.phiShip = resp.data.data.total;
@@ -1406,8 +1399,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
             params: params,
             headers: {
               "Content-Type": undefined,
-              token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-              shop_id: 4603004,
+              token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+              shop_id: 5095646,
             },
           }).then(function (resp) {
             // $scope.phiShip = resp.data.data.total;
@@ -1455,8 +1448,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         params: params,
         headers: {
           "Content-Type": undefined,
-          token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-          shop_id: 4603004,
+          token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+          shop_id: 5095646,
         },
       }).then(function (resp) {
         if (document.getElementById("hinhThuc1").checked === true) {
@@ -1517,8 +1510,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           params: params,
           headers: {
             "Content-Type": undefined,
-            token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-            shop_id: 4603004,
+            token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+            shop_id: 5095646,
           },
         }).then(function (resp) {
           if (document.getElementById("hinhThuc1").checked === true) {
