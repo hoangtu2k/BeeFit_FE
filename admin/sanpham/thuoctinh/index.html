@@ -1,0 +1,794 @@
+<main id="main" class="main">
+  <section class="section dashboard">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-12">
+
+            <div class="card">
+
+              <div class="card-body">
+
+                <!-- Default Tabs -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="category-tab" data-bs-toggle="tab" data-bs-target="#category"
+                      type="button" role="tab" aria-controls="category" aria-selected="true">Danh mục</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="design-tab" data-bs-toggle="tab" data-bs-target="#design" type="button"
+                      role="tab" aria-controls="design" aria-selected="false" tabindex="-1">Thiết kế</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="brand-tab" data-bs-toggle="tab" data-bs-target="#brand" type="button"
+                      role="tab" aria-controls="brand" aria-selected="false" tabindex="-1">Thương hiệu</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="hand-tab" data-bs-toggle="tab" data-bs-target="#hand" type="button"
+                      role="tab" aria-controls="hand" aria-selected="false" tabindex="-1">Loại tay</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="neck-tab" data-bs-toggle="tab" data-bs-target="#neck" type="button"
+                      role="tab" aria-controls="neck" aria-selected="false" tabindex="-1">Loại cổ</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="material-tab" data-bs-toggle="tab" data-bs-target="#material"
+                      type="button" role="tab" aria-controls="material" aria-selected="false" tabindex="-1">Chất
+                      liệu</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="color-tab" data-bs-toggle="tab" data-bs-target="#color" type="button"
+                      role="tab" aria-controls="color" aria-selected="false" tabindex="-1">Màu sắc</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="size-tab" data-bs-toggle="tab" data-bs-target="#size" type="button"
+                      role="tab" aria-controls="size" aria-selected="false" tabindex="-1">Kích cỡ</button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-2" id="myTabContent">
+                  <div class="tab-pane fade active show" id="category" role="tabpanel" aria-labelledby="home-tab">
+                    <button class="btn btn-primary" ng-click="openadddanhmuc()" title="Thêm danh mục">
+                      <i class="far fa-plus"></i> Thêm danh mục</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên danh mục</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="dm in pagerdm.items">
+                          <td>{{dm.name}}</td>
+                          <td>{{dm.status == 0 ? 'Hoạt động' : dm.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensuadanhmuc(dm)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagerdm.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagerdm.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagerdm.page+1}}
+                          of
+                          {{pagerdm.count}}</button>
+                        <button ng-click="pagerdm.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagerdm.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
+                    <button class="btn btn-primary" ng-click="openaddthietke()" title="Thêm thiết kế">
+                      <i class="far fa-plus"></i> Thêm thiết kế</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên thiết kế</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="tk in pagertk.items">
+                          <td>{{tk.name}}</td>
+                          <td>{{tk.status == 0 ? 'Hoạt động' : tk.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensuathietke(tk)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagertk.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagertk.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagertk.page+1}}
+                          of
+                          {{pagertk.count}}</button>
+                        <button ng-click="pagertk.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagertk.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="brand" role="tabpanel" aria-labelledby="brand-tab">
+                    <button class="btn btn-primary" ng-click="openaddthuonghieu()" title="Thêm thương hiệu">
+                      <i class="far fa-plus"></i> Thêm thương hiệu</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên thương hiệu</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="th in pagerth.items">
+                          <td>{{th.name}}</td>
+                          <td>{{th.status == 0 ? 'Hoạt động' : th.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensuathuonghieu(th)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagerth.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagerth.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagerth.page+1}}
+                          of
+                          {{pagerth.count}}</button>
+                        <button ng-click="pagerth.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagerth.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="hand" role="tabpanel" aria-labelledby="hand-tab">
+                    <button class="btn btn-primary" ng-click="openaddloaitay()" title="Thêm loại tay">
+                      <i class="far fa-plus"></i> Thêm loại tay</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên loại tay</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="lt in pagerlt.items">
+                          <td>{{lt.name}}</td>
+                          <td>{{lt.status == 0 ? 'Hoạt động' : lt.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensualoaitay(lt)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagerlt.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagerlt.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagerlt.page+1}}
+                          of
+                          {{pagerlt.count}}</button>
+                        <button ng-click="pagerlt.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagerlt.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="neck" role="tabpanel" aria-labelledby="neck-tab">
+                    <button class="btn btn-primary" ng-click="openaddloaico()" title="Thêm loại cổ">
+                      <i class="far fa-plus"></i> Thêm loại cổ</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên loại cổ</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="lc in pagerlc.items">
+                          <td>{{lc.name}}</td>
+                          <td>{{lc.status == 0 ? 'Hoạt động' : lc.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensualoaico(lc)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagerlc.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagerlc.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagerlc.page+1}}
+                          of
+                          {{pagerlc.count}}</button>
+                        <button ng-click="pagerlc.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagerlc.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
+                    <button class="btn btn-primary" ng-click="openaddchatlieu()" title="Thêm chất liệu">
+                      <i class="far fa-plus"></i> Thêm chất liệu</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên chất liệu</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="cl in pagercl.items">
+                          <td>{{cl.name}}</td>
+                          <td>{{cl.status == 0 ? 'Hoạt động' : cl.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensuachatlieu(cl)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagercl.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagercl.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagercl.page+1}}
+                          of
+                          {{pagercl.count}}</button>
+                        <button ng-click="pagercl.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagercl.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="color" role="tabpanel" aria-labelledby="color-tab">
+                    <button class="btn btn-primary" ng-click="openaddmausac()" title="Thêm màu sắc">
+                      <i class="far fa-plus"></i> Thêm màu sắc</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên màu sắc</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="ms in pagerms.items">
+                          <td>{{ms.name}}</td>
+                          <td>{{ms.status == 0 ? 'Hoạt động' : ms.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensuamausac(ms)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagerms.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagerms.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagerms.page+1}}
+                          of
+                          {{pagerms.count}}</button>
+                        <button ng-click="pagerms.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagerms.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="size" role="tabpanel" aria-labelledby="size-tab">
+                    <button class="btn btn-primary" ng-click="openaddkichco()" title="Thêm kích cỡ">
+                      <i class="far fa-plus"></i> Thêm kích cỡ</button>
+                    <table class="table">
+                      <thead>
+                        <th scope="row">Tên kích cỡ</td>
+                        <th scope="row">Trạng thái</th>
+                        <th scope="row">Thao tác</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="kc in pagerkc.items">
+                          <td>{{kc.name}}</td>
+                          <td>{{kc.status == 0 ? 'Hoạt động' : kc.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
+                          <td>
+                            <a ng-click="opensuakichco(kc)"><button class="btn btn-warning"> Sửa</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="text-center">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button ng-click="pagerkc.first()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-left"></i></button>
+                        <button ng-click="pagerkc.prev()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-left"></i></button>
+                        <button type="button" class="btn btn-outline-secondary">{{pagerkc.page+1}}
+                          of
+                          {{pagerkc.count}}</button>
+                        <button ng-click="pagerkc.next()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angle-right"></i></button>
+                        <button ng-click="pagerkc.last()" type="button" class="btn btn-outline-secondary"><i
+                            class="fa-solid fa-angles-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Default Tabs -->
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ======= end row ======= -->
+
+     <!-- add thuoc tinh -->
+    <div class="popup" ng-class="{ 'show': isthemdanhmuc }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openadddanhmuc()">X</button>
+        <h1>Thêm danh mục</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên danh mục <span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addCategory()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemthietke }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddthietke()">X</button>
+        <h1>Thêm thiết kế</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên thiết kế <span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addDesign()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemthuonghieu }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddthuonghieu()">X</button>
+        <h1>Thêm thương hiệu</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên thương hiệu <span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addBrand()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemloaitay }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddloaitay()">X</button>
+        <h1>Thêm loại tay</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên loại tay<span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addHandType()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemloaico }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddloaico()">X</button>
+        <h1>Thêm loại cổ</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên loại cổ <span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addNeckType()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemchatlieu }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddchatlieu()">X</button>
+        <h1>Thêm chất liệu</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên chất liệu<span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addMaterial()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemmausac }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddmausac()">X</button>
+        <h1>Thêm màu sắc</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên màu sắc <span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addColor()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': isthemkichco }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="openaddkichco()">X</button>
+        <h1>Thêm kích cỡ</h1>
+
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Kích cỡ<span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.field == 'name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="addSize()"></i>Lưu</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- edit thuoc tinh -->
+    <div class="popup" ng-class="{ 'show': issuadanhmuc }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuadanhmuc = false">X</button>
+        <h1>Sửa danh mục</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên danh mục <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateCategory()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issuathietke }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuathietke = false">X</button>
+        <h1>Sửa thiết kế</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên thiết kế <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateDesign()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issuathuonghieu }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuathuonghieu = false">X</button>
+        <h1>Sửa thương hiệu</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên thương hiệu <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateBrand()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issualoaitay }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issualoaitay = false">X</button>
+        <h1>Sửa loại tay</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên loại tay <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateHandType()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issualoaico }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issualoaico = false">X</button>
+        <h1>Sửa loại cổ</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên loại cổ <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateNeckType()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issuachatlieu }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuachatlieu = false">X</button>
+        <h1>Sửa chất liệu</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên chất liệu <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateMaterial()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issuamausac }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuamausac = false">X</button>
+        <h1>Sửa màu sắc</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên màu sắc <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateColor()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup" ng-class="{ 'show': issuakichco }">
+      <div class="add-thuoctinh">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuakichco = false">X</button>
+        <h1>Sửa kích cỡ</h1>
+        <h1>(ID: {{form.id}})</h1>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-md-12">
+              <label for="name" class="form-label label--ctsp">Tên kích cỡ <span class="validate">*</span></label>
+              <input ng-model="form.name" id="name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <button class="btn btn-primary map--btn-addkm" ng-click="updateSize()">Lưu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main><!-- End #main -->

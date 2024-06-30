@@ -34,11 +34,12 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "sanpham/update.html",
       controller: SanPhamController,
     })
-
-    .when("/category/view", {
-      templateUrl: "sanpham/thuoctinh/danhmuc/index.html",
-      controller: DanhMucController,
+    .when("/attributes/view", {
+      templateUrl: "sanpham/thuoctinh/index.html",
+      controller: ThuocTinhController,
     })
+
+    
     .when("/promotion/view", {
       templateUrl: "sanpham/thuoctinh/khuyenmai/index.html",
       controller: KhuyenMaiController,

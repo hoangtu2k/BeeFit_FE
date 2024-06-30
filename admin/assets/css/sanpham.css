@@ -118,7 +118,7 @@
   }
 
   .add-thuoctinh {
-    width: 400px;
+    width: 410px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -207,8 +207,9 @@
 
 .map--btn-addkm{
     position: absolute;
-    bottom: 10px;
+    bottom: 4px;
     left: 170px;
+    
 }
 
 .table-quantity::-webkit-inner-spin-button,
