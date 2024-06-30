@@ -100,11 +100,22 @@
                                     </td>
                                 </tr>
                             </tbody>
+
                         </table><!-- End .table table-wishlist -->
 
                         <div class="cart-bottom">
-                            <div class="cart-discount" style="max-width: 380px;">
+                            <div class="cart-discount" style="max-width: 550px;">
                                 <div class="input-group" id="coupon">
+                                    <div id="voucher1" ng-if="checkCoupon == true && couponType == true" class="row">{{couponName}}
+                                        | Giảm {{discountCoupon}} trên hóa đơn (- {{couponGiamGia | currency:'':0}} VNĐ)
+                                        <button ng-click="removeCoupon()" class="btn-remove" style="color: rgb(247, 3, 3);border: none;">
+                                            <i class="icon-close"></i></button>
+                                    </div>
+                                    <div id="voucher1" ng-if="checkCoupon == true && couponType == false" class="row">{{couponName}}
+                                        | Giảm {{cashCoupon}} trên hóa đơn (- {{couponGiamGia | currency:'':0}} VNĐ)
+                                        <button ng-click="removeCoupon()" class="btn-remove" style="color: rgb(247, 3, 3);border: none;">
+                                            <i class="icon-close"></i></button>
+                                    </div>
                                     <input id="coupon-code" type="text" class="form-control"
                                         placeholder="Áp mã giảm giá (Nếu có)">
                                     <div class="input-group-round">

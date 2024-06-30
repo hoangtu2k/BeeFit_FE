@@ -124,7 +124,21 @@
               </tr>
             </tbody>
           </table>
-  
+          <div class="text-center">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+              <button ng-click="pager.first()" type="button" class="btn btn-outline-secondary"><i
+                  class="fa-solid fa-angles-left"></i></button>
+              <button ng-click="pager.prev()" type="button" class="btn btn-outline-secondary"><i
+                  class="fa-solid fa-angle-left"></i></button>
+              <button type="button" class="btn btn-outline-secondary">{{pager.page+1}}
+                of
+                {{pager.count}}</button>
+              <button ng-click="pager.next()" type="button" class="btn btn-outline-secondary"><i
+                  class="fa-solid fa-angle-right"></i></button>
+              <button ng-click="pager.last()" type="button" class="btn btn-outline-secondary"><i
+                  class="fa-solid fa-angles-right"></i></button>
+            </div>
+          </div>
         </div>
       </div>
 

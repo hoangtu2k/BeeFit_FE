@@ -127,7 +127,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
   $scope.getAllBill();
   /////////////////////////////////////////////////////////////////////////
 
-  ////////////////////////////////////////////////////////////////////////////
   $scope.phiShip = 0;
   $scope.tienThanhToan = 0;
   $scope.giamGia = 0;
@@ -149,10 +148,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     document.getElementById("diachichon1").style.display = 'none';
     document.getElementById('chuongtrinhkhuyenmai').style.display = 'block';
     document.getElementById('magiamgia').style.display = 'none';
-
-
-
-
 
 
     idBill = id;
@@ -177,7 +172,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       }
     }).then(function (resp) {
       $scope.listTinh = resp.data.data;
-
     })
     $scope.getHuyen = function () {
       let tinh = document.getElementById("tinh").value
@@ -189,11 +183,10 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         method: "GET",
         url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + tinh,
         headers: {
-          'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+          'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
         }
       }).then(function (resp) {
         $scope.listHuyen = resp.data.data;
-
       })
     }
     $scope.getXa = function () {
@@ -206,11 +199,10 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         method: "GET",
         url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + huyen,
         headers: {
-          'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+          'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
         }
       }).then(function (resp) {
         $scope.listXa = resp.data.data;
-
       })
     }
 
@@ -1237,12 +1229,13 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         $scope.phiShip = 0;
       }
       else {
-        document.getElementById("diachi").style.display = 'none';
+        document.getElementById("diachi").style.display = 'block';
         document.getElementById('maGiamGiaKH').style.display = 'block';
       }
 
     }
   }
+
   $scope.chondiachi1 = function () {
     var check = document.getElementById("diachichon");
     if (check.checked === true) {
@@ -1282,8 +1275,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           params: params,
           headers: {
             "Content-Type": undefined,
-            token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-            shop_id: 4603004,
+            token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+            shop_id: 5095646,
           },
         }).then(function (resp) {
           if (document.getElementById("hinhThuc1").checked === true) {
@@ -1345,8 +1338,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
                   params: params,
                   headers: {
                     "Content-Type": undefined,
-                    token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-                    shop_id: 4603004,
+                    token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+                    shop_id: 5095646,
                   },
                 }).then(function (resp) {
                   // $scope.phiShip = resp.data.data.total;
@@ -1406,8 +1399,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
             params: params,
             headers: {
               "Content-Type": undefined,
-              token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-              shop_id: 4603004,
+              token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+              shop_id: 5095646,
             },
           }).then(function (resp) {
             // $scope.phiShip = resp.data.data.total;
@@ -1455,8 +1448,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
         params: params,
         headers: {
           "Content-Type": undefined,
-          token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-          shop_id: 4603004,
+          token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+          shop_id: 5095646,
         },
       }).then(function (resp) {
         if (document.getElementById("hinhThuc1").checked === true) {
@@ -1517,8 +1510,8 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           params: params,
           headers: {
             "Content-Type": undefined,
-            token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-            shop_id: 4603004,
+            token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+            shop_id: 5095646,
           },
         }).then(function (resp) {
           if (document.getElementById("hinhThuc1").checked === true) {
@@ -1557,16 +1550,18 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
   $scope.couponGiamGia = 0;
   $scope.phiShip = 0;
   let checkk = 0;
+
   let idCoupon = null;
   $scope.apCoupon = function () {
     let code = document.getElementById('code-coupon').value;
 
-    //check coupon
+    // Kiểm tra coupon
     $http.get('http://localhost:8080/api/getcoupon/' + document.getElementById("khachhang").value).then(function (resp) {
-      $scope.listCoupon = resp.data
+      $scope.listCoupon = resp.data;
+      let couponApplied = false;
+
       for (let i = 0; i < $scope.listCoupon.length; i++) {
         if (code === $scope.listCoupon[i].code) {
-
           if ($scope.listCheck1.length > 0) {
             Swal.fire('Bạn chỉ được áp dụng 1 phiếu giảm giá !', "", "error");
             return;
@@ -1576,28 +1571,18 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           $scope.couponType = $scope.listCoupon[i].isType;
           $scope.discountCoupon = $scope.listCoupon[i].discount + '%';
           $scope.cashCoupon = $scope.listCoupon[i].cash.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+          let discount = 0;
           if ($scope.listCoupon[i].isType === 0) {
-
-            if ($scope.listCoupon[i].cash > $scope.tongTien) {
-              $scope.giamGia += $scope.tongTien;
-              $scope.couponGiamGia = $scope.tongTien;
-
-            }
-            else {
-              $scope.giamGia += $scope.listCoupon[i].cash
-              $scope.couponGiamGia = $scope.listCoupon[i].cash;
-            }
-
-          }
-          else {
-            $scope.giamGia += ($scope.tongTien * ($scope.listCoupon[i].discount * 0.01));
-            $scope.couponGiamGia = ($scope.tongTien * ($scope.listCoupon[i].discount * 0.01));
+            discount = Math.min($scope.listCoupon[i].cash, $scope.tongTien);
+          } else {
+            discount = Math.min($scope.tongTien * ($scope.listCoupon[i].discount * 0.01), $scope.tongTien);
           }
 
-          checkCode1 = {
-            code: code
-          }
-          checkk++;
+          $scope.giamGia += discount;
+          $scope.couponGiamGia = discount;
+
+          let checkCode1 = { code: code };
           $scope.listCheck1.push(checkCode1);
           $scope.checkCoupon = true;
           idCoupon = $scope.listCoupon[i].id;
@@ -1605,26 +1590,28 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           $scope.hinhThucMuaHang();
           $scope.tinhPhiShip();
           document.getElementById('code-coupon').value = '';
-          $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+          $scope.tienThanhToan = Math.max(0, $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia));
+
+          couponApplied = true;
+          break;
         }
       }
+
+      if (!couponApplied) {
+        Swal.fire('Mã không tồn tại !', "", "error");
+      }
+
       if ($scope.tongTien < $scope.giamGia) {
         Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
         $scope.checkCoupon = false;
         $scope.listCheck1 = [];
         $scope.giamGia = $scope.voucherGiamGia;
         $scope.couponGiamGia = 0;
-        $scope.tienThanhToan = TotalPrice + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+        $scope.tienThanhToan = Math.max(0, $scope.tongTien + $scope.phiShip - $scope.voucherGiamGia);
       }
-    })
-
-    if (checkk === 0) {
-      Swal.fire('Mã không tồn tại !', "", "error");
-      // document.getElementById('voucher').style.display = 'none';
-      return;
-    }
-
-  }
+    });
+    
+  };
 
   let idVoucher = null;
   $scope.apCTKM = function () {
@@ -1632,33 +1619,32 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     $scope.giamGia -= $scope.voucherGiamGia;
     $scope.voucherGiamGia = 0;
     let code = document.getElementById('ctkm').value;
+
     $http.get('https://66593f12de346625136bb615.mockapi.io/voucher').then(function (resp) {
       $scope.listVoucher = resp.data;
 
-      let voucherFound = false; // Flag to track if voucher is found
+      let voucherFound = false;
 
       for (let i = 0; i < $scope.listVoucher.length; i++) {
         if (code === $scope.listVoucher[i].code) {
-          voucherFound = true; // Voucher found, set the flag to true
+          voucherFound = true;
 
           $scope.voucherName = $scope.listVoucher[i].name;
           $scope.voucherType = $scope.listVoucher[i].typeVoucher;
           $scope.discountVoucher = $scope.listVoucher[i].discount + '%';
+          $scope.cashVoucher = $scope.listVoucher[i].cash;
 
+          let discount = 0;
           if ($scope.listVoucher[i].typeVoucher === false) {
-            if ($scope.listVoucher[i].cash > $scope.tongTien) {
-              $scope.giamGia += $scope.tongTien;
-              $scope.voucherGiamGia += $scope.tongTien;
-            } else {
-              $scope.giamGia += $scope.listVoucher[i].cash;
-              $scope.voucherGiamGia += $scope.listVoucher[i].cash;
-            }
+            discount = Math.min($scope.listVoucher[i].cash, $scope.tongTien);
           } else {
-            $scope.giamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
-            $scope.voucherGiamGia += ($scope.tongTien * ($scope.listVoucher[i].discount * 0.01));
+            discount = Math.min($scope.tongTien * ($scope.listVoucher[i].discount * 0.01), $scope.tongTien);
           }
 
-          $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+          $scope.giamGia += discount;
+          $scope.voucherGiamGia += discount;
+
+          $scope.tienThanhToan = Math.max(0, $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia));
           $scope.checkVoucher = true;
           idVoucher = $scope.listVoucher[i].id;
 
@@ -1668,14 +1654,13 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
 
           if ($scope.tongTien < $scope.giamGia) {
             Swal.fire('Số tiền giảm đã ở mức tối đa', '', 'error');
-            $scope.checkVoucher = true;
+            $scope.checkVoucher = false;
             $scope.listCheck = [];
             $scope.giamGia = $scope.couponGiamGia;
             $scope.voucherGiamGia = 0;
-            $scope.tienThanhToan = $scope.tongTien + $scope.phiShip - ($scope.couponGiamGia + $scope.voucherGiamGia);
+            $scope.tienThanhToan = Math.max(0, $scope.tongTien + $scope.phiShip - $scope.couponGiamGia);
           }
-
-          return; // Exit loop and function once matching code is found
+          break;
         }
       }
 

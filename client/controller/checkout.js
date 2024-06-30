@@ -107,8 +107,8 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
                   params: params,
                   headers: {
                     "Content-Type": undefined,
-                    token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-                    shop_id: 4603004,
+                    token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+                    shop_id: 5095646,
                   },
                 }).then(function (ship) {
                   $scope.phiShip = ship.data.data.total;
@@ -385,8 +385,8 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
                     params: params,
                     headers: {
                       "Content-Type": undefined,
-                      token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-                      shop_id: 4603004,
+                      token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+                      shop_id: 5095646,
                     },
                   }).then(function (resp) {
                     $scope.phiShip = resp.data.data.total;
@@ -397,7 +397,11 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
           };
         });
 
-
+        $scope.listCheck = [];
+        $scope.listCheck1 = [];
+        $scope.voucherGiamGia = 0;
+        $scope.couponGiamGia = 0;
+        $scope.phiShip = 0;
         $scope.giamGia = 0;
         $scope.couponGiamGia = 0;
         $scope.apMa = function () {
@@ -508,7 +512,7 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
           method: "GET",
           url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
           headers: {
-            'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+            'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
           }
         }).then(function (resp) {
           $scope.listTinh = resp.data.data;
@@ -524,7 +528,7 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
             method: "GET",
             url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + tinh,
             headers: {
-              'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+              'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
             }
           }).then(function (resp) {
             $scope.listHuyen = resp.data.data;
@@ -541,7 +545,7 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
             method: "GET",
             url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + huyen,
             headers: {
-              'token': 'f22a8bb9-632c-11ee-b394-8ac29577e80e'
+              'token': '4d12e88b-1cb1-11ef-af94-de306bc60dfa'
             }
           }).then(function (resp) {
             $scope.listXa = resp.data.data;
@@ -630,8 +634,8 @@ window.CheckOutController = function ($http, $scope, $rootScope, $routeParams, $
                     params: params,
                     headers: {
                       "Content-Type": undefined,
-                      token: "f22a8bb9-632c-11ee-b394-8ac29577e80e",
-                      shop_id: 4603004,
+                      token: "4d12e88b-1cb1-11ef-af94-de306bc60dfa",
+                      shop_id: 5095646,
                     },
                   }).then(function (resp) {
                     $scope.phiShip = resp.data.data.total;

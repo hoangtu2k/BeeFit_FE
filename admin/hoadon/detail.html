@@ -217,12 +217,6 @@
         <td style="max-width: 200px; overflow-wrap: break-word;">Ghi chú</td>
         <td>Người cập nhật</td>
       </tr>
-      <!-- <tr ng-if="bill.status == 3 && bill.payStatus == 1">
-          <td><span class="button-bill"><i class="fa-solid fa-circle-check"></i> Hoàn thành</span></td>
-            <td></td>
-            <td style="max-width: 200px; overflow-wrap: break-word;">Đơn hàng hoàn tất</td>
-            <td></td>
-        </tr> -->
       <tr ng-repeat="bi in listbillhistory">
         <td> <span class="button-bill" ng-if="bi.status == 0"><i class="fa-regular fa-file-lines"></i> Tạo đơn
             hàng</span>
@@ -306,7 +300,7 @@
 
     <div>
       Địa chỉ cụ thể
-      <textarea id="diachicuthe" class="haninput1" ng-model="address.address"></textarea>
+      <textarea id="diachicuthe" class="form-control" ng-model="address.address"></textarea>
     </div>
     <div style="padding-top: 10px;">
       <button class="btn btn-primary" ng-click="updateAddress(null)">X</button>
@@ -340,9 +334,6 @@
               Size {{kichthuoc.name}}</option>
           </select>
         </div>
-
-
-
 
       </div>
       <table class="table">
@@ -407,9 +398,6 @@
               {{cart.quantity > 0 ? cart.quantity : 'Tạm hết'}}
             </td>
           </tr>
-
-
-
 
         </tbody>
 
@@ -555,6 +543,7 @@
     <button class="btn btn-primary" ng-click="doihang()">Đóng</button>
   </div>
 </div>
+
 <!-- exportbill -->
 <div style="display: none;">
   <section id="exportbill"
