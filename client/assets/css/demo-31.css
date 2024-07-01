@@ -1,0 +1,225 @@
+/* Demo 31 Homepage 31 */
+.container {
+  max-width: 1420px;
+  width: 100%;
+}
+
+.banner-content {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 90%;
+}
+
+.banner-content .btn {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.banner-title {
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 4rem;
+  letter-spacing: -.025em;
+  line-height: 3rem;
+  color: #fff;
+}
+
+.banner-subtitle {
+  font-weight: inherit;
+  line-height: 3rem;
+  color: #fff;
+}
+
+.heading h3 {
+  margin-bottom: .8rem;
+  padding-top: .1rem;
+  font-weight: inherit;
+  letter-spacing: -.025em;
+}
+
+.heading h6 {
+  padding-bottom: .6rem;
+  font-weight: inherit;
+  color: #999999;
+  letter-spacing: 0;
+}
+
+
+.banner-big {
+  position: relative;
+  height: 700px;
+  background-position: -.7rem center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.banner-big .banner-content {
+  left: 27.6%;
+  margin-top: 1.7rem;
+  max-width: 390px;
+  font-size: 1rem;
+}
+
+.banner-big .banner-subtitle {
+  margin-bottom: .7rem;
+  font-size: 1.6rem;
+}
+
+.banner-big .banner-title {
+  max-width: 320px;
+  margin: 0 auto;
+  font-size: 6em;
+  line-height: 6rem;
+}
+
+.banner-big .wave-img {
+  padding-top: .3rem;
+}
+
+.banner-big p:last-of-type {
+  margin-bottom: 3.1rem;
+  font-family: inherit;
+  font-size: 1.8em;
+  line-height: 3rem;
+  color: #222;
+}
+
+.banner-big img {
+  margin: 0 auto;
+}
+
+.banner-big .btn {
+  min-width: 20rem;
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+}
+
+.banner-big .btn:hover,
+.banner-big .btn:focus {
+  text-decoration: none;
+}
+
+.footer {
+  font-weight: 400;
+  color: #999999;
+  background-color: #222;
+}
+
+.footer p {
+  font-family: inherit;
+  color: #999999;
+}
+
+.footer a {
+  font-weight: inherit;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-top {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.newsletter-heading .newsletter-title {
+  margin: .1rem 0 .2rem;
+  font-family: "Amatic SC", sans-serif;
+  font-weight: 700;
+  font-size: 5rem;
+  letter-spacing: -.025em;
+}
+
+.newsletter-desc {
+  margin-bottom: 3.1rem;
+  font-size: 1.5rem;
+}
+
+.newsletter .input-group {
+  margin: 0 auto .8rem;
+  max-width: 568px;
+  padding: 0 1rem;
+}
+
+.newsletter .input-group .form-control {
+  display: block;
+  height: 46px;
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
+  font-weight: inherit;
+  background: #fff;
+  color: #999999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.newsletter .input-group .form-control::placeholder {
+  color: #999999;
+}
+
+.newsletter .input-group .form-control:focus {
+  border-color: #fff;
+}
+
+.newsletter .input-group .btn {
+  min-width: 11.7rem;
+  color: #c96;
+}
+
+.newsletter .input-group .btn:hover,
+.newsletter .input-group .btn:focus {
+  color: #fff;
+}
+
+.footer-middle {
+  border-top: 1px solid #333333;
+}
+
+.footer-middle a {
+  font-family: inherit;
+}
+
+
+
+.social-icon {
+  border: none;
+}
+
+.social-icon:hover,
+.social-icon:focus,
+.social-icon:active {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: color .35s;
+  outline: none;
+}
+
+.social-icon:hover i,
+.social-icon:focus i,
+.social-icon:active i {
+  color: #222;
+}
+
+.footer-bottom {
+  text-align: center;
+}
+
+.footer-bottom img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-payments {
+  padding-bottom: .3rem;
+}
+
+.footer-bottom .footer-cotyright {
+  margin-bottom: .5rem;
+  color: #666666;
+}
