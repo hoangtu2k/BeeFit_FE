@@ -45,9 +45,12 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: KhuyenMaiController,
     })
 
-
+    .when("/banner/view", {
+      templateUrl: "banner/index.html",
+      controller: BannerController,
+    })
     
-
+    
     
 
     .when("/login", {
