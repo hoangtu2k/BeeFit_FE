@@ -1,22 +1,180 @@
 <main class="main">
-    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active" aria-current="page">404</li>
-            </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
 
-    <div class="error-content text-center" style="background-image: url(assets/images/backgrounds/error-bg.jpg)">
+    <div class="banner-big"
+        style="background-image: url(assets/images/7.jpg); background-color: #f1f5f7;">
+        <div class="banner-content">
+            <div class="banner-subtitle text-secondary">Tìm áo đẹp.</div>
+            <div class="banner-title text-secondary mb-3">
+                Mọi thứ cho việc phong cách thời trang
+            </div>
+            <figure class="wave-img">
+                <img src="assets/images/demos/demo-31/wave.png" alt="Wave image" width="76" height="9">
+            </figure>
+            <p class="font-weight-normal mt-3">
+                Từ thảm, đạo cụ, phụ kiện và mọi thứ khác đều được giao hàng trực tiếp đến tận nhà bạn.</p>
+            <!-- <a href="#" class="btn btn-secondary">SHOP YOGA MATS</a> -->
+        </div><!--End .banner-content-->
+    </div><!--End .banner-big-->
+
+    <div class="page-content">
         <div class="container">
-            <h1 class="error-title">Error 404</h1><!-- End .error-title -->
-            <p>We are sorry, the page you've requested is not available.</p>
-            <a href="#/home" class="btn btn-outline-primary-2 btn-minwidth-lg">
-                <span>BACK TO HOMEPAGE</span>
-                <i class="icon-long-arrow-right"></i>
-            </a>
-        </div><!-- End .container -->
-    </div><!-- End .error-content text-center -->
-</main><!-- End .main -->
+
+            <div class="heading heading-featured text-center mt-4 mb-4">
+                <h3 class="text-secondary">Sản phẩm mới</h3>
+                <h6>Tìm điều gì đó mới mẻ để yêu</h6>
+            </div><!--End .heading-->
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="products mb-3">
+                        <div class="row justify-content-center">
+
+                            <!-- Start products -->
+                            <div ng-repeat="sp in pagerProductSold.items" class="col-6 col-md-4 col-lg-4 col-xl-3">
+                                <div class="product product-7 text-center">
+                                    <figure class="product-media">
+                                        <!-- <span class="product-label label-new">New</span> -->
+                                        <span ng-if="sp.discount > 0" class="product-label label-sale">-{{sp.discount}}%
+                                            off</span>
+                                        <a href="#/detail/{{sp.id}}">
+                                            <span ng-if="sp.productImages.length > 2">
+                                                <span ng-repeat="image in sp.productImages">
+                                                    <span ng-if="image.mainImage == true">
+                                                        <!-- image -->
+                                                        <img class="product-image" src="{{image.url}}"
+                                                            alt="Product image">
+                                                        <!-- End image -->
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span ng-if="sp.productImages.length == 1">
+                                                <span ng-repeat="image in sp.productImages">
+                                                    <!-- image -->
+                                                    <img class="product-image" src="{{image.url}}" alt="Product image">
+                                                    <!-- End image -->
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <h3 class="product-title"><a href="#/detail/{{sp.id}}"
+                                                title="{{sp.name}}">{{sp.name}}</a></h3><!-- End .product-title -->
+                                        <div ng-if="sp.discount > 0" class="product-price">
+                                            <span class="new-price">
+                                                {{sp.price - (sp.price * (sp.discount * 0.01)) | currency:'':0}} VNĐ
+                                            </span>
+                                            <span class="old-price">
+                                                {{sp.price | currency:'':0}} VNĐ
+                                            </span>
+                                        </div>
+                                        <div ng-if="sp.discount == null || sp.discount == 0" class="product-price">
+                                            <span class="new-price">
+                                                {{sp.price | currency:'':0}} VNĐ
+                                            </span>
+                                        </div>
+                                        <!-- End .product-price -->
+
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 90%;"></div>
+                                                <!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 2 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-lg-4 -->
+                            <!-- End products -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="mt-6">
+
+  
+    <div class="page-content">
+        <div class="container">
+
+            <div class="heading heading-featured text-center mt-4 mb-4">
+                <h3 class="text-secondary">Sản phẩm bán chạy</h3>
+                <h6>Tìm điều gì đó mới mẻ để yêu</h6>
+            </div><!--End .heading-->
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="products mb-3">
+                        <div class="row justify-content-center">
+
+                            <!-- Start products -->
+                            <div ng-repeat="sp in pagerProductSold.items" class="col-6 col-md-4 col-lg-4 col-xl-3">
+                                <div class="product product-7 text-center">
+                                    <figure class="product-media">
+                                        <!-- <span class="product-label label-new">New</span> -->
+                                        <span ng-if="sp.discount > 0" class="product-label label-sale">-{{sp.discount}}%
+                                            off</span>
+                                        <a href="#/detail/{{sp.id}}">
+                                            <span ng-if="sp.productImages.length > 2">
+                                                <span ng-repeat="image in sp.productImages">
+                                                    <span ng-if="image.mainImage == true">
+                                                        <!-- image -->
+                                                        <img class="product-image" src="{{image.url}}"
+                                                            alt="Product image">
+                                                        <!-- End image -->
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span ng-if="sp.productImages.length == 1">
+                                                <span ng-repeat="image in sp.productImages">
+                                                    <!-- image -->
+                                                    <img class="product-image" src="{{image.url}}" alt="Product image">
+                                                    <!-- End image -->
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <h3 class="product-title"><a href="#/detail/{{sp.id}}"
+                                                title="{{sp.name}}">{{sp.name}}</a></h3><!-- End .product-title -->
+                                        <div ng-if="sp.discount > 0" class="product-price">
+                                            <span class="new-price">
+                                                {{sp.price - (sp.price * (sp.discount * 0.01)) | currency:'':0}} VNĐ
+                                            </span>
+                                            <span class="old-price">
+                                                {{sp.price | currency:'':0}} VNĐ
+                                            </span>
+                                        </div>
+                                        <div ng-if="sp.discount == null || sp.discount == 0" class="product-price">
+                                            <span class="new-price">
+                                                {{sp.price | currency:'':0}} VNĐ
+                                            </span>
+                                        </div>
+                                        <!-- End .product-price -->
+
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 90%;"></div>
+                                                <!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 2 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-lg-4 -->
+                            <!-- End products -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main><!--End .main-->
