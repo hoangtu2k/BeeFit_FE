@@ -40,9 +40,6 @@ window.HomeController = function ($http, $scope, $routeParams, $location, $rootS
 
 
 
-
-
-
   $scope.loadProductNew = function () {
     let url = "http://localhost:8080/api/product/getall";
     let urlcategory = "http://localhost:8080/api/category";
