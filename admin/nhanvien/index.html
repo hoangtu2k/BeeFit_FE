@@ -4,122 +4,201 @@
         <div class="row">
             <div class="col-lg-12">
                 <button class="btn btn-primary" ng-click="openaddnhanvien()" title="Thêm nhân viên">
-                    <i class="far fa-plus"></i> Thêm nhân viên</button>
-            </div> 
+                    <i class="far fa-plus"></i> Thêm nhân viên
+                </button>
+            </div>
         </div>
 
-        
-  
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-12">
-  
-              <div class="card">
-  
-                <div class="card-body">
-  
-                    
-                      <table class="table">
-                        <thead>
-                          <th scope="row">Tên nhân viên</td>
-                          
-                          <th scope="row">Thao tác</th>
-                        </thead>
-                        <tbody>
-                          <tr ng-repeat="dm in pagerdm.items">
-                            <td>{{dm.name}}</td>
-                            <td>{{dm.status == 0 ? 'Hoạt động' : dm.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
-                            <td>
-                              <a ng-click="opensuadanhmuc(dm)"><button class="btn btn-warning"> Sửa</button></a>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div class="text-center">
-                        <div class="btn-group" role="group" aria-label="Basic outlined example">
-                          <button ng-click="pagerdm.first()" type="button" class="btn btn-outline-secondary"><i
-                              class="fa-solid fa-angles-left"></i></button>
-                          <button ng-click="pagerdm.prev()" type="button" class="btn btn-outline-secondary"><i
-                              class="fa-solid fa-angle-left"></i></button>
-                          <button type="button" class="btn btn-outline-secondary">{{pagerdm.page+1}}
-                            of
-                            {{pagerdm.count}}</button>
-                          <button ng-click="pagerdm.next()" type="button" class="btn btn-outline-secondary"><i
-                              class="fa-solid fa-angle-right"></i></button>
-                          <button ng-click="pagerdm.last()" type="button" class="btn btn-outline-secondary"><i
-                              class="fa-solid fa-angles-right"></i></button>
-                        </div>
-                      </div>
-  
-                </div>
-  
-              </div>
-  
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ======= end row ======= -->
-  
-       <!-- add nhan vien -->
-      <div class="popup" ng-class="{ 'show': isthemnhanvien }">
-        <div class="add-employee">
-          <!-- Nội dung của popup -->
-          <button class="btn btn-danger" style="float: right;" ng-click="openaddnhanvien()">X</button>
-          <h1>Thêm nhân viên</h1>
-  
-          <div class="row">
-  
+
+        <div class="row">
             <div class="col-lg-12">
-  
-              <div class="col-md-12">
-                <label for class="form-label label--ctsp">Tên nhân viên <span class="validate">*</span></label>
-                <input ng-model="form.name" type="text" class="form-control">
-                <div ng-repeat="err in validationErrors">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+
+                            <div class="card-body">
+
+
+                                <table class="table">
+                                    <thead>
+                                    <th scope="row">Ảnh</th>
+                                    <th scope="row">Mã nhân viên</th>
+                                    <th scope="row">Tên nhân viên</th>
+                                    <th scope="row">Tên tài khoản</th>
+                                    <th scope="row">Giới tính</th>
+                                    <th scope="row">Số điện thoai</th>
+                                    <th scope="row">Email</th>
+                                    <th scope="row">Chuc vu</th>
+                                    <th scope="row">Trang thai</th>
+                                    <th scope="row">Thao tác</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="dm in pagenhanvien.items">
+                                        <td><img src="{{dm.image}}"></td>
+                                        <td>{{dm.code}}</td>
+                                        <td>{{dm.fullname}}</td>
+                                        <td>{{dm.username}}</td>
+                                        <td>{{dm.gender}}</td>
+                                        <td>{{dm.phone}}</td>
+                                        <td>{{dm.email}}</td>
+                                        <td>{{dm.role.name}}</td>
+                                        <td>{{dm.status == 0 ? 'Hoạt động' : dm.status == 1 ? 'Ngừng hoạt động' : ''}}
+                                        </td>
+                                        <td>
+                                            <a ng-click="opensuadanhmuc(dm)">
+                                                <button class="btn btn-warning"> Sửa</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                        <button ng-click="pagerdm.first()" type="button"
+                                                class="btn btn-outline-secondary"><i
+                                                class="fa-solid fa-angles-left"></i></button>
+                                        <button ng-click="pagerdm.prev()" type="button"
+                                                class="btn btn-outline-secondary"><i
+                                                class="fa-solid fa-angle-left"></i></button>
+                                        <button type="button" class="btn btn-outline-secondary">{{pagerdm.page + 1}}
+                                            of
+                                            {{pagerdm.count}}
+                                        </button>
+                                        <button ng-click="pagerdm.next()" type="button"
+                                                class="btn btn-outline-secondary"><i
+                                                class="fa-solid fa-angle-right"></i></button>
+                                        <button ng-click="pagerdm.last()" type="button"
+                                                class="btn btn-outline-secondary"><i
+                                                class="fa-solid fa-angles-right"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ======= end row ======= -->
+
+        <!-- add nhan vien -->
+        <div class="popup" ng-class="{ 'show': isthemnhanvien }">
+            <div class="add-nhanvien">
+                <!-- Nội dung của popup -->
+                <button class="btn btn-danger" style="float: right;" ng-click="openaddnhanvien()">X</button>
+                <h1>Thêm nhân viên</h1>
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+
+                        <div class="col-md-12">
+                            <label for class="form-label label--ctsp">Tên nhân viên <span
+                                    class="validate">*</span></label>
+                            <input ng-model="form.fullname" type="text" class="form-control">
+                            <div ng-repeat="err in validationErrors">
+                  <span class="validate" ng-if="err.field == 'fullname'">
+                    {{err.defaultMessage}}
+                  </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for class="form-label label--ctsp">Tên tai khoan <span
+                                    class="validate">*</span></label>
+                            <input ng-model="form.username" type="text" class="form-control">
+                            <div ng-repeat="err in validationErrors">
+                  <span class="validate" ng-if="err.field == 'username'">
+                    {{err.defaultMessage}}
+                  </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for class="form-label label--ctsp">Gioi tinh <span
+                                    class="validate">*</span></label>
+                            <input id="gtNam" name="gioitinh" type="radio" value="true"
+                                   {{form.gender=true ? 'checked' :
+                            ''
+                            }}>
+                            Nam
+                            <input id="gtNu" name="gioitinh" type="radio" value="false"
+                                   {{form.gender=false ? 'checked'
+                            : ''
+                            }}>
+                            Nữ
+                        </div>
+                        <div class="col-md-12">
+                            <label for class="form-label label--ctsp">So dien thoai <span
+                                    class="validate">*</span></label>
+                            <input ng-model="form.name" type="text" class="form-control">
+                            <div ng-repeat="err in validationErrors">
                   <span class="validate" ng-if="err.field == 'name'">
                     {{err.defaultMessage}}
                   </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for class="form-label label--ctsp">Email <span
+                                    class="validate">*</span></label>
+                            <input ng-model="form.email" type="text" class="form-control">
+                            <div ng-repeat="err in validationErrors">
+                  <span class="validate" ng-if="err.field == 'email'">
+                    {{err.defaultMessage}}
+                  </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for class="form-label label--ctsp">Chuc vu <span
+                                    class="validate">*</span></label>
+                            <select class="form-select" id="vaitro">
+                                <option ng-repeat="vaitro in listRole" value="{{vaitro.id}}"> {{vaitro.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <img id="output" width="50px"/>
+                            <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile1(event)">
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary map--btn-addkm" ng-click="addEmployee()"></i>Lưu</button>
+                        </div>
+
+                    </div>
+
                 </div>
-              </div>
-  
-              <div class="col-md-12">
-                <button class="btn btn-primary map--btn-addkm" ng-click="addEmployee()"></i>Lưu</button>
-              </div>
-  
+
             </div>
-  
-          </div>
-  
         </div>
-      </div>
- 
-      <!-- edit nhan vien -->
-      <div class="popup" ng-class="{ 'show': issuanhanvien }">
-        <div class="add-thuoctinh">
-          <!-- Nội dung của popup -->
-          <button class="btn btn-danger" style="float: right;" ng-click="issuadanhmuc = false">X</button>
-          <h1>Sửa danh mục</h1>
-          <h1>(ID: {{form.id}})</h1>
-  
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="col-md-12">
-                <label for="name" class="form-label label--ctsp">Tên danh mục <span class="validate">*</span></label>
-                <input ng-model="form.name" id="name" type="text" class="form-control">
-                <div ng-repeat="err in validationErrors">
+
+
+        <!-- edit nhan vien -->
+        <div class="popup" ng-class="{ 'show': issuanhanvien }">
+            <div class="add-thuoctinh">
+                <!-- Nội dung của popup -->
+                <button class="btn btn-danger" style="float: right;" ng-click="issuadanhmuc = false">X</button>
+                <h1>Sửa danh mục</h1>
+                <h1>(ID: {{form.id}})</h1>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-12">
+                            <label for="name" class="form-label label--ctsp">Tên danh mục <span
+                                    class="validate">*</span></label>
+                            <input ng-model="form.name" id="name" type="text" class="form-control">
+                            <div ng-repeat="err in validationErrors">
                   <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
                     {{err.defaultMessage}}
                   </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <button class="btn btn-primary map--btn-addkm" ng-click="updateCategory()">Lưu</button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-  
-              <div class="col-md-12">
-                <button class="btn btn-primary map--btn-addkm" ng-click="updateCategory()">Lưu</button>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
-  </main><!-- End #main -->
+</main><!-- End #main -->
