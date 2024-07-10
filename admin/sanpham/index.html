@@ -322,24 +322,39 @@
     <!-- ======= end row ======= -->
 
     <div class="popup" ng-class="{ 'show': isnhapfile }">
-      <div class="importExcel-content">
-        <div>
-          <div>
-            <span class="card-title">Chọn file dữ liệu </span>
-            <a ng-click="exportToExcelMau()" href="" style="float: right;">Tải mẫu file</a>
+      <div class="container importExcel-content mt-4 p-3 border rounded">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="card-title fw-bold">Nhập hàng hóa từ file dữ liệu</span>
+          <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-danger" ng-click="openImportExcel()">
+              <i class="fa fa-times"></i>
+            </button>
           </div>
-          <br>
-          <hr>
-          <div style="float: right;">
-            <button class="btn btn-danger" ng-click="openImportExcel()">X</button>
-          </div>
-
         </div>
-
-        <input type="file" id="fileInput" style="display: none;" accept=".xls, .xlsx">
-        <button onclick="openExel()" class="btn btn-primary" id="uploadButton">Mở file</button>
-        <button ng-click="importExel()" class="btn btn-primary" title="Import">Thực hiện</button>
-
+        <hr>
+        <h6 class="fw-bold">Xử lý trùng mã hàng?</h6>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="checkimportsp" id="checkimport1" checked>
+          <label class="form-check-label" for="checkimport1">
+            Báo lỗi và dừng import
+          </label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="checkimportsp" id="checkimport2">
+          <label class="form-check-label" for="checkimport2">
+            Thay thế hàng cũ bằng hàng mới
+          </label>
+        </div>
+        <hr>
+        <div class="mb-3">
+          <input type="file" id="fileInput" class="form-control" style="display: none;" accept=".xls, .xlsx">
+          <button onclick="openExel()" class="btn btn-primary me-2" id="uploadButton">
+            Mở file
+          </button>
+          <button ng-click="importExel()" class="btn btn-success" title="Import">
+            Thực hiện
+          </button>
+        </div>
       </div>
     </div>
 
