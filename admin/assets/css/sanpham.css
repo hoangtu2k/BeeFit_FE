@@ -136,7 +136,7 @@
     /* Scrollbar color (thumb color, track color) */
   }
 .add-nhanvien {
-    width: 1200px;
+    width: 1000px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -145,7 +145,7 @@
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 600px;
+    height: 400px;
     overflow: auto;
     scrollbar-width: thin;
     /* Width of the scrollbar (thin, auto, none) */
@@ -227,6 +227,13 @@
     bottom: 4px;
     left: 170px;
     
+}
+
+.map--btn-addnv{
+  position: absolute;
+  bottom: 5px;
+  left: 450px;
+  
 }
 
 .table-quantity::-webkit-inner-spin-button,

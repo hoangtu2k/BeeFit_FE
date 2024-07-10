@@ -19,57 +19,58 @@
 
                             <div class="card-body">
 
-
                                 <table class="table">
                                     <thead>
-                                    <th scope="row">Ảnh</th>
-                                    <th scope="row">Mã nhân viên</th>
-                                    <th scope="row">Tên nhân viên</th>
-                                    <th scope="row">Tên tài khoản</th>
-                                    <th scope="row">Giới tính</th>
-                                    <th scope="row">Số điện thoai</th>
-                                    <th scope="row">Email</th>
-                                    <th scope="row">Chuc vu</th>
-                                    <th scope="row">Trang thai</th>
-                                    <th scope="row">Thao tác</th>
+                                        <th scope="row">Ảnh</th>
+                                        <th scope="row">Mã nhân viên</th>
+                                        <th scope="row">Tên nhân viên</th>
+                                        <th scope="row">Tên tài khoản</th>
+                                        <th scope="row">Giới tính</th>
+                                        <th scope="row">Số điện thoai</th>
+                                        <th scope="row">Email</th>
+                                        <th scope="row">Chuc vu</th>
+                                        <th scope="row">Trang thai</th>
+                                        <th scope="row">Thao tác</th>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat="dm in pagenhanvien.items">
-                                        <td><img src="{{dm.image}}"></td>
-                                        <td>{{dm.code}}</td>
-                                        <td>{{dm.fullname}}</td>
-                                        <td>{{dm.username}}</td>
-                                        <td>{{dm.gender}}</td>
-                                        <td>{{dm.phone}}</td>
-                                        <td>{{dm.email}}</td>
-                                        <td>{{dm.role.name}}</td>
-                                        <td>{{dm.status == 0 ? 'Hoạt động' : dm.status == 1 ? 'Ngừng hoạt động' : ''}}
-                                        </td>
-                                        <td>
-                                            <a ng-click="opensuadanhmuc(dm)">
-                                                <button class="btn btn-warning"> Sửa</button>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tr ng-repeat="nv in pagenhanvien.items">
+                                            <td><img style="width: 50; height: 50px;" src="{{nv.image}}"></td>
+                                            <td>{{nv.code}}</td>
+                                            <td>{{nv.fullname}}</td>
+                                            <td>{{nv.username}}</td>
+                                            <td>{{nv.gender == true ? 'Nam' : 'Nữ'}} </td>
+                                            <td>{{nv.phone}}</td>
+                                            <td>{{nv.email}}</td>
+                                            <td>{{nv.role.name}}</td>
+                                            <td>{{nv.status == 0 ? 'Hoạt động' : dm.status == 1 ? 'Ngừng hoạt động' :
+                                                ''}}
+                                            </td>
+                                            <td>
+                                                <a ng-click="opensuanhanvien(nv)">
+                                                    <button class="btn btn-warning"> Sửa</button>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                                 <div class="text-center">
                                     <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                        <button ng-click="pagerdm.first()" type="button"
-                                                class="btn btn-outline-secondary"><i
+                                        <button ng-click="pagenhanvien.first()" type="button"
+                                            class="btn btn-outline-secondary"><i
                                                 class="fa-solid fa-angles-left"></i></button>
-                                        <button ng-click="pagerdm.prev()" type="button"
-                                                class="btn btn-outline-secondary"><i
+                                        <button ng-click="pagenhanvien.prev()" type="button"
+                                            class="btn btn-outline-secondary"><i
                                                 class="fa-solid fa-angle-left"></i></button>
-                                        <button type="button" class="btn btn-outline-secondary">{{pagerdm.page + 1}}
+                                        <button type="button" class="btn btn-outline-secondary">{{pagenhanvien.page +
+                                            1}}
                                             of
-                                            {{pagerdm.count}}
+                                            {{pagenhanvien.count}}
                                         </button>
-                                        <button ng-click="pagerdm.next()" type="button"
-                                                class="btn btn-outline-secondary"><i
+                                        <button ng-click="pagenhanvien.next()" type="button"
+                                            class="btn btn-outline-secondary"><i
                                                 class="fa-solid fa-angle-right"></i></button>
-                                        <button ng-click="pagerdm.last()" type="button"
-                                                class="btn btn-outline-secondary"><i
+                                        <button ng-click="pagenhanvien.last()" type="button"
+                                            class="btn btn-outline-secondary"><i
                                                 class="fa-solid fa-angles-right"></i></button>
                                     </div>
                                 </div>
@@ -93,111 +94,215 @@
 
                 <div class="row">
 
-                    <div class="col-lg-12">
+                    <div class="col-lg-4">
+                        <div class="col-md-12">
+                            <img id="output" width="200px" />
+                            <div style="margin-top: 10px;">
+                                <button onclick="anhOpen()" class="btn btn-primary" id="uploadButtonImage">Chọn
+                                    ảnh</button>
+                                <input file-model="image" id="fileUpload" type="file" accept="image/*"
+                                    onchange="loadFile1(event)" style="display: none;">
 
-                        <div class="col-md-12">
-                            <label for class="form-label label--ctsp">Tên nhân viên <span
-                                    class="validate">*</span></label>
-                            <input ng-model="form.fullname" type="text" class="form-control">
-                            <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.field == 'fullname'">
-                    {{err.defaultMessage}}
-                  </span>
                             </div>
+
                         </div>
-                        <div class="col-md-12">
-                            <label for class="form-label label--ctsp">Tên tai khoan <span
-                                    class="validate">*</span></label>
-                            <input ng-model="form.username" type="text" class="form-control">
-                            <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.field == 'username'">
-                    {{err.defaultMessage}}
-                  </span>
+                    </div>
+
+                    <div class="col-lg-8">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Tên nhân viên <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.fullname" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Fullname'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for class="form-label label--ctsp">Gioi tinh <span
-                                    class="validate">*</span></label>
-                            <input id="gtNam" name="gioitinh" type="radio" value="true"
-                                   {{form.gender=true ? 'checked' :
-                            ''
-                            }}>
-                            Nam
-                            <input id="gtNu" name="gioitinh" type="radio" value="false"
-                                   {{form.gender=false ? 'checked'
-                            : ''
-                            }}>
-                            Nữ
-                        </div>
-                        <div class="col-md-12">
-                            <label for class="form-label label--ctsp">So dien thoai <span
-                                    class="validate">*</span></label>
-                            <input ng-model="form.name" type="text" class="form-control">
-                            <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.field == 'name'">
-                    {{err.defaultMessage}}
-                  </span>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Tai khoan <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.username" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Username'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for class="form-label label--ctsp">Email <span
-                                    class="validate">*</span></label>
-                            <input ng-model="form.email" type="text" class="form-control">
-                            <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.field == 'email'">
-                    {{err.defaultMessage}}
-                  </span>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Mật khẩu <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.password" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Password'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for class="form-label label--ctsp">Chuc vu <span
-                                    class="validate">*</span></label>
-                            <select class="form-select" id="vaitro">
-                                <option ng-repeat="vaitro in listRole" value="{{vaitro.id}}"> {{vaitro.name}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12">
-                            <img id="output" width="50px"/>
-                            <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile1(event)">
-                        </div>
-                        <div class="col-md-12">
-                            <button class="btn btn-primary map--btn-addkm" ng-click="addEmployee()"></i>Lưu</button>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">So dien thoai <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.phone" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Phone'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Email <span class="validate">*</span></label>
+                                <input ng-model="form.email" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Email'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Chuc vu <span
+                                        class="validate">*</span></label>
+                                <select class="form-select" id="vaitro">
+                                    <option ng-repeat="vaitro in listRole" value="{{vaitro.id}}"> {{vaitro.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Gioi tinh <span
+                                        class="validate">*</span></label>
+                                <input id="gtNam" name="gioitinh" type="radio" value="true" checked>Nam
+                                <input id="gtNu" name="gioitinh" type="radio" value="false">Nữ
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Gender'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
 
+                <button class="btn btn-primary map--btn-addnv" ng-click="addEmployee()"></i>Lưu</button>
             </div>
         </div>
 
 
         <!-- edit nhan vien -->
         <div class="popup" ng-class="{ 'show': issuanhanvien }">
-            <div class="add-thuoctinh">
+            <div class="add-nhanvien">
                 <!-- Nội dung của popup -->
-                <button class="btn btn-danger" style="float: right;" ng-click="issuadanhmuc = false">X</button>
-                <h1>Sửa danh mục</h1>
-                <h1>(ID: {{form.id}})</h1>
+                <button class="btn btn-danger" style="float: right;" ng-click="issuanhanvien = false">X</button>
+                <h1>Sửa nhân viên (ID: {{form.id}})</h1>
 
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="col-md-12">
-                            <label for="name" class="form-label label--ctsp">Tên danh mục <span
-                                    class="validate">*</span></label>
-                            <input ng-model="form.name" id="name" type="text" class="form-control">
-                            <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
-                    {{err.defaultMessage}}
-                  </span>
-                            </div>
-                        </div>
 
+                    <div class="col-lg-4">
                         <div class="col-md-12">
-                            <button class="btn btn-primary map--btn-addkm" ng-click="updateCategory()">Lưu</button>
+                            <img id="output" width="200px" />
+                            <div style="margin-top: 10px;">
+                                <button onclick="anhOpen()" class="btn btn-primary" id="uploadButtonImage">Chọn
+                                    ảnh</button>
+                                <input file-model="image" id="fileUpload" type="file" accept="image/*"
+                                    onchange="loadFile1(event)" style="display: none;">
+
+                            </div>
+
                         </div>
                     </div>
+
+                    <div class="col-lg-8">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Tên nhân viên <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.fullname" id="fullname" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Fullname'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Tai khoan <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.username" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Username'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Mật khẩu <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.password" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Password'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">So dien thoai <span
+                                        class="validate">*</span></label>
+                                <input ng-model="form.phone" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Phone'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Email <span class="validate">*</span></label>
+                                <input ng-model="form.email" type="text" class="form-control">
+                                <div ng-repeat="err in validationErrors">
+                                    <span class="validate"
+                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Email'">
+                                        {{err.defaultMessage}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Chuc vu <span
+                                        class="validate">*</span></label>
+                                <select class="form-select" id="vaitro">
+                                    <option ng-repeat="vaitro in listRole" value="{{vaitro.id}}"> {{vaitro.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for class="form-label label--ctsp">Gioi tinh <span
+                                        class="validate">*</span></label>
+                                  <input id="gtNam" name="gioitinh" type="radio" value="true" {{form.gender = true ? 'checked' : '' }}>Nam
+                                  <input id="gtNu" name="gioitinh" type="radio" value="false" {{form.gender = false ? 'checked' : '' }}>Nữ
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
+
+                <button class="btn btn-primary map--btn-addnv" ng-click="updateEmployee()">Lưu</button>
             </div>
         </div>
     </section>

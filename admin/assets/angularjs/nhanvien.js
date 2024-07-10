@@ -35,27 +35,40 @@ window.NhanVienController = function ($scope, $http, $rootScope, AuthService) {
         })
     }
     $scope.loadAllRole();
+
+
+    $scope.form = {
+        fullname: '',
+        username: '',
+        password: '',
+        image: '',
+        gender: '',
+        phone: '',
+        email: '',
+    }
+
+    //add
     $scope.addEmployee = function () {
-        var idRole = document.getElementById("vaitro");
         var gender = true;
         if (document.getElementById("gtNu").checked == true) {
             gender = false;
         }
-        var mainImg = document.getElementById("fileUpload").files;
-        if (mainImg.length == 0) {
-            Swal.fire("Vui long them anh dai dien cho nhan vien");
+        var idRole = document.getElementById("vaitro").value;
+        var MainImage = document.getElementById("fileUpload").files;
+        if (MainImage.length == 0) {
+            Swal.fire('Vui lòng thêm ảnh đại diện cho sản phẩm !', '', 'error');
             return;
         }
         var img = new FormData();
-        img.append("files", mainImg[0]);
+        img.append("files", MainImage[0]);
         $http.post("http://localhost:8080/api/upload", img, {
             transformRequest: angular.identity,
             headers: {
                 'Content-Type': undefined
             }
-        }).then(function (upImage){
-            const data = {
-
+        }).then(function (upImage) {
+            $http.post(url, {
+                code: $scope.form.code,
                 fullname: $scope.form.fullname,
                 username: $scope.form.username,
                 password: $scope.form.password,
@@ -65,26 +78,29 @@ window.NhanVienController = function ($scope, $http, $rootScope, AuthService) {
                 email: $scope.form.email,
                 idRole: idRole,
                 createBy: $rootScope.user.username,
-            };
-            $http.post(url, data).then(function (resp) {
+            }).then(function (resp) {
                 if (resp.status === 200) {
                     Swal.fire('Thêm thành công !', '', 'success')
                     setTimeout(() => {
-                        location.href = "#/attributes/view";
-                    }, 1000);
-                    $scope.loadAllCategory();
-                    $scope.openadddanhmuc();
+                        location.href = "#/employee/view";
+                    }, 2000);
+                    $scope.loadAll();
+                    $scope.openaddnhanvien();
                 }
             }).catch(function (err) {
                 if (err.status === 400) {
+                    console.log(err.data)
                     $scope.validationErrors = err.data;
                 }
 
             })
         })
+    }
 
-
-
+    $scope.issuanhanvien = false;
+    $scope.opensuanhanvien = function (nv) {
+        $scope.issuanhanvien = !$scope.issuanhanvien;
+        $scope.form = angular.copy(nv);
     };
+
 };
-  
