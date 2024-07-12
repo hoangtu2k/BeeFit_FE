@@ -1,190 +1,212 @@
 .product-search .search-form {
-    width: 100%;
-    padding-bottom: 30px;
+  width: 100%;
+  padding-bottom: 30px;
 }
 
 .product-search .search-form input {
-    border: 0;
-    font-size: 14px;
-    color: #012970;
-    border: 1px solid rgba(1, 41, 112, 0.2);
-    padding: 7px 38px 7px 8px;
-    border-radius: 3px;
-    transition: 0.3s;
-    width: 100%;
+  border: 0;
+  font-size: 14px;
+  color: #012970;
+  border: 1px solid rgba(1, 41, 112, 0.2);
+  padding: 7px 38px 7px 8px;
+  border-radius: 3px;
+  transition: 0.3s;
+  width: 100%;
 }
 
 .product-search .search-form input:focus,
 .product-search .search-form input:hover {
-    outline: none;
-    box-shadow: 0 0 10px 0 rgba(1, 41, 112, 0.15);
-    border: 1px solid rgba(1, 41, 112, 0.3);
+  outline: none;
+  box-shadow: 0 0 10px 0 rgba(1, 41, 112, 0.15);
+  border: 1px solid rgba(1, 41, 112, 0.3);
 }
 
 .product-search .search-form button {
-    border: 0;
-    padding: 0;
-    margin-left: -30px;
-    background: none;
+  border: 0;
+  padding: 0;
+  margin-left: -30px;
+  background: none;
 }
 
 .product-search .search-form button i {
-    color: #012970;
+  color: #012970;
 }
 
 :focus {
-    outline: 0;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important
+  outline: 0;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important
 }
 
 /* CSS cho popup */
 .popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .popup-sizecolor {
-    width: 310px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  }
+  width: 310px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
 
 .importExcel-content {
-    width: 450px;
-    height: 300px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    
-    overflow: auto;
-    scrollbar-width: thin;
-    /* Width of the scrollbar (thin, auto, none) */
-    scrollbar-color: #333 #999;
-    /* Scrollbar color (thumb color, track color) */
+  width: 450px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
 }
 
 .detail-product {
-    width: 1100px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 650px;
-    overflow: auto;
-    scrollbar-width: thin;
-    /* Width of the scrollbar (thin, auto, none) */
-    scrollbar-color: #333 #999;
-    /* Scrollbar color (thumb color, track color) */
-  
-  }
-  .add-promotion {
-    width: 1100px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 650px;
-    overflow: auto;
-    scrollbar-width: thin;
-    /* Width of the scrollbar (thin, auto, none) */
-    scrollbar-color: #333 #999;
-    /* Scrollbar color (thumb color, track color) */
-  
-  }
+  width: 1100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 650px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
 
-  .add-thuoctinh {
-    width: 410px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 250px;
-    overflow: auto;
-    scrollbar-width: thin;
-    /* Width of the scrollbar (thin, auto, none) */
-    scrollbar-color: #333 #999;
-    /* Scrollbar color (thumb color, track color) */
-  }
+}
+
+.add-promotion {
+  width: 1100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 650px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
+
+}
+
+.add-thuoctinh {
+  width: 410px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 250px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
+}
+
 .add-nhanvien {
-    width: 1000px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 400px;
-    overflow: auto;
-    scrollbar-width: thin;
-    /* Width of the scrollbar (thin, auto, none) */
-    scrollbar-color: #333 #999;
-    /* Scrollbar color (thumb color, track color) */
+  width: 1000px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 400px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
 }
-  .popup-content {
-    width: 900px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    height: 600px;
-    overflow: auto;
-    scrollbar-width: thin;
-    /* Width of the scrollbar (thin, auto, none) */
-    scrollbar-color: #333 #999;
-    /* Scrollbar color (thumb color, track color) */
-  }
+
+.add-banner {
+  width: 540px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 500px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
+}
+
+.popup-content {
+  width: 900px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  height: 600px;
+  overflow: auto;
+  scrollbar-width: thin;
+  /* Width of the scrollbar (thin, auto, none) */
+  scrollbar-color: #333 #999;
+  /* Scrollbar color (thumb color, track color) */
+}
+
 .popup-content2 {
-    width: 400px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
-   
+
 
 /* Hiển thị popup khi có class 'show' */
 .popup.show {
-    display: block;
+  display: block;
 }
 
 
@@ -200,6 +222,7 @@
   color: #000;
   font-size: 13px;
 }
+
 .popup-search.show {
   display: block;
 }
@@ -209,31 +232,38 @@
 
 
 .label--ctsp {
-    color: #000;
-    font-weight: bold;
+  color: #000;
+  font-weight: bold;
 }
 
 .span--ctsp {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .validate {
-    color: red;
-    font-style: italic;
+  color: red;
+  font-style: italic;
 }
 
-.map--btn-addkm{
-    position: absolute;
-    bottom: 4px;
-    left: 170px;
-    
+.map--btn-addkm {
+  position: absolute;
+  bottom: 4px;
+  left: 170px;
+
 }
 
-.map--btn-addnv{
+.map--btn-addbanner {
+  position: absolute;
+  top: 20px;
+  left: 400px;
+
+}
+
+.map--btn-addnv {
   position: absolute;
   bottom: 5px;
   left: 450px;
-  
+
 }
 
 .table-quantity::-webkit-inner-spin-button,
@@ -268,7 +298,8 @@
   padding: 10px 20px;
   border: 1px solid #00583c;
   cursor: pointer;
-  margin: 0 -1px; /* Fix alignment issue */
+  margin: 0 -1px;
+  /* Fix alignment issue */
   text-align: center;
   width: 147.8px;
   margin: 3px;
@@ -276,7 +307,7 @@
   color: rgb(0, 0, 0);
 }
 
-.radio-button input[type="radio"]:checked + label {
+.radio-button input[type="radio"]:checked+label {
   background-color: #0d6efd;
   color: #fff;
 }
@@ -305,10 +336,11 @@
 }
 
 /* Style the labels when the radio button is checked */
-.radio-button-group input[type="radio"]:checked + label {
+.radio-button-group input[type="radio"]:checked+label {
   background-color: #0049b7;
   border: 1px solid #0a58ca;
 }
+
 /* Tùy chỉnh thanh cuộn trong trình duyệt Chrome và Safari */
 /* Các thuộc tính này không hoạt động trong Firefox hoặc Edge */
 
@@ -319,15 +351,18 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #0d38d4; /* Màu của thanh cuộn khi di chuyển */
+  background-color: #0d38d4;
+  /* Màu của thanh cuộn khi di chuyển */
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Màu của phần còn lại của thanh cuộn */
+  background: #f1f1f1;
+  /* Màu của phần còn lại của thanh cuộn */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #000; /* Màu của thanh cuộn khi rê chuột lên */
+  background-color: #000;
+  /* Màu của thanh cuộn khi rê chuột lên */
 }
 
 
@@ -335,8 +370,10 @@
 .timeline {
   display: flex;
   width: 100%;
-  overflow-x: auto; /* Tạo thanh cuộn ngang khi nội dung vượt quá kích thước container */
-  white-space: nowrap; /* Ngăn chặn xuống dòng khi nội dung quá rộng */
+  overflow-x: auto;
+  /* Tạo thanh cuộn ngang khi nội dung vượt quá kích thước container */
+  white-space: nowrap;
+  /* Ngăn chặn xuống dòng khi nội dung quá rộng */
 }
 
 :root {

@@ -1,92 +1,124 @@
 <main id="main" class="main">
-    <section class="section dashboard">
+  <section class="section dashboard">
 
-        <div class="row" style="margin-bottom: 20px;">
-            <div class="col-lg-12">
-                <button class="btn btn-primary" ng-click="themBanner()" title="Thêm banner">
-                    <i class="far fa-plus"></i> Thêm </button>
-            </div> 
+    <div class="row" style="margin-bottom: 20px;">
+      <div class="col-lg-12">
+        <button class="btn btn-primary" ng-click="themBanner()" title="Thêm banner">
+          <i class="far fa-plus"></i> Thêm </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-12">
+
+            <div class="card">
+
+              <div class="card-body">
+
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td scope="col">#</td>
+                      <td scope="col">ID Banner</td>
+                      <td scope="col">Ảnh Banner</td>
+                      <td scope="col">Nội Dung</td>
+                      <td scope="col">Hành Động</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="b in list">
+                      <td> {{$index + 1}}</td>
+                      <td>{{b.id}}</td>
+                      <td>
+                        <img style="width: 250px; height: 100px;" src="{{b.url}}">
+                      </td>
+                      <td>{{b.content}}</td>
+                      <td>
+                        <button ng-click="suaBanner(b.id)" class="btn btn-warning"> Sửa</button>
+                        <button ng-click="delete(b.id)" class="btn btn-danger"> Xóa</button>
+                      </td>
+                    </tr>
+                </table>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ======= end row ======= -->
+
+    <!-- add nhan vien -->
+    <div class="popup" ng-class="{ 'show': isAddBanner }">
+      <div class="add-banner">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="themBanner()">X</button>
+        <h1>Thêm banner</h1>
+
+        <div class="row">
+
+          <div class="col-md-12 ">
+            <div>Ảnh banner <span class="vaid">*</span></div>
+            <img style="width: 500px; height: 250px;" id="output" />
+            <div>
+              <button onclick="anhOpen()" class="btn btn-primary" style="border: none;padding: 5px; margin-top: 5px;" id="uploadButtonImage">Chọn ảnh</button>
+              <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile1(event)"
+                style="display: none;">
+            </div>
+
+          </div>
+
+          <div class="col-md-12">
+            <label>Nội Dung </label><br>
+            <textarea class="form-control" style="width: 500px;" ng-model="content"></textarea>
+          </div>
+
         </div>
 
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-12">
-  
-              <div class="card">
-  
-                <div class="card-body">
-  
-                    
-  
-                </div>
-  
-              </div>
-  
-            </div>
-          </div>
+        <div class="col-md-12">
+          <button class="btn btn-primary map--btn-addbanner" ng-click="addBanner()"></i>Lưu</button>
         </div>
+
       </div>
-      <!-- ======= end row ======= -->
-  
-       <!-- add nhan vien -->
-      <div class="popup" ng-class="{ 'show': isthemnhanvien }">
-        <div class="add-employee">
-          <!-- Nội dung của popup -->
-          <button class="btn btn-danger" style="float: right;" ng-click="openaddnhanvien()">X</button>
-          <h1>Thêm nhân viên</h1>
-  
-          <div class="row">
-  
-            <div class="col-lg-12">
-  
-              <div class="col-md-12">
-                <label for class="form-label label--ctsp">Tên nhân viên <span class="validate">*</span></label>
-                <input ng-model="form.name" type="text" class="form-control">
-                <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.field == 'name'">
-                    {{err.defaultMessage}}
-                  </span>
-                </div>
-              </div>
-  
-              <div class="col-md-12">
-                <button class="btn btn-primary map--btn-addkm" ng-click="addEmployee()"></i>Lưu</button>
-              </div>
-  
+    </div>
+
+    <!-- edit nhan vien -->
+    <div class="popup" ng-class="{ 'show': isUpdateBanner }">
+      <div class="add-banner">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="suaBanner(null)">X</button>
+        <h1>Sửa banner (ID: {{id}})</h1>
+
+        <div class="row">
+
+          <div class="col-md-12 ">
+            <div>Ảnh banner <span class="">*</span></div>
+            <img id="outputbanner1" ng-if="anh != null" style="width: 500px; height: 250px;display: block;" src="{{anh}}">
+            <img style="width: 500px; height: 250px;display: none;" id="outputbanner"/>
+            <div>
+              <button onclick="anhOpen2()" class="btn btn-primary" style="border: none;padding: 5px; margin-top: 5px;" id="uploadButtonImage">Chọn ảnh</button>
+              <input file-model="image" id="fileUpload1" type="file" accept="image/*" onchange="loadFile2(event)" style="display: none;">
             </div>
-  
+
           </div>
-  
-        </div>
-      </div>
- 
-      <!-- edit nhan vien -->
-      <div class="popup" ng-class="{ 'show': issuanhanvien }">
-        <div class="add-thuoctinh">
-          <!-- Nội dung của popup -->
-          <button class="btn btn-danger" style="float: right;" ng-click="issuadanhmuc = false">X</button>
-          <h1>Sửa danh mục</h1>
-          <h1>(ID: {{form.id}})</h1>
-  
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="col-md-12">
-                <label for="name" class="form-label label--ctsp">Tên danh mục <span class="validate">*</span></label>
-                <input ng-model="form.name" id="name" type="text" class="form-control">
-                <div ng-repeat="err in validationErrors">
-                  <span class="validate" ng-if="err.objectName == 'validateFormAttr' && err.field == 'Name'">
-                    {{err.defaultMessage}}
-                  </span>
-                </div>
-              </div>
-  
-              <div class="col-md-12">
-                <button class="btn btn-primary map--btn-addkm" ng-click="updateCategory()">Lưu</button>
-              </div>
-            </div>
+
+          <div class="col-md-12">
+            <label>Nội Dung </label><br>
+            <textarea class="form-control" style="width: 500px;" ng-model="content1"></textarea>
           </div>
+
         </div>
+
+        <div class="col-md-12">
+          <button class="btn btn-primary map--btn-addbanner" ng-click="updateBanner(id)"></i>Lưu</button>
+        </div>
+
       </div>
-    </section>
-  </main><!-- End #main -->
+    </div>
+
+  </section>
+</main><!-- End #main -->

@@ -1615,6 +1615,12 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
 
   let idVoucher = null;
   $scope.apCTKM = function () {
+
+    if ($scope.listItem.length === 0) {
+      Swal.fire('Giỏ hàng của bạn đang rỗng !', '', 'error');
+      return;
+    }
+
     $scope.phiShip = 0;
     $scope.giamGia -= $scope.voucherGiamGia;
     $scope.voucherGiamGia = 0;

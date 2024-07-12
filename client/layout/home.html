@@ -1,20 +1,15 @@
 <main class="main">
 
-    <div class="banner-big"
-        style="background-image: url(assets/images/7.jpg); background-color: #f1f5f7;">
-        <div class="banner-content">
-            <div class="banner-subtitle text-secondary">Tìm áo đẹp.</div>
-            <div class="banner-title text-secondary mb-3">
-                Mọi thứ cho việc phong cách thời trang
+    <div id="demo" class="carousel slide" data-ride="carousel">
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="position: relative;" ng-repeat="img in listBanner">
+                <img src="{{img.url}}" alt="Los Angeles" width="100%" height="9">
+                <h1 style="position: absolute; top:30%;left: 30%;max-width: 400px;" class="product-title">{{img.content}}</h1>
             </div>
-            <figure class="wave-img">
-                <img src="assets/images/demos/demo-31/wave.png" alt="Wave image" width="76" height="9">
-            </figure>
-            <p class="font-weight-normal mt-3">
-                Từ thảm, đạo cụ, phụ kiện và mọi thứ khác đều được giao hàng trực tiếp đến tận nhà bạn.</p>
-            <!-- <a href="#" class="btn btn-secondary">SHOP YOGA MATS</a> -->
-        </div><!--End .banner-content-->
-    </div><!--End .banner-big-->
+        </div>
+    </div>
+
 
     <div class="page-content">
         <div class="container">
@@ -97,7 +92,7 @@
 
     <hr class="mt-6">
 
-  
+
     <div class="page-content">
         <div class="container">
 

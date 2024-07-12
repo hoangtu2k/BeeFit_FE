@@ -39,18 +39,23 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: ThuocTinhController,
     })
 
-    
-    .when("/promotion/view", {
-      templateUrl: "sanpham/thuoctinh/khuyenmai/index.html",
-      controller: KhuyenMaiController,
-    })
-
     .when("/banner/view", {
       templateUrl: "banner/index.html",
       controller: BannerController,
     })
-    
-    
+    .when("/news/view", {
+      templateUrl: "tintuc/news.html",
+      controller: TinTucController,
+    })
+
+    .when("/customer/view", {
+      templateUrl: "khachhang/index.html",
+      controller: KhachHangController,
+    })
+    .when("/voucher/view", {
+      templateUrl: "khuyenmai/index.html",
+      controller: KhuyenMaiController,
+    })
     
 
     .when("/login", {
