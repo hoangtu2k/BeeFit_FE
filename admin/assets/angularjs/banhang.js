@@ -3,27 +3,70 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
 
   // tạo hóa đơn
   $scope.addbill = function () {
-    // add bill
-    $http
-      .post("http://localhost:8080/api/bill/billTaiQuay", {
-        status: 10,
-        idEmployee: AuthService.getId(),
-        typeStatus: 1,
+    // Kiểm tra số lượng hóa đơn có trạng thái là 10
+    $http.get("http://localhost:8080/api/bill/getbystatus/10")
+      .then(function (response) {
+        console.log("Số lượng hóa đơn có trạng thái là 10:", response.data);
+        
+        if (response.data.length < 5) {
+          console.log("Số lượng hóa đơn nhỏ hơn 10, tiếp tục tạo hóa đơn mới.");
+          
+          // Nếu số lượng hóa đơn có trạng thái là 10 nhỏ hơn 10, cho phép tạo hóa đơn mới
+          $http.post("http://localhost:8080/api/bill/billTaiQuay", {
+            status: 10,
+            idEmployee: AuthService.getId(),
+            typeStatus: 1,
+          })
+          .then(function (bill) {
+            console.log("Hóa đơn mới tạo:", bill.data);
+            
+            Swal.fire(
+              "Tạo hóa đơn " + bill.data.code + " thành công !",
+              "",
+              "success"
+            );
+            
+            $http.post("http://localhost:8080/api/billhistory", {
+              createBy: $rootScope.user.username,
+              note: "Tạo hóa đơn tại quầy",
+              status: 0,
+              idBill: bill.data.id,
+            })
+            .then(function(response) {
+              console.log("Lịch sử hóa đơn đã được tạo thành công:", response.data);
+            })
+            .catch(function(error) {
+              console.error("Lỗi khi tạo lịch sử hóa đơn:", error);
+            });
+            
+            $scope.getAllBill();
+            $scope.choose(bill.data.code, bill.data.id);
+          })
+          .catch(function (error) {
+            console.error("Lỗi khi tạo hóa đơn:", error);
+            Swal.fire(
+              "Lỗi khi tạo hóa đơn.",
+              "",
+              "error"
+            );
+          });
+        } else {
+          console.log("Số lượng hóa đơn đã đạt giới hạn, không thể tạo thêm.");
+          // Nếu số lượng hóa đơn có trạng thái là 10 đã đạt đến 10, hiển thị thông báo lỗi
+          Swal.fire(
+            "Không thể tạo thêm hóa đơn, đã đạt giới hạn hóa đơn.",
+            "",
+            "error"
+          );
+        }
       })
-      .then(function (bill) {
+      .catch(function (error) {
+        console.error("Lỗi khi lấy số lượng hóa đơn:", error);
         Swal.fire(
-          "Tạo hóa đơn " + bill.data.code + " thành công !",
+          "Lỗi khi lấy số lượng hóa đơn.",
           "",
-          "success"
+          "error"
         );
-        $http.post("http://localhost:8080/api/billhistory", {
-          createBy: $rootScope.user.username,
-          note: "Tạo hóa đơn tại quầy",
-          status: 0,
-          idBill: bill.data.id,
-        });
-        $scope.getAllBill();
-        $scope.choose(bill.data.code, bill.data.id);
       });
   };
 
