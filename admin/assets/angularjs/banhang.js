@@ -1006,9 +1006,22 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
 
   // giảm số lượng giỏ
   $scope.giam = function (id) {
-    if (document.getElementById("quantity" + id).value == 1) {
-      $scope.deleteBillDetail(id);
-      return;
+    let quantityElement = document.getElementById("quantity" + id);
+
+    if (quantityElement.value == 1) {
+        Swal.fire({
+            title: 'Số lượng còn 1',
+            text: 'Bạn có chắc chắn muốn xóa khỏi giỏ hàng?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Có, xóa đi!',
+            cancelButtonText: 'Không, giữ lại'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $scope.deleteBillDetail(id);
+            }
+        });
+        return;
     }
 
     $http
@@ -1026,7 +1039,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
                     bill.data[i].idColor == resp.data.idColor &&
                     bill.data[i].idSize == resp.data.idSize
                   ) {
-                    // nếu tồn tại rồi thì updatate số lượng
+                    // nếu tồn tại rồi thì update số lượng
                     $http
                       .put(
                         "http://localhost:8080/api/bill/updateBillDetail/" +
@@ -1052,7 +1065,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
                           url: "http://localhost:8080/api/productdetail_color_size/getQuantityProductAndColorAndSize",
                           params: getPram,
                         }).then(function (soluong) {
-                          //  cập nhật số lượng sản phẩm
+                          // cập nhật số lượng sản phẩm
                           var param2 = {
                             IdProduct: resp.data.product.id,
                             IdColor: resp.data.idColor,
