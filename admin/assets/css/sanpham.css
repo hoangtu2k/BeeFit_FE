@@ -101,7 +101,7 @@
 }
 
 .add-promotion {
-  width: 1100px;
+  width: 820px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -110,7 +110,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  height: 650px;
+  height: 480px;
   overflow: auto;
   scrollbar-width: thin;
   /* Width of the scrollbar (thin, auto, none) */
@@ -227,10 +227,6 @@
   display: block;
 }
 
-
-
-
-
 .label--ctsp {
   color: #000;
   font-weight: bold;
@@ -247,8 +243,8 @@
 
 .map--btn-addkm {
   position: absolute;
-  bottom: 4px;
-  left: 170px;
+  top: 20px;
+  left: 680px;
 
 }
 

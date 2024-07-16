@@ -199,7 +199,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     //get all voucher
     $scope.listVoucher = [];
     $http
-      .get("https://66593f12de346625136bb615.mockapi.io/voucher")
+      .get("http://localhost:8080/api/voucher")
       .then(function (resp) {
         $scope.listVoucher = resp.data;
       });
@@ -1682,7 +1682,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     $scope.voucherGiamGia = 0;
     let code = document.getElementById('ctkm').value;
 
-    $http.get('https://66593f12de346625136bb615.mockapi.io/voucher').then(function (resp) {
+    $http.get('http://localhost:8080/api/voucher').then(function (resp) {
       $scope.listVoucher = resp.data;
 
       let voucherFound = false;

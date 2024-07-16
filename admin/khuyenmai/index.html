@@ -12,11 +12,11 @@
 
                 <div class="product-search">
                   <div class="search-bar">
-                    <form class="search-form d-flex align-items-center">
-                      <input type="text" name="query" placeholder="Nhập mã hoặc tên khuyến mãi"
+                    <div class="search-form d-flex align-items-center timkiem">
+                      <input type="text" id="name" placeholder="Tìm theo tên khuyến mãi"
                         title="Tìm kiếm khuyến mãi">
-                      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-                    </form>
+                      <button title="Search" ng-click="search()"><i class="bi bi-search"></i></button>
+                    </div>
                   </div><!-- End Search Bar -->
                 </div>
 
@@ -45,14 +45,15 @@
 
                 <table class="table">
                   <thead>
-                    <th scope="row">Mã khuyến mãi</td>
-                    <th scope="row">Tên khuyến mãi</td>
-                    <th scope="row">Kiểu khuyến mãi</td>
-                    <th scope="row">Giá trị khuyến mãi</td>
-                    <th scope="row">Ngày bắt đầu</td>
+                    <th scope="row">Mã</th>
+                    <th scope="row">Tên khuyến mãi</th>
+                    <th scope="row">Kiểu khuyến mãi</th>
+                    <th scope="row">Giá trị khuyến mãi</th>
+                    <th scope="row">Số lượng</th>
+                    <th scope="row">Ngày bắt đầu</th>
                     <th scope="row">Ngày kết thúc</th>
                     <th scope="row">Trạng thái</th>
-
+                    <th scope="row">Thao tác</th>
                   </thead>
                   <tbody>
                     <tr ng-repeat="v in pagerkm.items">
@@ -60,11 +61,17 @@
                       <td>{{v.name}}</td>
                       <td>{{v.discountType == false ? 'Giảm giá theo %' : 'Giảm giá theo tiền'}}</td>
                       <td>{{v.discountType == false ? v.discount + '%' : (v.cash | currency:'':0) + ' VND'}}</td>
+                      <td>{{v.quantity}}</td>
                       <td>{{ formatDateTime(v.startDate) }}</td>
                       <td>{{ formatDateTime(v.endDate) }}</td>
-                      <td>{{v.status == 0 ? 'Hoạt động' : v.status == 1 ? 'Ngừng hoạt động' : ''}}</td>
-                      <td><a href="#/promotion/update/{{v.id}}"><button class="btn btn-indigo"> Sửa</button></a>
-                        <button style="margin-top: 5px" class="btn btn-danger" ng-click="delete(v.id)"> Xóa</button>
+                      <td>
+                        <span class="badge" ng-class="{'bg-success': v.status === 0, 'bg-danger': v.status !== 0}">
+                          {{ v.status === 0 ? 'Hoạt động' : 'Ngừng hoạt động'
+                          }}</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-primary" ng-click="opensuakhuyenmai(v)"> Sửa</button>
+                        <button class="btn btn-danger" ng-click="delete(v.id)"> Xóa</button>
                       </td>
                     </tr>
                   </tbody>
@@ -104,31 +111,63 @@
 
         <div class="row">
 
-          <div class="col-lg-4">
+          <div class="col-lg-6">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Mã khuyến mãi <span class="validate">*</span></label>
+              <input ng-model="form.code" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Code'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Tên khuyến mãi <span class="validate">*</span></label>
               <input ng-model="form.name" type="text" class="form-control">
               <div ng-repeat="err in validationErrors">
-                <span class="validate" ng-if="err.field == 'name'">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Name'">
                   {{err.defaultMessage}}
                 </span>
-                <span class="validate" ng-if="err.field == 'endDate'">
+              </div>
+
+            </div>
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Ngày bắt đầu <span class="validate">*</span></label>
+              <input type="datetime-local" ng-model="form.startdate" id="ngaybatdau" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'StartDate'">
                   {{err.defaultMessage}}
                 </span>
               </div>
             </div>
-  
+
             <div class="col-md-12">
-              <label for class="form-label label--ctsp">Ngày bắt đầu<span class="validate">*</span></label>
-              <input type="datetime-local" ng-model="form.startdate" id="ngaybatdau" class="form-control">
-            </div>
-  
-            <div class="col-md-12">
-              <label for class="form-label label--ctsp">Ngày hết hạn<span class="validate">*</span></label>
+              <label for class="form-label label--ctsp">Ngày hết hạn <span class="validate">*</span></label>
               <input type="datetime-local" ng-model="form.enddate" id="ngayhethan" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'EndDate'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
             </div>
-  
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Số lượng <span class="validate">*</span></label>
+              <input ng-model="form.quantity" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Quantity'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Loại khuyến mãi<span class="validate">*</span></label>
               <div class="custom-radio">
@@ -141,7 +180,7 @@
               </div>
               <div class="col-md-12" style="display: none;" id="km">
                 <label>Khuyến mãi theo (%) </label>
-                <input ng-model="form.discount" class="form-control"v>
+                <input ng-model="form.discount" class="form-control">
               </div>
               <div class="col-md-12" style="display: none;" id="km1">
                 <label>Khuyến mãi theo tiền </label>
@@ -155,69 +194,107 @@
 
           </div>
 
-          <div class="col-lg-8">
-            <table class="table">
-              <thead>
-                <th><input type="checkbox" name="" id=""></th>
-                <th scope="row">Ảnh</th>
-                <th scope="row">Mã Sản Phẩm</th>
-                <th scope="row">Tên Sản Phẩm</th>
-                <th scope="row">Giá Bán</th>
-                <th scope="row">Trạng Thái</th>
-              </thead>
-              <tbody>
-                <tr ng-if="listProduct.length > 0" ng-repeat="sp in pagerpro.items">
-                  <td>
-                    <input type="checkbox">
-                  </td>
-                  <td>
-                    <span ng-repeat="img in sp.productImages">
-                      <span ng-if="img.mainImage == true">
-                        <img style="width: 50px;height: 50px" alt src="{{img.url}}">
-                      </span>
-                    </span>
-                  </td>
-                  <td>{{sp.code}}</td>
-                  <td>{{sp.name}}</td>
-                  <td>{{sp.price | currency:'':0}} VNĐ</td>
-                  <td>
-                    <span class="badge"
-                      ng-class="{'bg-success': sp.status === 0, 'bg-danger': sp.status !== 0}">
-                      {{ sp.status === 0 ? 'Đang bán' : 'Dừng bán'
-                      }}</span>
-                  </td>
-                </tr>
-                <tr ng-if="listProduct.length == 0">
-                  <td colspan="13">
-                    <div style="text-align: center;">
-                      <div><img style="width: 80px; height: 80px;" src="../../assets/img/box.png">
-                      </div>
-                      <h4>Không có sản phẩm nào</h4>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="text-center" ng-if="listProduct.length > 0">
-              <div class="btn-group" aria-label="Basic outlined example">
-                <button ng-click="pagerpro.first()" type="button" class="btn btn-outline-secondary"><i
-                    class="fa-solid fa-angles-left"></i></button>
-                <button ng-click="pagerpro.prev()" type="button" class="btn btn-outline-secondary"><i
-                    class="fa-solid fa-angle-left"></i></button>
-                <button type="button" class="btn btn-outline-secondary">{{pagerpro.page+1}}
-                  of
-                  {{pagerpro.count}}</button>
-                <button ng-click="pagerpro.next()" type="button" class="btn btn-outline-secondary"><i
-                    class="fa-solid fa-angle-right"></i></button>
-                <button ng-click="pagerpro.last()" type="button" class="btn btn-outline-secondary"><i
-                    class="fa-solid fa-angles-right"></i></button>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <div class="popup" ng-class="{ 'show': issuakhuyenmai }">
+      <div class="add-promotion">
+        <!-- Nội dung của popup -->
+        <button class="btn btn-danger" style="float: right;" ng-click="issuakhuyenmai = false">X</button>
+        <h1>Thêm khuyến mãi </h1>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Mã khuyến mãi <span class="validate">*</span></label>
+              <input ng-model="form.code" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Code'">
+                  {{err.defaultMessage}}
+                </span>
               </div>
             </div>
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Tên khuyến mãi <span class="validate">*</span></label>
+              <input ng-model="form.name" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Name'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+
+            </div>
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Ngày bắt đầu <span class="validate">*</span></label>
+              <input type="datetime-local" ng-model="form.startdate" id="ngaybatdau" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'StartDate'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Ngày hết hạn <span class="validate">*</span></label>
+              <input type="datetime-local" ng-model="form.enddate" id="ngayhethan" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'EndDate'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Số lượng <span class="validate">*</span></label>
+              <input ng-model="form.quantity" type="text" class="form-control">
+              <div ng-repeat="err in validationErrors">
+                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Quantity'">
+                  {{err.defaultMessage}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label for class="form-label label--ctsp">Loại khuyến mãi<span class="validate">*</span></label>
+              <div class="custom-radio">
+                <input type="radio" value="true" name="discountType" ng-model="form.discountType" id="giamphantram"
+                  ng-click="check()" />
+                <label for="giamphantram">Giảm giá theo %</label>
+                <input type="radio" value="false" name="discountType" ng-model="form.discountType" id="giamtienmat"
+                  ng-click="check()" />
+                <label for="giamtienmat">Giảm giá theo tiền mặt</label>
+              </div>
+              <div class="col-md-12" style="display: none;" id="km">
+                <label>Khuyến mãi theo (%) </label>
+                <input ng-model="form.discount" class="form-control">
+              </div>
+              <div class="col-md-12" style="display: none;" id="km1">
+                <label>Khuyến mãi theo tiền </label>
+                <input ng-model="form.cash" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <button class="btn btn-primary map--btn-addkm" ng-click="update()"></i>Lưu</button>
+            </div>
+
           </div>
 
         </div>
 
-       
+
 
       </div>
     </div>

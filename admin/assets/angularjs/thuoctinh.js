@@ -833,7 +833,7 @@ window.ThuocTinhController = function ($scope, $http, $rootScope, AuthService) {
         $http.put(urlMaterial + "/update/" + $scope.form.id, $scope.form)
             .then(function (response) {
                 // Cập nhật lại danh sách thương hiệu
-                const index = $scope.pagerlc.items.findIndex(item => item.id === $scope.form.id);
+                const index = $scope.pagercl.items.findIndex(item => item.id === $scope.form.id);
                 if (index !== -1) {
                     $scope.pagercl.items[index] = $scope.form;
                 }
