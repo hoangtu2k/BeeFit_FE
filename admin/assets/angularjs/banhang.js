@@ -1213,17 +1213,14 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
             IdSize: billDetail.idSize,
             Quantity: parseInt(currentQuantity) + parseInt(billDetail.quantity),
           };
-
           $http({
             method: "PUT",
             url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
             params: param2,
           }).then(function (updateResp) {
-
             // Bước 5: Xóa chi tiết hóa đơn
             $http.get("http://localhost:8080/api/bill/deleteBillDetail/" + id).then(function (deleteResp) {
               // Swal.fire("Chi tiết hóa đơn đã được xóa!", "", "success");
-
               $scope.getAllData();
               // Xóa trắng input tìm kiếm
               $scope.searchQuery = '';
@@ -1232,8 +1229,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
               // Gọi lại các hàm để cập nhật dữ liệu
               $scope.choose(codeBill, idBill);
               $scope.getAllProduct();
-
-
             }, function (error) {
               Swal.fire("Lỗi khi xóa chi tiết hóa đơn", "", "error");
             });
@@ -1692,12 +1687,12 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
           voucherFound = true;
 
           $scope.voucherName = $scope.listVoucher[i].name;
-          $scope.voucherType = $scope.listVoucher[i].typeVoucher;
+          $scope.voucherType = $scope.listVoucher[i].discountType;
           $scope.discountVoucher = $scope.listVoucher[i].discount + '%';
           $scope.cashVoucher = $scope.listVoucher[i].cash;
 
           let discount = 0;
-          if ($scope.listVoucher[i].typeVoucher === false) {
+          if ($scope.listVoucher[i].discountType === false) {
             discount = Math.min($scope.listVoucher[i].cash, $scope.tongTien);
           } else {
             discount = Math.min($scope.tongTien * ($scope.listVoucher[i].discount * 0.01), $scope.tongTien);

@@ -316,9 +316,8 @@
                   </div>
 
                   <div id="chuongtrinhkhuyenmai" style="display: block;">
-                    <select class="form-select" style="width: 230px;height: 40px; float: left;" id="ctkm">
-                      <option ng-repeat="km in listVoucher" value="{{km.code}}">{{km.code}} - {{km.name}} | Áp
-                        dụng cho hóa đơn</option>
+                    <select class="form-select" style="width: 350px;height: 40px; float: left;" id="ctkm">
+                      <option ng-repeat="km in listVoucher" value="{{km.code}}">{{km.code}} - {{km.name}} | {{km.discountType ? "Giảm giá theo phần trăm" : "Giảm giá theo tiền mặt"}}</option>
                     </select>
                     <button ng-click="apCTKM()" style="padding: 5px; margin-left: 10px; margin-top: 2px;"
                       class="btn btn-primary">Áp dụng</button>

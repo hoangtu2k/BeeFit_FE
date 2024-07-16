@@ -94,8 +94,8 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
     //add
     $scope.add = function () {
 
-        let checkk2 = document.getElementById("giamtienmat").checked;
-        let checkk1 = checkk2 ? $scope.form.cash : $scope.form.discount;
+        let checkk2 = document.getElementById("giamphantram").checked;
+        let checkk1 = checkk2 ? $scope.form.discount : $scope.form.cash;
 
         // Kiểm tra giá trị giảm giá
         if (document.getElementById("giamphantram").checked) {
@@ -123,8 +123,8 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
             code: $scope.form.code,
             name: $scope.form.name,
             discountType: checkk2,
-            discount: !checkk2 ? checkk1 : null,
-            cash: checkk2 ? checkk1 : null,
+            discount: checkk2 ? checkk1 : null,
+            cash: !checkk2 ? checkk1 : null,
             startDate: tungay,
             endDate: denngay,
             quantity: $scope.form.quantity,
@@ -134,7 +134,7 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
                 Swal.fire('Thêm thành công !', '', 'success')
                 setTimeout(() => {
                     location.href = "#/voucher/view";
-                }, 1000);             
+                }, 1000);
                 $scope.loadAll();
                 $scope.openaddkhuyenmai();
             }
@@ -148,9 +148,9 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
 
     //update
     $scope.update = function () {
-        
-        let checkk2 = document.getElementById("giamtienmat").checked;
-        let checkk1 = checkk2 ? $scope.form.cash : $scope.form.discount;
+
+        let checkk2 = document.getElementById("giamphantram").checked;
+        let checkk1 = checkk2 ? $scope.form.discount : $scope.form.cash;
 
         // Kiểm tra giá trị giảm giá
         if (document.getElementById("giamphantram").checked) {
@@ -180,8 +180,8 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
             code: $scope.form.code,
             name: $scope.form.name,
             discountType: checkk2,
-            discount: !checkk2 ? checkk1 : null,
-            cash: checkk2 ? checkk1 : null,
+            discount: checkk2 ? checkk1 : null,
+            cash: !checkk2 ? checkk1 : null,
             startDate: tungay,
             endDate: denngay,
             quantity: $scope.form.quantity,
@@ -254,14 +254,24 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         }
     };
 
-    
-
-    
-
 
     $scope.formatDateTime = function (dateTimeString) {
         var date = new Date(dateTimeString);
-        return date.toLocaleString(); // Sử dụng hàm toLocaleString() để định dạng theo cài đặt địa phương của trình duyệt
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        
+        // Định dạng giờ và phút
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        
+        // Định dạng ngày/tháng/năm
+        var day = date.getDate();
+        var month = date.getMonth() + 1; // Tháng từ 0-11, cần cộng thêm 1
+        var year = date.getFullYear();
+        
+        return (day < 10 ? '0' + day : day) + '/' + (month < 10 ? '0' + month : month) + '/' + year + ' ' + hours + ':' + minutes;
     };
+
+
 }
 

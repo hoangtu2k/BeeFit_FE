@@ -59,8 +59,8 @@
                     <tr ng-repeat="v in pagerkm.items">
                       <td>{{v.code}}</td>
                       <td>{{v.name}}</td>
-                      <td>{{v.discountType == false ? 'Giảm giá theo %' : 'Giảm giá theo tiền'}}</td>
-                      <td>{{v.discountType == false ? v.discount + '%' : (v.cash | currency:'':0) + ' VND'}}</td>
+                      <td>{{v.discountType == true ? 'Giảm giá theo %' : 'Giảm giá theo tiền'}}</td>
+                      <td>{{v.discountType == true ? v.discount + '%' : (v.cash | currency:'':0) + ' VND'}}</td>
                       <td>{{v.quantity}}</td>
                       <td>{{ formatDateTime(v.startDate) }}</td>
                       <td>{{ formatDateTime(v.endDate) }}</td>
@@ -136,7 +136,7 @@
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Ngày bắt đầu <span class="validate">*</span></label>
-              <input type="datetime-local" ng-model="form.startdate" id="ngaybatdau" class="form-control">
+              <input type="date" ng-model="form.startdate" id="ngaybatdau" class="form-control">
               <div ng-repeat="err in validationErrors">
                 <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'StartDate'">
                   {{err.defaultMessage}}
@@ -146,7 +146,7 @@
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Ngày hết hạn <span class="validate">*</span></label>
-              <input type="datetime-local" ng-model="form.enddate" id="ngayhethan" class="form-control">
+              <input type="date" ng-model="form.enddate" id="ngayhethan" class="form-control">
               <div ng-repeat="err in validationErrors">
                 <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'EndDate'">
                   {{err.defaultMessage}}
@@ -205,7 +205,7 @@
       <div class="add-promotion">
         <!-- Nội dung của popup -->
         <button class="btn btn-danger" style="float: right;" ng-click="issuakhuyenmai = false">X</button>
-        <h1>Thêm khuyến mãi </h1>
+        <h1>Sửa khuyến mãi </h1>
 
         <div class="row">
 
