@@ -647,7 +647,6 @@ window.SanPhamController = function ($scope, $http, $location, $routeParams, $ro
     let id = $routeParams.id;
     $http.get("http://localhost:8080/api/product/" + id).then(function (detail) {
       $scope.history = detail.data;
-
     })
     $scope.get = function (name) {
       return document.getElementById(name).value;

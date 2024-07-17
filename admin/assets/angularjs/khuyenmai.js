@@ -84,13 +84,6 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         }
     };
 
-    // Open the edit khuyenmai
-    $scope.issuakhuyenmai = false;
-    $scope.opensuakhuyenmai = function (km) {
-        $scope.issuakhuyenmai = !$scope.issuakhuyenmai;
-        $scope.form = angular.copy(km);
-    };
-
     //add
     $scope.add = function () {
 
@@ -148,60 +141,59 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
 
     //update
     $scope.update = function () {
+        
+        let id = $routeParams.id;
+        $http.get("http://localhost:8080/api/voucher/" + id).then(function (detail) {
+            $scope.history = detail.data;
+        });
 
-        let checkk2 = document.getElementById("giamphantram").checked;
-        let checkk1 = checkk2 ? $scope.form.discount : $scope.form.cash;
+        let laGiamPhanTram = document.getElementById("giamphantram").checked;
+        let giaTriGiam = laGiamPhanTram ? $scope.form.discount : $scope.form.cash;
 
         // Kiểm tra giá trị giảm giá
-        if (document.getElementById("giamphantram").checked) {
+        if (laGiamPhanTram) {
             if (!$scope.form.discount) {
-                Swal.fire("Giá trị phần trăm giảm không bỏ trống !", "", "warning");
+                Swal.fire("Giá trị phần trăm giảm không được để trống!", "", "warning");
                 return;
             }
         } else {
             if (!$scope.form.cash) {
-                Swal.fire("Giá trị tiền giảm không bỏ trống !", "", "warning");
+                Swal.fire("Giá trị tiền giảm không được để trống!", "", "warning");
                 return;
             }
         }
 
         // Kiểm tra ngày tháng
-        let tungay = document.getElementById("ngaybatdau").value;
-        let denngay = document.getElementById("ngayhethan").value;
+        let ngayBatDau = document.getElementById("ngaybatdau").value;
+        let ngayHetHan = document.getElementById("ngayhethan").value;
 
-        if (new Date(tungay) > new Date(denngay)) {
+        if (new Date(ngayBatDau) > new Date(ngayHetHan)) {
             Swal.fire("Ngày bắt đầu phải trước ngày hết hạn", "", "error");
             return;
         }
 
-        console.log(checkk1);
-
         $http.put("http://localhost:8080/api/voucher/update/" + id, {
             code: $scope.form.code,
             name: $scope.form.name,
-            discountType: checkk2,
-            discount: checkk2 ? checkk1 : null,
-            cash: !checkk2 ? checkk1 : null,
-            startDate: tungay,
-            endDate: denngay,
-            quantity: $scope.form.quantity,
-            updateBy: $rootScope.user.username,
+            discountType: laGiamPhanTram,
+            discount: laGiamPhanTram ? giaTriGiam : null,
+            cash: !laGiamPhanTram ? giaTriGiam : null,
+            startDate: ngayBatDau,
+            endDate: ngayHetHan,
+            quantity: $scope.form.quantity
         }).then(function (resp) {
             if (resp.status === 200) {
-                Swal.fire('Sửa thành công !', '', 'success')
+                Swal.fire('Cập nhật thành công!', '', 'success');
                 setTimeout(() => {
                     location.href = "#/voucher/view";
-                }, 2000);
-                $scope.loadAll();
-                $scope.issuakhuyenmai = false;
+                }, 1000);
             }
         }).catch(function (err) {
             if (err.status === 400) {
                 $scope.validationErrors = err.data;
             }
-
-        })
-    }
+        });
+    };
 
     //delete
     $scope.delete = function (id) {
@@ -229,7 +221,22 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         let id = $routeParams.id;
         $http.get("http://localhost:8080/api/voucher/" + id).then(function (resp) {
             $scope.form = resp.data;
-            console.log($scope.form);
+
+
+            if ($scope.form.startDate != null || $scope.form.endDate != null) {
+                // Chuỗi thời gian từ SQL
+                let startDate = new Date(resp.data.startDate);
+                let endDate = new Date(resp.data.endDate);
+
+                // Định dạng chuỗi thời gian 'yyyy-MM-dd'
+                let formattedStartDate = startDate.toISOString().split('T')[0];
+                let formattedEndDate = endDate.toISOString().split('T')[0];
+
+                document.getElementById("ngaybatdau").value = formattedStartDate;
+                document.getElementById("ngayhethan").value = formattedEndDate;
+                document.getElementById("ngaybatdau").min = new Date().toISOString().split('T')[0];
+                document.getElementById("ngayhethan").min = new Date().toISOString().split('T')[0];
+            }
 
             // Hiển thị các phần tử dựa trên loại khuyến mãi
             if (resp.data.discountType) {
@@ -248,19 +255,6 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
                     $("#giamtienmat").prop("checked", true);
                 }
             });
-
-            // Chuỗi thời gian từ SQL
-            let startDate = new Date(resp.data.startDate);
-            let endDate = new Date(resp.data.endDate);
-
-            // Định dạng chuỗi thời gian 'yyyy-MM-dd'
-            let formattedStartDate = startDate.toISOString().split('T')[0];
-            let formattedEndDate = endDate.toISOString().split('T')[0];
-
-            document.getElementById("ngaybatdau").value = formattedStartDate;
-            document.getElementById("ngayhethan").value = formattedEndDate;
-            document.getElementById("ngaybatdau").min = new Date().toISOString().split('T')[0];
-            document.getElementById("ngayhethan").min = new Date().toISOString().split('T')[0];
 
         });
     };

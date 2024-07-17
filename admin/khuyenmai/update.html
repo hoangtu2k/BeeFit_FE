@@ -2,6 +2,7 @@
     <section class="section dashboard">
 
         <div class="pagetitle">
+          <a href="#/voucher/view"><button class="btn btn-primary"><i class="bi bi-arrow-90deg-left"></i></button></a>
             <h1>Sửa khuyến mại</h1>
             <p ng-if="form.updateDate != null" class="validate">Cập nhật lần cuối lúc {{form.updateDate | date:'HH:mm:ss
                 - dd/MM/yyyy'}}</p>
@@ -46,9 +47,6 @@
                   </div>
                 </div>
           
-                <div class="col-md-12" style="margin-top: 20px;">
-                  <button ng-click="update()" class="btn btn-primary">Lưu</button>
-                </div>
               </div>
           
               <div class="col-lg-6">
@@ -81,9 +79,9 @@
                     Loại khuyến mãi <span class="validate">*</span>
                   </label>
                   <div class="custom-radio">
-                    <input type="radio" value="true" name="discountType" ng-model="form.discountType" id="giamphantram" ng-checked="form.discountType === true" />
+                    <input type="radio" value="true" name="discountType" ng-model="form.discountType" id="giamphantram" ng-checked="form.discountType === true" ng-click="check()"/>
                     <label for="giamphantram">Giảm giá theo %</label>
-                    <input type="radio" value="false" name="discountType" ng-model="form.discountType" id="giamtienmat" ng-checked="form.discountType === false" />
+                    <input type="radio" value="false" name="discountType" ng-model="form.discountType" id="giamtienmat" ng-checked="form.discountType === false" ng-click="check()"/>
                     <label for="giamtienmat">Giảm giá theo tiền mặt</label>
                   </div>
                   <div class="col-md-12" style="display: none;" id="km">
@@ -95,6 +93,11 @@
                     <input ng-model="form.cash" class="form-control">
                   </div>
                 </div>
+
+                <div class="col-md-12" style="margin-top: 20px;">
+                  <button ng-click="update()" class="btn btn-primary">Lưu</button>
+                </div>
+
               </div>
             </div>
           </form>
