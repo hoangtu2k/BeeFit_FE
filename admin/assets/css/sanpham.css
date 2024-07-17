@@ -271,7 +271,7 @@
 .table-quantity {
   -moz-appearance: textfield;
   border-width: 0 0 1px;
-  width: 20%;
+  width: 30%;
 }
 
 .table-quantity:hover,

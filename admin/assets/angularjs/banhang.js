@@ -1183,6 +1183,76 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       });
   };
 
+  $scope.EnterQuantity = function(id) {
+    let quantityElement = document.getElementById("quantity" + id);
+    let quantity = parseInt(quantityElement.value);
+  
+    
+  
+    // Tìm chi tiết đơn hàng
+    $http.get("http://localhost:8080/api/bill/getbilldetail/" + id)
+      .then(function(resp) {
+        let billDetail = resp.data;
+  
+        // Kiểm tra số lượng sản phẩm có sẵn
+        let getPram = {
+          IdProduct: billDetail.product.id,
+          IdColor: billDetail.idColor,
+          IdSize: billDetail.idSize
+        };
+  
+        $http({
+          method: "GET",
+          url: "http://localhost:8080/api/productdetail_color_size/getQuantityProductAndColorAndSize",
+          params: getPram
+        }).then(function(soluong) {
+          
+          if (quantity < 1) {
+            Swal.fire("Số lượng không hợp lệ", "", "error");
+            quantityElement.value = billDetail.quantity; // Đặt về số lượng hiện tại nếu không đủ hàng
+            return;
+          }
+
+          if (quantity > billDetail.quantity + soluong.data) {
+            Swal.fire("Số lượng yêu cầu vượt quá số lượng có sẵn", "", "error");
+            quantityElement.value = billDetail.quantity; // Đặt về số lượng hiện tại nếu không đủ hàng
+            return;
+          }
+  
+          // Cập nhật số lượng trong chi tiết đơn hàng
+          $http.put("http://localhost:8080/api/bill/updateBillDetail/" + id, {
+            idBill: billDetail.idBill,
+            idProduct: billDetail.product.id,
+            idColor: billDetail.idColor,
+            idSize: billDetail.idSize,
+            quantity: quantity,
+            unitPrice: billDetail.unitPrice
+          }).then(function() {
+            // Cập nhật số lượng sản phẩm trong kho
+            let param2 = {
+              IdProduct: billDetail.product.id,
+              IdColor: billDetail.idColor,
+              IdSize: billDetail.idSize,
+              Quantity: soluong.data - (quantity - billDetail.quantity)
+            };
+  
+            $http({
+              method: "PUT",
+              url: "http://localhost:8080/api/productdetail_color_size/updateQuantity",
+              params: param2
+            }).then(function() {
+              $scope.getAllData();
+              $scope.searchQuery = '';
+              document.getElementById('input__search-bh').value = '';
+              document.getElementById('header-search-sp').style.display = 'none';
+              $scope.choose(codeBill, idBill);
+              $scope.getAllProduct();
+            });
+          });
+        });
+      });
+  };
+
   $scope.deleteBillDetail = function (id) {
     // Bước 1: Lấy thông tin chi tiết hóa đơn
     $http.get("http://localhost:8080/api/bill/getbilldetail/" + id).then(function (resp) {
