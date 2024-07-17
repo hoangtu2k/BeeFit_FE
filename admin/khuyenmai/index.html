@@ -62,15 +62,15 @@
                       <td>{{v.discountType == true ? 'Giảm giá theo %' : 'Giảm giá theo tiền'}}</td>
                       <td>{{v.discountType == true ? v.discount + '%' : (v.cash | currency:'':0) + ' VND'}}</td>
                       <td>{{v.quantity}}</td>
-                      <td>{{ formatDateTime(v.startDate) }}</td>
-                      <td>{{ formatDateTime(v.endDate) }}</td>
+                      <td>{{ v.startDate | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ v.endDate | date:'dd/MM/yyyy' }}</td>
                       <td>
                         <span class="badge" ng-class="{'bg-success': v.status === 0, 'bg-danger': v.status !== 0}">
                           {{ v.status === 0 ? 'Hoạt động' : 'Ngừng hoạt động'
                           }}</span>
                       </td>
                       <td>
-                        <button class="btn btn-primary" ng-click="opensuakhuyenmai(v)"> Sửa</button>
+                        <a href="#/voucher/update/{{v.id}}"><button class="btn btn-primary"> Sửa</button></a>
                         <button class="btn btn-danger" ng-click="delete(v.id)"> Xóa</button>
                       </td>
                     </tr>
@@ -211,15 +211,7 @@
 
           <div class="col-lg-6">
 
-            <div class="col-md-12">
-              <label for class="form-label label--ctsp">Mã khuyến mãi <span class="validate">*</span></label>
-              <input ng-model="form.code" type="text" class="form-control">
-              <div ng-repeat="err in validationErrors">
-                <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Code'">
-                  {{err.defaultMessage}}
-                </span>
-              </div>
-            </div>
+            
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Tên khuyến mãi <span class="validate">*</span></label>
@@ -234,7 +226,7 @@
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Ngày bắt đầu <span class="validate">*</span></label>
-              <input type="datetime-local" ng-model="form.startdate" id="ngaybatdau" class="form-control">
+              <input type="date" ng-model="form.startdate" id="ngaybatdau" class="form-control">
               <div ng-repeat="err in validationErrors">
                 <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'StartDate'">
                   {{err.defaultMessage}}
@@ -244,7 +236,7 @@
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Ngày hết hạn <span class="validate">*</span></label>
-              <input type="datetime-local" ng-model="form.enddate" id="ngayhethan" class="form-control">
+              <input type="date" ng-model="form.enddate" id="ngayhethan" class="form-control">
               <div ng-repeat="err in validationErrors">
                 <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'EndDate'">
                   {{err.defaultMessage}}
@@ -283,7 +275,7 @@
               <div class="col-md-12" style="display: none;" id="km1">
                 <label>Khuyến mãi theo tiền </label>
                 <input ng-model="form.cash" class="form-control">
-              </div>
+              </div>             
             </div>
 
             <div class="col-md-4">

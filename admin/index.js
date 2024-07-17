@@ -56,7 +56,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "khuyenmai/index.html",
       controller: KhuyenMaiController,
     })
-    
+    .when("/voucher/update/:id", {
+      templateUrl: "khuyenmai/update.html",
+      controller: KhuyenMaiController,
+    })
 
     .when("/login", {
       templateUrl: "nhanvien/login.html",

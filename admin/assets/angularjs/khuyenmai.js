@@ -225,6 +225,46 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         })
     }
 
+    $scope.detail = function () {
+        let id = $routeParams.id;
+        $http.get("http://localhost:8080/api/voucher/" + id).then(function (resp) {
+            $scope.form = resp.data;
+            console.log($scope.form);
+
+            // Hiển thị các phần tử dựa trên loại khuyến mãi
+            if (resp.data.discountType) {
+                document.getElementById("km").style.display = "block";
+                document.getElementById("km1").style.display = "none";
+            } else {
+                document.getElementById("km").style.display = "none";
+                document.getElementById("km1").style.display = "block";
+            }
+
+            // Thiết lập loại giảm giá
+            $(document).ready(function () {
+                if (resp.data.discountType) {
+                    $("#giamphantram").prop("checked", true);
+                } else {
+                    $("#giamtienmat").prop("checked", true);
+                }
+            });
+
+            // Chuỗi thời gian từ SQL
+            let startDate = new Date(resp.data.startDate);
+            let endDate = new Date(resp.data.endDate);
+
+            // Định dạng chuỗi thời gian 'yyyy-MM-dd'
+            let formattedStartDate = startDate.toISOString().split('T')[0];
+            let formattedEndDate = endDate.toISOString().split('T')[0];
+
+            document.getElementById("ngaybatdau").value = formattedStartDate;
+            document.getElementById("ngayhethan").value = formattedEndDate;
+            document.getElementById("ngaybatdau").min = new Date().toISOString().split('T')[0];
+            document.getElementById("ngayhethan").min = new Date().toISOString().split('T')[0];
+
+        });
+    };
+
     /////////////////////////////////////////////////////////////////////
 
     if ($location.path() === "#/voucher/add") {
@@ -255,22 +295,6 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
     };
 
 
-    $scope.formatDateTime = function (dateTimeString) {
-        var date = new Date(dateTimeString);
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        
-        // Định dạng giờ và phút
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        
-        // Định dạng ngày/tháng/năm
-        var day = date.getDate();
-        var month = date.getMonth() + 1; // Tháng từ 0-11, cần cộng thêm 1
-        var year = date.getFullYear();
-        
-        return (day < 10 ? '0' + day : day) + '/' + (month < 10 ? '0' + month : month) + '/' + year + ' ' + hours + ':' + minutes;
-    };
 
 
 }

@@ -299,7 +299,7 @@
 
                   <div class="custom-radio">
                     <input ng-click="magiamgia()" type="radio" id="chuongtrinhkhuyenmaiCheck" name="magiam" checked>
-                    <label for="chuongtrinhkhuyenmaiCheck">Chương trình khuyến mãi</label>
+                    <label for="chuongtrinhkhuyenmaiCheck">Chương trình khuyến mại</label>
 
                     <span id="maGiamGiaKH" style="display: none;">
                       <input ng-click="magiamgia()" type="radio" id="magiamgiaCheck" name="magiam">
@@ -317,7 +317,7 @@
 
                   <div id="chuongtrinhkhuyenmai" style="display: block;">
                     <select class="form-select" style="width: 350px;height: 40px; float: left;" id="ctkm">
-                      <option ng-repeat="km in listVoucher" value="{{km.code}}">{{km.code}} - {{km.name}} | {{km.discountType ? "Giảm giá theo phần trăm" : "Giảm giá theo tiền mặt"}}</option>
+                      <option ng-repeat="km in listVoucher" value="{{km.code}}">{{km.code}} - {{km.name}} | {{km.discountType ? "Giảm giá theo phần trăm" : "Giảm giá theo tiền mặt"}} | Số lượng khuyến mại:{{km.quantity}}</option>
                     </select>
                     <button ng-click="apCTKM()" style="padding: 5px; margin-left: 10px; margin-top: 2px;"
                       class="btn btn-primary">Áp dụng</button>

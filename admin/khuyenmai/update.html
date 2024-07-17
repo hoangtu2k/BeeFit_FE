@@ -1,0 +1,103 @@
+<main id="main" class="main">
+    <section class="section dashboard">
+
+        <div class="pagetitle">
+            <h1>Sửa khuyến mại</h1>
+            <p ng-if="form.updateDate != null" class="validate">Cập nhật lần cuối lúc {{form.updateDate | date:'HH:mm:ss
+                - dd/MM/yyyy'}}</p>
+        </div>
+
+        <form data-ng-init="detail()">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="col-md-12">
+                  <label for="code" class="form-label label--ctsp">
+                    Mã khuyến mãi <span class="validate">*</span>
+                  </label>
+                  <input ng-model="form.code" type="text" id="code" class="form-control">
+                  <div ng-repeat="err in validationErrors">
+                    <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Code'">
+                      {{err.defaultMessage}}
+                    </span>
+                  </div>
+                </div>
+          
+                <div class="col-md-12">
+                  <label for="ngaybatdau" class="form-label label--ctsp">
+                    Ngày bắt đầu <span class="validate">*</span>
+                  </label>
+                  <input type="date" id="ngaybatdau" class="form-control">
+                  <div ng-repeat="err in validationErrors">
+                    <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'StartDate'">
+                      {{err.defaultMessage}}
+                    </span>
+                  </div>
+                </div>
+          
+                <div class="col-md-12">
+                  <label for="ngayhethan" class="form-label label--ctsp">
+                    Ngày hết hạn <span class="validate">*</span>
+                  </label>
+                  <input type="date" id="ngayhethan" class="form-control">
+                  <div ng-repeat="err in validationErrors">
+                    <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'EndDate'">
+                      {{err.defaultMessage}}
+                    </span>
+                  </div>
+                </div>
+          
+                <div class="col-md-12" style="margin-top: 20px;">
+                  <button ng-click="update()" class="btn btn-primary">Lưu</button>
+                </div>
+              </div>
+          
+              <div class="col-lg-6">
+                <div class="col-md-12">
+                  <label for="name" class="form-label label--ctsp">
+                    Tên khuyến mại <span class="validate">*</span>
+                  </label>
+                  <input ng-model="form.name" type="text" id="name" class="form-control">
+                  <div ng-repeat="err in validationErrors">
+                    <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Name'">
+                      {{err.defaultMessage}}
+                    </span>
+                  </div>
+                </div>
+          
+                <div class="col-md-12">
+                  <label for="quantity" class="form-label label--ctsp">
+                    Số lượng <span class="validate">*</span>
+                  </label>
+                  <input ng-model="form.quantity" type="text" id="quantity" class="form-control">
+                  <div ng-repeat="err in validationErrors">
+                    <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Quantity'">
+                      {{err.defaultMessage}}
+                    </span>
+                  </div>
+                </div>
+          
+                <div class="col-md-12">
+                  <label for="discountType" class="form-label label--ctsp">
+                    Loại khuyến mãi <span class="validate">*</span>
+                  </label>
+                  <div class="custom-radio">
+                    <input type="radio" value="true" name="discountType" ng-model="form.discountType" id="giamphantram" ng-checked="form.discountType === true" />
+                    <label for="giamphantram">Giảm giá theo %</label>
+                    <input type="radio" value="false" name="discountType" ng-model="form.discountType" id="giamtienmat" ng-checked="form.discountType === false" />
+                    <label for="giamtienmat">Giảm giá theo tiền mặt</label>
+                  </div>
+                  <div class="col-md-12" style="display: none;" id="km">
+                    <label>Khuyến mãi theo (%)</label>
+                    <input ng-model="form.discount" class="form-control">
+                  </div>
+                  <div class="col-md-12" style="display: none;" id="km1">
+                    <label>Khuyến mãi theo tiền</label>
+                    <input ng-model="form.cash" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+    </section>
+</main>
