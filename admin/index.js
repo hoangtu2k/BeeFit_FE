@@ -43,10 +43,10 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "banner/index.html",
       controller: BannerController,
     })
-    .when("/news/view", {
-      templateUrl: "tintuc/news.html",
-      controller: TinTucController,
-    })
+    // .when("/news/view", {
+    //   templateUrl: "tintuc/news.html",
+    //   controller: TinTucController,
+    // })
 
     .when("/customer/view", {
       templateUrl: "khachhang/index.html",

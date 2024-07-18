@@ -160,7 +160,7 @@
 
             <div class="col-md-12">
               <label for class="form-label label--ctsp">Số lượng <span class="validate">*</span></label>
-              <input ng-model="form.quantity" type="text" class="form-control">
+              <input ng-model="form.quantity" id="qty" type="text" class="form-control">
               <div ng-repeat="err in validationErrors">
                 <span class="validate" ng-if="err.objectName == 'voucherRequest' && err.field == 'Quantity'">
                   {{err.defaultMessage}}
@@ -180,11 +180,11 @@
               </div>
               <div class="col-md-12" style="display: none;" id="km">
                 <label>Khuyến mãi theo (%) </label>
-                <input ng-model="form.discount" class="form-control">
+                <input ng-model="form.discount" id="km3" class="form-control">
               </div>
               <div class="col-md-12" style="display: none;" id="km1">
                 <label>Khuyến mãi theo tiền </label>
-                <input ng-model="form.cash" class="form-control">
+                <input ng-model="form.cash" id="km4" class="form-control">
               </div>
             </div>
 

@@ -103,6 +103,33 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
             }
         }
 
+        var numberRegex = /^[0-9]+$/;
+        if (!numberRegex.test(document.getElementById("qty").value)) {
+            Swal.fire("Số lượng phải là số !!", "", "error");
+            return;
+        }
+
+        if (!numberRegex.test(document.getElementById("km3").value)) {
+            Swal.fire("Giá trị giảm phải là số !!", "", "error");
+            return;
+        } 
+
+        if (!numberRegex.test(document.getElementById("km4").value)) {
+            Swal.fire("Giá trị giảm phải là số !!", "", "error");
+            return;
+        } 
+
+        let giaTriNhapVao = parseFloat(document.getElementById("km3").value);
+        if (giaTriNhapVao < 0 || giaTriNhapVao > 100) {
+            Swal.fire("% giảm phải nằm trong khoảng từ 0 đến 100", "", "error");
+            return;
+        }
+
+        if (document.getElementById("qty").value < 1) {
+            Swal.fire("Số lượng không hợp lệ", "", "error");
+            return;
+        }
+
         // Kiểm tra ngày tháng
         let tungay = document.getElementById("ngaybatdau").value;
         let denngay = document.getElementById("ngayhethan").value;
@@ -141,7 +168,7 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
 
     //update
     $scope.update = function () {
-        
+
         let id = $routeParams.id;
         $http.get("http://localhost:8080/api/voucher/" + id).then(function (detail) {
             $scope.history = detail.data;
