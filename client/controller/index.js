@@ -29,19 +29,13 @@ app.config(function ($routeProvider, $locationProvider) {
 
 
 
-
-
     .when("/login", {
       templateUrl: "account/login.html",
       controller: LoginController,
     })
     .when("/profile", {
       templateUrl: "account/dashboard.html",
-      controller: 'ProfileController',
-    })
-    .when("/profile-edit", {
-      templateUrl: "account/edit-profile.html",
-      controller: 'ProfileController',
+      controller: ProfileController,
     })
     .when("/register", {
       templateUrl: "account/register.html",
@@ -54,8 +48,6 @@ app.config(function ($routeProvider, $locationProvider) {
 
 
 
-
-    
     .when("/404", {
       templateUrl: "404.html",
     })

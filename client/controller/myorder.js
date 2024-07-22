@@ -5,6 +5,7 @@ window.MyOrderController = function ($http, $scope, $routeParams, $location, Aut
     let urlcolor = "http://localhost:8080/api/color";
     let urlsize = "http://localhost:8080/api/size";
     let url = "http://localhost:8080/api/product/getall";
+
     // load color
     $scope.listColor = [];
     $http.get(urlcolor).then(function (response) {
@@ -20,6 +21,17 @@ window.MyOrderController = function ($http, $scope, $routeParams, $location, Aut
     $http.get(url).then(function (response) {
       $scope.listPro = response.data;
     });
+
+    //load TichLuyKhachHangByIdCustomer
+    $scope.tichLuyKhachHang = {};
+    $http.get("http://localhost:8080/api/bill/getTichLuyKhachHangByIdCustomer/" + IdCustomer)
+      .then(function (response) {
+        $scope.tichLuyKhachHang = response.data;
+      })
+      .catch(function (error) {
+        console.error("Lỗi khi lấy dữ liệu tích lũy khách hàng: ", error);
+        // Thêm code xử lý lỗi tại đây
+      });
 
     $scope.isPopupVisible = false;
 
@@ -45,60 +57,12 @@ window.MyOrderController = function ($http, $scope, $routeParams, $location, Aut
           $scope.listbillhistory = resp.data;
         })
       }
-      // $scope.pager1 = {
-      //   page: 0,
-      //   size: 3,
-      //   get items() {
-      //     var start = this.page * this.size;
-      //     return $scope.listItem.slice(start, start + this.size);
-      //   },
-      //   get count() {
-      //     return Math.ceil((1.0 * $scope.listItem.length) / this.size);
-      //   },
-
-      //   first() {
-      //     this.page = 0;
-      //   },
-      //   prev() {
-      //     this.page--;
-      //     if (this.page < 0) {
-      //       this.last();
-      //     }
-      //   },
-      //   next() {
-      //     this.page++;
-      //     if (this.page >= this.count) {
-      //       this.first();
-      //     }
-      //   },
-      //   last() {
-      //     this.page = this.count - 1;
-      //   },
-      // };
+      
 
 
 
     };
-    //   $scope.customFilter = function(item) {
-    //     if (!$scope.hoadon && !$scope.ngaymua) {
-    //         return true; // Hiển thị tất cả nếu không có điều kiện
-    //     }
-
-    //     var matchHoadon = (!$scope.hoadon) || (item.code.indexOf($scope.hoadon) !== -1);
-
-    //     if ($scope.ngaymua) {
-    //         // Chuyển đổi ngày mua từ ngày nhập của người dùng (ví dụ: '2023-01-01')
-    //         // thành định dạng ngày mà purchaseDate sử dụng
-    //         console.log(item.purchaseDate)
-    //         var formattedNgaymua = $filter('date')($scope.ngaymua, "yyyy-MM-dd HH:mm:ss.sss Z");
-
-    //         var matchNgaymua = (item.purchaseDate.indexOf(formattedNgaymua) !== -1);
-    //     } else {
-    //         var matchNgaymua = true; // Không có điều kiện về ngày mua
-    //     }
-
-    //     return matchHoadon && matchNgaymua;
-    // };
+   
     $scope.countTT = function () {
       //count all
       $scope.countall = [];
@@ -216,7 +180,7 @@ window.MyOrderController = function ($http, $scope, $routeParams, $location, Aut
       // pagation
       $scope.pager = {
         page: 0,
-        size: 10,
+        size: 5,
         get items() {
           var start = this.page * this.size;
           return $scope.list.slice(start, start + this.size);

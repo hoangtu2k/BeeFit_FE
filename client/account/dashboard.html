@@ -1,5 +1,5 @@
 <main class="main">
-     <div class="page-content">
+    <div class="page-content">
         <div class="dashboard">
             <div class="container">
                 <div class="row">
@@ -10,60 +10,120 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-orders-link" href="#/myorder">Đơn hàng</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="tab-account-link" href="#/profile-edit">Chi tiết tài khoản</a>
-                            </li>
+                            </li>                           
                         </ul>
                     </aside><!-- End .col-lg-3 -->
 
                     <div class="col-md-8 col-lg-10">
                         <div class="tab-content">
-                            <p>Xin chào
-                                <br>
-                                Người dùng từ bảng điều khiển tài khoản,
-                                bạn có thể xem các <a href="#/myorder" class="tab-trigger-link link-underline">đơn đặt
-                                    hàng gần đây</a>,
-                                quản lý địa chỉ giao hàng và thanh toán,
-                                đồng thời
-                                <a href="#/profile-edit" class="tab-trigger-link">chỉnh sửa mật khẩu và chi tiết tài
-                                    khoản</a>..
-                                Các địa chỉ sau sẽ được sử dụng trên trang thanh toán theo mặc định.
-                            </p>
-                            <!-- .End .tab-pane -->
 
-                            <div>
-                                <p>Các địa chỉ sau sẽ được sử dụng trên trang thanh toán theo mặc định.</p>
+                            <div class="row">
 
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="card card-dashboard">
-                                            <div class="card-body">
-                                                <h3 class="card-title">Địa chỉ thanh toán</h3><!-- End .card-title -->
+                                <div class="col-lg-12">
+                                    <div class="card card-dashboard">
+                                        <div class="card-body">
 
-                                                <p>
-                                                    Tên người dùng: {{ user.fullname }}<br>
-                                                    Số điện thoại: <br>
-                                                    New York, NY 10001<br>                                            
-                                                    <a href="#/profile-edit">Sửa <i class="icon-edit"></i></a>
-                                                </p>
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .card-dashboard -->
-                                    </div><!-- End .col-lg-6 -->
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div>
+                                                        <img id="output1" ng-if="anh == null"
+                                                            style="width: 200px;height: 200px;"
+                                                            src="assets/images/img-rose.jpg">
+                                                        <img id="output1" ng-if="anh != null"
+                                                            style="width: 200px;height: 200px;" src="{{anh}}">
+                                                        <img id="output"
+                                                            style="display: none;width: 200px;height: 200px;" />
+                                                    </div>
+                                                    <div style="padding-top: 20px;padding-left: 35px;">
+                                                        <button onclick="anhOpen()" class="btn btn-outline-success"
+                                                            id="uploadButtonImage">Chọn ảnh</button>
+                                                        <input file-model="profile.image" id="fileUpload" type="file"
+                                                            accept="image/*" onchange="loadFile(event)"
+                                                            style="display: none;">
+                                                    </div>
+                                                </div>
 
-                                    <div class="col-lg-6">
-                                        <div class="card card-dashboard">
-                                            <div class="card-body">
-                                                <h3 class="card-title">Địa chỉ giao hàng</h3><!-- End .card-title -->
-                                                <p>Bạn chưa thiết lập loại địa chỉ này.<br>
-                                                    <a href="#">Sửa <i class="icon-edit"></i></a>
-                                                </p>
-                                            </div><!-- End .card-body -->
-                                        </div><!-- End .card-dashboard -->
-                                    </div><!-- End .col-lg-6 -->
-                                </div><!-- End .row -->
-                            </div><!-- .End .tab-pane -->
+                                                <div class="col-lg-8">
+                                                    <h3 class="card-title">Thông tin người dùng</h3>
+                                                    <!-- End .card-title -->
+                                                    <p>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <label>Tên người dùng: </label>
+                                                            <input ng-model="profile.username" class="form-control" disabled>
+                                                            <label>Tên đầy đủ: </label>
+                                                            <input ng-model="profile.fullname" class="form-control" type="text">
+                                                            <div ng-repeat="err in validationErrors">
+                                                                <span class="text-danger" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Fullname'">
+                                                                  {{err.defaultMessage}}
+                                                                </span>
+                                                            </div>
+                                                            <label>Giới tính: </label>
+                                                            <input id="gtNam"name="gioitinh"
+                                                                type="radio" value="true" {{form.gender=true ? 'checked' : '' }}>Nam 
+                                                            <input id="gtNu" name="gioitinh" type="radio"
+                                                                value="false" {{form.gender=false ? 'checked' : '' }}>Nữ
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <label>Email:</label>
+                                                            <input ng-model="profile.email" class="form-control" type="text">
+                                                            <div ng-repeat="err in validationErrors">
+                                                                <span class="text-danger" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Email'">
+                                                                  {{err.defaultMessage}}
+                                                                </span>
+                                                            </div>
+                                                            <label>Số điện thoại:</label>
+                                                            <input ng-model="profile.phone" class="form-control" type="text">
+                                                            <div ng-repeat="err in validationErrors">
+                                                                <span class="text-danger" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Phone'">
+                                                                  {{err.defaultMessage}}
+                                                                </span>
+                                                            </div>
+                                                            <a href="" class="text-center" ng-click="update()">Sửa <i
+                                                                    class="icon-edit"></i></a>
+                                                        </div>
+                                                    </div>
 
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                        </div><!-- End .card-body -->
+                                    </div><!-- End .card-dashboard -->
+                                </div><!-- End .col-lg-12 -->
+
+                                <div class="col-lg-12">
+                                    <div class="card card-dashboard">
+                                        <div class="card-body">
+                                            <h3 class="card-title">Địa chỉ giao hàng</h3><!-- End .card-title -->
+                                            <table class="table">
+                                                <tr>
+                                                    <td>#</td>
+                                                    <td>Người nhận</td>
+                                                    <td>Địa chỉ giao</td>
+                                                    <td>Số điện thoại</td>
+                                                    <td>Hành động</td>
+                                                </tr>
+                                                <tr ng-repeat="add in listAddress">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{add.fullname}}</td>
+                                                    <td>{{add.address}}, {{add.wardName}}, {{add.districtName}},
+                                                        {{add.cityName}}</td>
+                                                    <td>{{add.phone}}</td>
+                                                    <td>
+                                                        <button class="btn btn-outline-danger"
+                                                            ng-click="delete(add.id)">Xóa</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <p>
+                                                <a href="#">Sửa <i class="icon-edit"></i></a>
+                                            </p>
+                                        </div><!-- End .card-body -->
+                                    </div><!-- End .card-dashboard -->
+                                </div><!-- End .col-lg-12 -->
+
+                            </div><!-- End .row -->
 
                         </div>
                     </div><!-- End .col-lg-9 -->

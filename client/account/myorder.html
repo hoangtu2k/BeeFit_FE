@@ -10,10 +10,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" id="tab-orders-link" href="#/myorder">Đơn hàng</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="tab-account-link" href="#/profile-edit">Chi tiết tài khoản</a>
-                            </li>
+                            </li>                          
                         </ul>
                     </aside><!-- End .col-lg-3 -->
 
@@ -23,13 +20,13 @@
                             <div class="row" style="text-align: center;">
                                 <div class="col-lg-6">
                                     <div class="summary">
-                                        <h3 class="summary-title">11</h3>
+                                        <h3 class="summary-title">{{tichLuyKhachHang.tongHoaDon}}</h3>                                    
                                         <span>Đơn hàng</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="summary">
-                                        <h3 class="summary-title">19.999.999 VND</h3>
+                                        <h3 class="summary-title">{{tichLuyKhachHang.tienTichLuy == null ? 0 : tichLuyKhachHang.tienTichLuy | currency:'':0}} VNĐ</h3>
                                         <span>Tổng tiền tích lũy</span>
                                     </div>
                                 </div>
@@ -106,18 +103,13 @@
                                 </table>
                                 <div ng-if="list.length > 0" class="text-center">
                                     <div class="btn-group">
-                                        <button ng-click="pager.first()" type="button"
-                                            class="btn btn-outline-primary"><i
-                                                class="fa-solid fa-angles-left"></i></button>
-                                        <button ng-click="pager.prev()" type="button" class="btn btn-outline-primary"><i
-                                                class="fa-solid fa-angle-left"></i></button>
-                                        <button type="button" class="btn btn-outline-primary">{{pager.page+1}}
-                                            of
-                                            {{pager.count}}</button>
-                                        <button ng-click="pager.next()" type="button" class="btn btn-outline-primary"><i
-                                                class="fa-solid fa-angle-right"></i></button>
-                                        <button ng-click="pager.last()" type="button" class="btn btn-outline-primary"><i
-                                                class="fa-solid fa-angles-right"></i></button>
+                                        <button ng-click="pager.first()" type="button" class="btn btn-primary">Đầu</button>
+                                        <button ng-click="pager.prev()" type="button" class="btn btn-primary">Trước</button>
+                                        <button type="button" class="btn btn-primary">
+                                            {{pager.page+1}} of {{pager.count}}
+                                        </button>
+                                        <button ng-click="pager.next()" type="button" class="btn btn-primary">Sau</button>
+                                        <button ng-click="pager.last()" type="button" class="btn btn-primary">Cuối</button>
                                     </div>
                                 </div>
                             </div>
