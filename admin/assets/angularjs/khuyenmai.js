@@ -90,6 +90,8 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         let checkk2 = document.getElementById("giamphantram").checked;
         let checkk1 = checkk2 ? $scope.form.discount : $scope.form.cash;
 
+        let numberRegex = /^[0-9]+$/;
+
         // Kiểm tra giá trị giảm giá
         if (document.getElementById("giamphantram").checked) {
             if (!$scope.form.discount) {
@@ -102,40 +104,39 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
                 return;
             }
         }
-
-        var numberRegex = /^[0-9]+$/;
-        if (!numberRegex.test(document.getElementById("qty").value)) {
-            Swal.fire("Số lượng phải là số !!", "", "error");
-            return;
-        }
-
-        if (!numberRegex.test(document.getElementById("km3").value)) {
-            Swal.fire("Giá trị giảm phải là số !!", "", "error");
-            return;
+ 
+        if (document.getElementById("giamphantram").checked) {
+            let giaTriNhapVao = parseFloat(document.getElementById("km3").value);
+            if (giaTriNhapVao < 0 || giaTriNhapVao > 100) {
+                Swal.fire("% giảm phải nằm trong khoảng từ 0 đến 100", "", "warning");
+                return;
+            }
         } 
 
-        if (!numberRegex.test(document.getElementById("km4").value)) {
-            Swal.fire("Giá trị giảm phải là số !!", "", "error");
-            return;
-        } 
+        if (document.getElementById("giamphantram").checked) {
+            if (!numberRegex.test(document.getElementById("km3").value)) {
+                Swal.fire("% Giảm phải là số !!", "", "warning");
+                return;
+            }
+        } else {
+            if (!numberRegex.test(document.getElementById("km4").value)) {
+                Swal.fire("Số tiền giảm phải là số !!", "", "warning");
+                return;
+            }
+        }
 
-        let giaTriNhapVao = parseFloat(document.getElementById("km3").value);
-        if (giaTriNhapVao < 0 || giaTriNhapVao > 100) {
-            Swal.fire("% giảm phải nằm trong khoảng từ 0 đến 100", "", "error");
+        if (!numberRegex.test(document.getElementById("qty").value || document.getElementById("qty").value < 1)) {
+            Swal.fire("Số lượng không hợp lệ!!", "", "warning");
             return;
         }
 
-        if (document.getElementById("qty").value < 1) {
-            Swal.fire("Số lượng không hợp lệ", "", "error");
-            return;
-        }
-
+        
         // Kiểm tra ngày tháng
         let tungay = document.getElementById("ngaybatdau").value;
         let denngay = document.getElementById("ngayhethan").value;
 
         if (new Date(tungay) > new Date(denngay)) {
-            Swal.fire("Ngày bắt đầu phải trước ngày hết hạn", "", "error");
+            Swal.fire("Ngày bắt đầu phải trước ngày hết hạn", "", "warning");
             return;
         }
 
@@ -177,6 +178,8 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
         let laGiamPhanTram = document.getElementById("giamphantram").checked;
         let giaTriGiam = laGiamPhanTram ? $scope.form.discount : $scope.form.cash;
 
+        let numberRegex = /^[0-9]+$/;
+
         // Kiểm tra giá trị giảm giá
         if (laGiamPhanTram) {
             if (!$scope.form.discount) {
@@ -190,12 +193,38 @@ window.KhuyenMaiController = function ($scope, $http, $location, $routeParams, $
             }
         }
 
+        if (document.getElementById("giamphantram").checked) {
+            let giaTriNhapVao = parseFloat(document.getElementById("km3").value);
+            if (giaTriNhapVao < 0 || giaTriNhapVao > 100) {
+                Swal.fire("% giảm phải nằm trong khoảng từ 0 đến 100", "", "warning");
+                return;
+            }
+        } 
+
+        if (document.getElementById("giamphantram").checked) {
+            if (!numberRegex.test(document.getElementById("km3").value)) {
+                Swal.fire("% Giảm phải là số !!", "", "warning");
+                return;
+            }
+        } else {
+            if (!numberRegex.test(document.getElementById("km4").value)) {
+                Swal.fire("Số tiền giảm phải là số !!", "", "warning");
+                return;
+            }
+        }
+
+        // Kiểm tra giá trị số lượng
+        if (!numberRegex.test(document.getElementById("qty").value || document.getElementById("qty").value < 1)) {
+            Swal.fire("Số lượng không hợp lệ!!", "", "warning");
+            return;
+        }
+
         // Kiểm tra ngày tháng
         let ngayBatDau = document.getElementById("ngaybatdau").value;
         let ngayHetHan = document.getElementById("ngayhethan").value;
 
         if (new Date(ngayBatDau) > new Date(ngayHetHan)) {
-            Swal.fire("Ngày bắt đầu phải trước ngày hết hạn", "", "error");
+            Swal.fire("Ngày bắt đầu phải trước ngày hết hạn", "", "warning");
             return;
         }
 
