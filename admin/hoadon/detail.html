@@ -78,14 +78,13 @@
           <div class="custom-border">
             <h4><i class="fa-solid fa-circle-info"></i> Thông Tin Đơn Hàng</h4>
             <h6>
-              Trạng thái : <span ng-if="bill.status == 0">Chờ xác nhận</span>
-              <span ng-if="bill.status == 1">Chờ giao hàng</span>
-              <span ng-if="bill.status == 2">Đang giao hàng</span>
-              <span ng-if="bill.status == 3">Đã giao hàng</span>
-              <span ng-if="bill.status == 4">Đã hủy</span>
-              <span ng-if="bill.status == 5">Đổi hàng</span>
+              Trạng thái : <span class="badge bg-warning" ng-if="bill.status == 0">Chờ xác nhận</span>
+              <span class="badge bg-info" ng-if="bill.status == 1">Chờ giao hàng</span>
+              <span class="badge bg-primary" ng-if="bill.status == 2">Đang giao hàng</span>
+              <span class="badge bg-success" ng-if="bill.status == 3">Đã giao hàng</span>
+              <span class="badge bg-danger" ng-if="bill.status == 4">Đã hủy</span>  
             </h6>
-            <h6>Hình thức mua hàng : <span>{{bill.typeStatus == 1 ? 'Tại quầy' : 'Mua online'}}</span></h6>
+            <h6>Hình thức mua hàng : <span class="badge bg-success">{{bill.typeStatus == 1 ? 'Tại quầy' : 'Mua online'}}</span></h6>
             <h6>Người mua hàng : {{cus == null ? 'Khách lẻ' : cus.fullname}}
               <span ng-if="cus != null">-</span>{{cus == null ? '' : cus.phone}}
             </h6>
@@ -113,9 +112,8 @@
                   </td>
                   <td>{{bill.totalPrice + bill.shipPrice - bill.totalPriceLast | currency:'':0}} VNĐ</td>
                   <td>
-                    <span ng-if="bill.payStatus == 1">Đã thanh toán</span>
-                    <span ng-if="bill.payStatus == 0">Chưa thanh toán</span>
-
+                    <span class="badge bg-success" ng-if="bill.payStatus == 1">Đã thanh toán</span>
+                    <span class="badge bg-warning" ng-if="bill.payStatus == 0">Chưa thanh toán</span>
                   </td>
                   <td ng-if="bill.payStatus == 0">
                     <button ng-click="XacNhanTT()" class="btn btn-primary"
@@ -269,29 +267,29 @@
     <h3>Cập nhật địa chỉ giao hàng</h3>
     <div>
       Tên người nhận
-      <input id="tennguoimua" class="haninput" value="{{address.fullname}}">
+      <input id="tennguoimua" class="form-control" value="{{address.fullname}}">
     </div>
     <div>
       Số điện thoại
-      <input id="sodienthoai" class="haninput" value="{{address.phone}}">
+      <input id="sodienthoai" class="form-control" value="{{address.phone}}">
     </div>
     <div>
       Tỉnh/TP
-      <select class="haninput" id="tinh" ng-click="getHuyen();getXa()">
+      <select class="form-select" id="tinh" ng-click="getHuyen();getXa()">
         <option ng-repeat="tinh in listTinh" value="{{tinh.ProvinceID}}"
           ng-selected="address.cityId == tinh.ProvinceID">{{tinh.ProvinceName}}</option>
       </select>
     </div>
     <div>
       Quận/Huyện
-      <select class="haninput" id="huyen" ng-click="getXa()">
+      <select class="form-select" id="huyen" ng-click="getXa()">
         <option ng-repeat="huyen in listHuyen" value="{{huyen.DistrictID}}"
           ng-selected="address.districtId == huyen.DistrictID">{{huyen.DistrictName}}</option>
       </select>
     </div>
     <div>
       Xã/Phường
-      <select class="haninput" id="xa">
+      <select class="form-select" id="xa">
         <option ng-repeat="xa in listXa" value="{{xa.WardCode}}" ng-selected="address.wardId == xa.WardCode">
           {{xa.WardName}}</option>
       </select>
