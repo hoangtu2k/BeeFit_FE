@@ -14,8 +14,8 @@ app.config(function ($routeProvider, $locationProvider) {
     })
     .when("/bill/view/:code", {
       templateUrl: "hoadon/detail.html",
-      controller : HoaDonController
-  })
+      controller: HoaDonController
+    })
 
     .when("/chart/view", {
       templateUrl: "thongke/index.html",
@@ -61,6 +61,11 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: KhuyenMaiController,
     })
 
+
+    .when("/forget", {
+      templateUrl: "nhanvien/forget.html",
+      controller: ForgetController,
+    })
     .when("/login", {
       templateUrl: "nhanvien/login.html",
       controller: LoginAdminController,
@@ -73,6 +78,8 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "nhanvien/profile.html",
       controller: ProfileController,
     })
+
+
 
     .when("/403", {
       templateUrl: "403.html",
@@ -88,16 +95,12 @@ app.factory("AuthInterceptor", function ($location, AuthService) {
     request: function (config) {
       var token = AuthService.getToken();
 
-      if (
-        token === null &&
-        $location.path() !== "/login"
-      ) {
-        $location.path("/login");
+      if (token === null && $location.path() !== '/login' && $location.path() !== '/forget') {
+        $location.path('/login');
       }
-      if (
-        (token !== null && $location.path() === "/login")
-      ) {
-        $location.path("/product/view");
+      if (token !== null && $location.path() === '/login' || token !== null && $location.path() === '/forget') {
+
+        $location.path('/product/view');
       }
 
       // phan quyen sau

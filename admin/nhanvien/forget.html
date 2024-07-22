@@ -6,55 +6,48 @@
         <div class="row justify-content-center">
           <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-            <div class="d-flex justify-content-center py-4">
-              <a href="#/login" class="logo d-flex align-items-center w-auto">
-                <img src="./assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">BeeFit</span>
-              </a>
-            </div><!-- End Logo -->
-
             <div class="card mb-3">
 
               <div class="card-body">
 
                 <div class="pt-4 pb-2">
-                  <h5 class="card-title text-center pb-0 fs-4">Login</h5>
+                  <h5 class="card-title text-center pb-0 fs-4">Quên mật khẩu</h5>
                 </div>
 
                 <div class="row g-3 needs-validation">
 
                   <div class="input-group has-validation">
+
                     <div class="col-12">
-                      <label for="username" class="form-label">Tài khoản</label>
-                      <input type="text" ng-model="username" class="form-control">
+                      <label for="exampleInputEmail1" class="form-label">Tài khoản</label>
+                      <input ng-model="form.username" type="text" class="form-control" id="exampleInputEmail1">
                       <div ng-repeat="err in validationErrors">
-                        <span class="validate" ng-if="err.objectName == 'loginRequest' && err.field == 'username'"
-                          style="color: red;">
+                        <span class="validate" ng-if="err.objectName == 'forgetForm' && err.field == 'Username'">
                           {{err.defaultMessage}}
                         </span>
                       </div>
                     </div>
 
                     <div class="col-12">
-                      <label for="password" class="form-label">Mật khẩu</label>
-                      <input type="password" ng-model="password" class="form-control">
+                      <label for="exampleInputPassword1" class="form-label">Email</label>
+                      <input ng-model="form.email" type="email" class="form-control" id="exampleInputPassword1">
                       <div ng-repeat="err in validationErrors">
-                        <span class="validate" ng-if="err.objectName == 'loginRequest' && err.field == 'password'"
-                          style="color: red;">
+                        <span class="validate" ng-if="err.objectName == 'forgetForm' && err.field == 'Email'">
                           {{err.defaultMessage}}
                         </span>
                       </div>
                     </div>
+
+                  </div>
+
+                  <div class="col-6">
+                    <p class="small mb-0 text-center"><a href="#/login">Đăng nhập ngay</a></p>
                   </div>
 
                   <div class="col-12">
-                    <button class="btn btn-outline-primary w-100 text-center"  ng-click="login()">Đăng nhập</button>
-                  </div>  
-
-                  <div class="col-12">
-                    <p class="small mb-0 text-center"><a href="#/forget">Quên mật khẩu?</a></p>
+                    <button class="btn btn-outline-primary w-100 text-center" ng-click="forget()">Quên mật khẩu</button>
                   </div>
-
+         
                 </div>
 
               </div>

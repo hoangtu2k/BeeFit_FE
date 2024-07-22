@@ -2,6 +2,7 @@ window.LoginAdminController = function ($scope, $http, $rootScope, AuthService) 
 
   document.getElementById('main-wrapper').style.display = 'none';
   document.getElementById('login').style.display = 'block';
+
   $scope.login = function () {
 
     $http.post('http://localhost:8080/api/auth/admin/login', {
