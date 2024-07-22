@@ -1847,23 +1847,25 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       Swal.fire('Giỏ hàng của bạn đang rỗng !', '', 'error');
       return;
     }
-    if (document.getElementById('diachicuthe').style.display == 'block' && document.getElementById('diachicuthe').value.trim() === '' && document.getElementById("hinhThuc2").checked === true) {
-      Swal.fire('Vui lòng nhập địa chỉ !', '', 'error');
-      return;
-    }
-    if (document.getElementById('nguoimua').style.display === 'block' && document.getElementById('tennguoimua').value.trim() === '' && document.getElementById("hinhThuc2").checked === true) {
-      Swal.fire('Vui lòng nhập tên người mua !', '', 'error');
+
+    if (document.getElementById('tennguoimua').value.trim() === '' && document.getElementById("hinhThuc2").checked === true) {
+      Swal.fire('Vui lòng nhập tên người nhận !', '', 'error');
       return;
     }
     let regex = /^\d{10}$/;
-    if (document.getElementById('nguoimua').style.display === 'block' && document.getElementById('sodienthoai').value.trim() === '' && document.getElementById("hinhThuc2").checked === true) {
+    if (document.getElementById('sodienthoai').value.trim() === '' && document.getElementById("hinhThuc2").checked === true) {
       Swal.fire('Vui lòng nhập số điện thoại !', '', 'error');
       return;
     }
-    if (document.getElementById('nguoimua').style.display === 'block' && !regex.test(document.getElementById('sodienthoai').value.trim()) && document.getElementById("hinhThuc2").checked === true) {
+    if (!regex.test(document.getElementById('sodienthoai').value.trim()) && document.getElementById("hinhThuc2").checked === true) {
       Swal.fire('Số điện thoại phải là số và có 10 chữ số !', '', 'error');
       return;
     }
+    if (document.getElementById('diachicuthe').value.trim() === '' && document.getElementById("hinhThuc2").checked === true) {
+      Swal.fire('Vui lòng nhập địa chỉ !', '', 'error');
+      return;
+    }
+
     if ($scope.tienThanhToan === 0 && document.getElementById("pay2").checked === true) {
       Swal.fire('Tiền thanh toán 0đ nên bạn không được phép thanh toán online !', '', 'error');
       return;
@@ -1897,7 +1899,6 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
       showCancelButton: true,
       confirmButtonText: "Thanh toán",
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         $scope.isLoading = true;
         //nếu chọn thanh toán tại tiền mặt
@@ -2040,103 +2041,64 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
             //khách hàng đã có
             else {
               //chọn địa chỉ
-              if (document.getElementById('diachichon').checked === true) {
-                $http.post('http://localhost:8080/api/address', {
-                  fullname: tennguoimua,
-                  phone: sodienthoai,
-                  address: diachicuthe,
-                  cityId: cityId,
-                  districtId: districtId,
-                  wardId: wardId,
-                  cityName: cityName,
-                  districtName: districtName,
-                  wardName: wardName
-                }).then(function (adds) {
-                  console.log('Address saved successfully:', adds.data);
-                  $http.put('http://localhost:8080/api/bill/updateBillTaiQuay/' + codeBill, {
-                    totalPrice: $scope.tongTien,
-                    shipPrice: $scope.phiShip,
-                    totalPriceLast: $scope.giamGia,
-                    note: ghichu,
-                    payType: 0,
-                    payStatus: 0,
-                    idCustomer: idCustomer,
-                    idAddress: adds.data.id,
-                    idVoucher: idVoucher == null ? null : idVoucher,
-                    idCoupon: idCoupon,
-                    status: 1,
-                    typeStatus: 0
-                  }).then(function (resp) {
-                    console.log('Bill updated successfully:', resp.data);
-                    $http.post('http://localhost:8080/api/billhistory', {
-                      createBy: $rootScope.user.username,
-                      note: 'Đã xác nhận tại quầy',
-                      status: 1,
-                      idBill: resp.data.id
-                    }).then(function () {
-                      console.log('Bill history created successfully');
-                      // Cập nhật số lượng voucher nếu idVoucher không null
-                      if (idVoucher !== null) {
-                        $http.get('http://localhost:8080/api/voucher/' + idVoucher)
-                          .then(function (resp) {
-                            console.log('Voucher retrieved:', resp.data);
-                            var totalQuantity = resp.data.quantity;
-                            $http.put('http://localhost:8080/api/voucher/updateQuantityBill/' + idVoucher, { quantity: totalQuantity })
-                              .then(function (resp) {
-                                console.log('Voucher quantity updated:', resp.data);
-                                $scope.exportBill();
-                              });
-                          });
-                      } else {
-                        console.log('idVoucher is null, skipping voucher update');
-                        $scope.exportBill();
-                      }
-                    });
-                  }, function (error) {
-                    console.error('Error updating bill:', error);
-                  });
-                }, function (error) {
-                  console.error('Error saving address:', error);
-                });
-              }
-              // địa chỉ có sẵn
-              else {
-                let idAddressCoSan = document.getElementById('diachiCustomer').value;
-
+              $http.post('http://localhost:8080/api/address', {
+                fullname: tennguoimua,
+                phone: sodienthoai,
+                address: diachicuthe,
+                cityId: cityId,
+                districtId: districtId,
+                wardId: wardId,
+                cityName: cityName,
+                districtName: districtName,
+                wardName: wardName
+              }).then(function (adds) {
+                console.log('Address saved successfully:', adds.data);
                 $http.put('http://localhost:8080/api/bill/updateBillTaiQuay/' + codeBill, {
                   totalPrice: $scope.tongTien,
                   shipPrice: $scope.phiShip,
                   totalPriceLast: $scope.giamGia,
                   note: ghichu,
                   payType: 0,
-                  idCustomer: idCustomer,
                   payStatus: 0,
-                  idAddress: idAddressCoSan,
+                  idCustomer: idCustomer,
+                  idAddress: adds.data.id,
                   idVoucher: idVoucher == null ? null : idVoucher,
                   idCoupon: idCoupon,
                   status: 1,
                   typeStatus: 0
                 }).then(function (resp) {
+                  console.log('Bill updated successfully:', resp.data);
                   $http.post('http://localhost:8080/api/billhistory', {
                     createBy: $rootScope.user.username,
                     note: 'Đã xác nhận tại quầy',
                     status: 1,
                     idBill: resp.data.id
+                  }).then(function () {
+                    console.log('Bill history created successfully');
+                    // Cập nhật số lượng voucher nếu idVoucher không null
+                    if (idVoucher !== null) {
+                      $http.get('http://localhost:8080/api/voucher/' + idVoucher)
+                        .then(function (resp) {
+                          console.log('Voucher retrieved:', resp.data);
+                          var totalQuantity = resp.data.quantity;
+                          $http.put('http://localhost:8080/api/voucher/updateQuantityBill/' + idVoucher, { quantity: totalQuantity })
+                            .then(function (resp) {
+                              console.log('Voucher quantity updated:', resp.data);
+                              $scope.exportBill();
+                            });
+                        });
+                    } else {
+                      console.log('idVoucher is null, skipping voucher update');
+                      $scope.exportBill();
+                    }
                   });
-                  // Cập nhật số lượng voucher nếu idVoucher không null
-                  if (idVoucher !== null) {
-                    $http.get('http://localhost:8080/api/voucher/' + idVoucher)
-                      .then(function (resp) {
-                        var totalQuantity = resp.data.quantity;
-                        $http.put('http://localhost:8080/api/voucher/updateQuantityBill/' + idVoucher, { quantity: totalQuantity })
-                          .then(function (resp) {
-                            $scope.exportBill();
-                          });
-                      });
-                  }
-                  return;
-                })
-              }
+                }, function (error) {
+                  console.error('Error updating bill:', error);
+                });
+              }, function (error) {
+                console.error('Error saving address:', error);
+              });
+
             }
           }
         }
