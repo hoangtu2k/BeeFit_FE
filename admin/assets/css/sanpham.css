@@ -120,7 +120,7 @@
 }
 
 .add-thuoctinh {
-  width: 410px;
+  width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -245,6 +245,13 @@
   position: absolute;
   top: 20px;
   left: 680px;
+
+}
+
+.map--btn-addtt {
+  position: absolute;
+  bottom: 20px;
+  left: 200px;
 
 }
 

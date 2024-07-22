@@ -93,24 +93,28 @@
                 <td>{{bill.purchaseDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{bill.totalPrice + bill.shipPrice - bill.totalPriceLast | currency:'':0}} VNĐ</td>
                 <td>
-                  <span class="" ng-if="bill.payType == 0">Thanh toán khi nhận hàng</span>
-                  <span class="" ng-if="bill.payType == 1">Thanh toán online qua VNPAY</span>
+                  <span class="badge" ng-class="{'bg-primary': bill.payType == 1, 'bg-success': bill.payType == 0}">
+                    {{ bill.payType == 1 ? 'Thanh toán online qua VNPAY' : 'Thanh toán khi nhận hàng' }}
+                  </span>
                 </td>
                 <td>
-                  <span class="" ng-if="bill.payStatus == 1">Đã thanh toán</span>
-                  <span class="" ng-if="bill.payStatus == 0">Chưa thanh toán</span>
+                  <span class="badge" ng-class="{'bg-success': bill.payStatus === 1, 'bg-warning': bill.payStatus === 0}">
+                    {{ bill.payStatus === 1 ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+                  </span>
+                <td>
+                  <span class="badge" 
+                  ng-class="{'bg-warning': bill.status == 0, 'bg-info': bill.status == 1, 'bg-primary': bill.status == 2, 'bg-success': bill.status == 3, 'bg-danger': bill.status == 4}">
+                    {{ bill.status == 0 ? 'Chờ xác nhận' : 
+                       bill.status == 1 ? 'Chờ giao hàng' :
+                       bill.status == 2 ? 'Đang giao hàng' :
+                       bill.status == 3 ? 'Đã giao hàng' :
+                       'Đã hủy' }}
+                  </span>
                 </td>
                 <td>
-                  <span class="" ng-if="bill.status == 0">Chờ xác nhận</span>
-                  <span class="" ng-if="bill.status == 1">Chờ giao hàng</span>
-                  <span class="" ng-if="bill.status == 2">Đang giao hàng</span>
-                  <span class="" ng-if="bill.status == 3">Đã giao hàng</span>
-                  <span class="" ng-if="bill.status == 4">Đã hủy</span>
-                  <span class="" ng-if="bill.status == 5">Đổi hàng</span>
-                </td>
-                <td>
-                  <span class="" ng-if="bill.typeStatus == 1">Tại quầy</span>
-                  <span class="" ng-if="bill.typeStatus != 1">Mua online</span>
+                  <span class="badge" ng-class="{'bg-success': bill.typeStatus == 1, 'bg-primary': bill.typeStatus != 1}">
+                    {{ bill.typeStatus == 1 ? 'Tại quầy' : 'Mua online' }}
+                  </span>
                 </td>
               </tr>
               <tr ng-if="list.length == 0">

@@ -968,8 +968,6 @@ window.HoaDonController = function ($scope, $http, $location, $routeParams, $roo
     }
 
 
-
-
     //export exel
     $scope.exportToExcel = function () {
         Swal.fire({
