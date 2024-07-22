@@ -86,6 +86,7 @@ window.ProfileController = function ($http, $scope, $rootScope, AuthService) {
         $scope.isDiaChi = false;
         $scope.themDiaChi = function () {
             $scope.isDiaChi = !$scope.isDiaChi;
+            
             //get tỉnh
             $scope.listTinh = [];
             $http({
@@ -193,21 +194,21 @@ window.ProfileController = function ($http, $scope, $rootScope, AuthService) {
             $scope.listAddress = address.data;
 
         })
-
+        
+        $scope.delete = function (id) {
+            $http.put("http://localhost:8080/api/address/delete/" + id)
+                .then(function (resp) {
+                    Swal.fire('Xóa thành công !', '', 'success');
+                    $http.get("http://localhost:8080/api/address/" + IdCustomer)
+                        .then(function (address) {
+                            $scope.listAddress = address.data;
+                        });
+                });
+        };
 
     }
 
-    $scope.delete = function (id) {
-
-        $http.put("http://localhost:8080/api/address/delete/" + id).then(function (resp) {
-
-        })
-        Swal.fire('Xóa thành công !', '', 'success');
-        $http.get("http://localhost:8080/api/address/" + IdCustomer).then(function (address) {
-            $scope.listAddress = address.data;
-
-        })
-    }
+    
 
     $scope.profile();
 }

@@ -10,7 +10,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab-orders-link" href="#/myorder">Đơn hàng</a>
-                            </li>                           
+                            </li>
                         </ul>
                     </aside><!-- End .col-lg-3 -->
 
@@ -50,33 +50,49 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <label>Tên người dùng: </label>
-                                                            <input ng-model="profile.username" class="form-control" disabled>
+                                                            <input ng-model="profile.username" class="form-control"
+                                                                disabled>
                                                             <label>Tên đầy đủ: </label>
-                                                            <input ng-model="profile.fullname" class="form-control" type="text">
+                                                            <input ng-model="profile.fullname" class="form-control"
+                                                                type="text">
                                                             <div ng-repeat="err in validationErrors">
-                                                                <span class="text-danger" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Fullname'">
-                                                                  {{err.defaultMessage}}
+                                                                <span class="text-danger"
+                                                                    ng-if="err.objectName == 'capNhatProfile' && err.field == 'Fullname'">
+                                                                    {{err.defaultMessage}}
                                                                 </span>
                                                             </div>
-                                                            <label>Giới tính: </label>
-                                                            <input id="gtNam"name="gioitinh"
-                                                                type="radio" value="true" {{form.gender=true ? 'checked' : '' }}>Nam 
-                                                            <input id="gtNu" name="gioitinh" type="radio"
-                                                                value="false" {{form.gender=false ? 'checked' : '' }}>Nữ
+                                                            
+                                                            <div class="form-group d-flex align-items-center">
+                                                                <label class="mr-3">Giới tính:</label>
+                                                                <div class="custom-control custom-radio mr-3">
+                                                                  <input class="custom-control-input" id="gtNam" name="gioitinh" type="radio" value="true"
+                                                                    {{form.gender=true ? 'checked' : '' }}>
+                                                                  <label class="custom-control-label" for="gtNam">Nam</label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio">
+                                                                  <input class="custom-control-input" id="gtNu" name="gioitinh" type="radio" value="false"
+                                                                    {{form.gender=false ? 'checked' : '' }}>
+                                                                  <label class="custom-control-label" for="gtNu">Nữ</label>
+                                                                </div>
+                                                              </div>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <label>Email:</label>
-                                                            <input ng-model="profile.email" class="form-control" type="text">
+                                                            <input ng-model="profile.email" class="form-control"
+                                                                type="text">
                                                             <div ng-repeat="err in validationErrors">
-                                                                <span class="text-danger" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Email'">
-                                                                  {{err.defaultMessage}}
+                                                                <span class="text-danger"
+                                                                    ng-if="err.objectName == 'capNhatProfile' && err.field == 'Email'">
+                                                                    {{err.defaultMessage}}
                                                                 </span>
                                                             </div>
                                                             <label>Số điện thoại:</label>
-                                                            <input ng-model="profile.phone" class="form-control" type="text">
+                                                            <input ng-model="profile.phone" class="form-control"
+                                                                type="text">
                                                             <div ng-repeat="err in validationErrors">
-                                                                <span class="text-danger" ng-if="err.objectName == 'capNhatProfile' && err.field == 'Phone'">
-                                                                  {{err.defaultMessage}}
+                                                                <span class="text-danger"
+                                                                    ng-if="err.objectName == 'capNhatProfile' && err.field == 'Phone'">
+                                                                    {{err.defaultMessage}}
                                                                 </span>
                                                             </div>
                                                             <a href="" class="text-center" ng-click="update()">Sửa <i
@@ -96,6 +112,7 @@
                                     <div class="card card-dashboard">
                                         <div class="card-body">
                                             <h3 class="card-title">Địa chỉ giao hàng</h3><!-- End .card-title -->
+                                            <button class="btn btn-outline-primary-2" ng-click="themDiaChi()">Thêm địa chỉ mới</button>                                          
                                             <table class="table">
                                                 <tr>
                                                     <td>#</td>
@@ -111,13 +128,14 @@
                                                         {{add.cityName}}</td>
                                                     <td>{{add.phone}}</td>
                                                     <td>
-                                                        <button class="btn btn-outline-danger"
-                                                            ng-click="delete(add.id)">Xóa</button>
+                                                        <!-- <a href="">Sửa <i class="icon-edit"></i></a> -->
+                                                        <button class="btn-remove text-danger" ng-click="delete(add.id)"><i
+                                                                class="icon-close"></i></button>
                                                     </td>
                                                 </tr>
                                             </table>
                                             <p>
-                                                <a href="#">Sửa <i class="icon-edit"></i></a>
+
                                             </p>
                                         </div><!-- End .card-body -->
                                     </div><!-- End .card-dashboard -->
@@ -132,3 +150,48 @@
         </div><!-- End .dashboard -->
     </div><!-- End .page-content -->
 </main><!-- End .main -->
+
+<div class="popup" ng-class="{ 'show': isDiaChi }">
+    <div class="popup-add-diachi">
+      <!-- Nội dung của popup -->
+      <button class="btn btn-danger btn-isdiachi" ng-click="themDiaChi()">X</button>
+      <h3>Thêm địa chỉ </h3>  
+      <div class="row">
+        <div class="col-md-6 ">
+          <label>Tên người nhận <span class="vaid">*</span></label> <input class="form-control" id="tennguoimua">
+  
+        </div>
+        <div class="col-md-6 ">
+          <label>SĐT người nhận <span class="text-danger">*</span></label> <input class="form-control" id="sodienthoai">
+  
+        </div>
+        <div class="col-md-6 ">
+          <label>Tỉnh/Thành <span class="text-danger">*</span></label> <select class="form-control" id="tinh"
+            ng-click="getHuyen();getXa()">
+            <option ng-repeat="tinh in listTinh" value="{{tinh.ProvinceID}}">{{tinh.ProvinceName}}</option>
+          </select>
+  
+        </div>
+        <div class="col-md-6 ">
+          <label>Quận/Huyện <span class="text-danger">*</span></label> <select class="form-control" id="huyen"
+            ng-click="getXa()">
+            <option ng-repeat="huyen in listHuyen" value="{{huyen.DistrictID}}">{{huyen.DistrictName}}</option>
+          </select>
+        </div>
+        <div class="col-md-6 ">
+          <label>Phường/Xã <span class="text-danger">*</span></label> <select class="form-control" id="xa">
+            <option ng-repeat="xa in listXa" value="{{xa.WardCode}}">{{xa.WardName}}</option>
+          </select>
+        </div>
+        <div class="col-md-12 ">
+          <label>Địa chỉ cụ thể </label> <textarea class="form-control" id="diachicuthe"></textarea>
+  
+        </div>
+        <div class="col-md-12 text-center" style="padding-top: 10px;">
+          
+          <button class="btn btn-primary" ng-click="addDiaChi()">Thêm</button>
+        </div> 
+      </div>
+      
+    </div>
+  </div>
