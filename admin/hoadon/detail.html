@@ -82,11 +82,12 @@
               <span class="badge bg-info" ng-if="bill.status == 1">Chờ giao hàng</span>
               <span class="badge bg-primary" ng-if="bill.status == 2">Đang giao hàng</span>
               <span class="badge bg-success" ng-if="bill.status == 3">Đã giao hàng</span>
-              <span class="badge bg-danger" ng-if="bill.status == 4">Đã hủy</span>  
+              <span class="badge bg-danger" ng-if="bill.status == 4">Đã hủy</span>
             </h6>
-            <h6>Hình thức mua hàng : <span class="badge bg-success">{{bill.typeStatus == 1 ? 'Tại quầy' : 'Mua online'}}</span></h6>
+            <h6>Hình thức mua hàng : <span class="badge bg-success">{{bill.typeStatus == 1 ? 'Tại quầy' : 'Mua
+                online'}}</span></h6>
             <h6>Người mua hàng : {{cus == null ? 'Khách lẻ' : cus.fullname}}
-              <span ng-if="cus != null">-</span>{{cus == null ? '' : cus.phone}}
+              <span ng-if="cus != null">-</span> {{cus == null ? '' : cus.phone}}
             </h6>
             <h6 ng-if="bill.typeStatus != 1">
               Thông tin giao hàng : {{address.fullname}} - {{address.phone}}
@@ -173,8 +174,8 @@
                     <td class="text-center">
                       <i ng-if="bill.status == 0 || bill.status == 1" ng-click="giam(cart.id,bill.id)"
                         class="bi bi-dash-circle"></i>
-                      <input id="quantity{{cart.id}}" class="table-quantity text-center" min="1"
-                        style="width: 50px; background-color: #fff;" type="number" value="{{cart.quantity}}" disabled>
+                      <input id="quantity{{cart.id}}" class="table-quantity text-center" type="text"
+                        value="{{cart.quantity}}" ng-model="cart.quantity" ng-change="updateQuantity(cart.id, bill.id, cart.quantity)" disabled>
                       <i ng-if="bill.status == 0 || bill.status == 1" ng-click="tang(cart.id,bill.id)"
                         class="bi bi-plus-circle"></i>
                     </td>

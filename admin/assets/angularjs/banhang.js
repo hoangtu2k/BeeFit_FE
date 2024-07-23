@@ -199,7 +199,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     //get all voucher
     $scope.listVoucher = [];
     $http
-      .get("http://localhost:8080/api/voucher")
+      .get("http://localhost:8080/api/voucher/getAllToBill")
       .then(function (resp) {
         $scope.listVoucher = resp.data;
       });
@@ -1746,7 +1746,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     $scope.voucherGiamGia = 0;
     let code = document.getElementById('ctkm').value;
 
-    $http.get('http://localhost:8080/api/voucher').then(function (resp) {
+    $http.get('http://localhost:8080/api/voucher/getAllToBill').then(function (resp) {
       $scope.listVoucher = resp.data;
 
       let voucherFound = false;
