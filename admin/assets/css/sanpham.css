@@ -495,13 +495,13 @@
 }
 
 .card-infornation {
-  height: 580px;
+  height: 630px;
   overflow-y: auto;
   font-size: 14px;
 }
 
 .card-cart {
-  height: 400px;
+  height: 450px;
   overflow-y: auto;
   font-size: 14px;
 }

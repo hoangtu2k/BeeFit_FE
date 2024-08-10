@@ -70,13 +70,21 @@ app.config(function ($routeProvider, $locationProvider) {
       templateUrl: "nhanvien/login.html",
       controller: LoginAdminController,
     })
+    .when("/profile", {
+      templateUrl: "nhanvien/profile.html",
+      controller: ProfileController,
+    })
     .when("/employee/view", {
       templateUrl: "nhanvien/index.html",
       controller: NhanVienController,
     })
-    .when("/profile", {
-      templateUrl: "nhanvien/profile.html",
-      controller: ProfileController,
+    .when("/employee/add", {
+      templateUrl: "nhanvien/add.html",
+      controller: NhanVienController,
+    })
+    .when("/employee/update/:id", {
+      templateUrl: "nhanvien/update.html",
+      controller: NhanVienController,
     })
 
 
