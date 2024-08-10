@@ -7,108 +7,111 @@
             <h1>Thêm nhân viên</h1>
         </div>
 
-        <div class="row">
+        <form>
+            <div class="row">
 
-            <div class="col-lg-4">
-                <div class="col-md-12">
-                    <img id="output" width="200px" />
-                    <div style="margin-top: 10px;">
-                        <button onclick="anhOpen()" class="btn btn-primary" id="uploadButtonImage">Chọn
-                            ảnh</button>
-                        <input file-model="image" id="fileUpload" type="file" accept="image/*"
-                            onchange="loadFile1(event)" style="display: none;">
-    
+                <div class="col-lg-4">
+                    <div class="col-md-12">
+                        <img id="output" width="200px" />
+                        <div style="margin-top: 10px;">
+                            <button onclick="anhOpen()" class="btn btn-primary" id="uploadButtonImage">Chọn
+                                ảnh</button>
+                            <input file-model="image" id="fileUpload" type="file" accept="image/*"
+                                onchange="loadFile1(event)" style="display: none;">
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-12">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-12">
 
-                        <div class="row">
-                  
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Tên nhân viên <span
-                                        class="validate">*</span></label>
-                                <input ng-model="form.fullname" type="text" class="form-control">
-                                <div ng-repeat="err in validationErrors">
-                                    <span class="validate"
-                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Fullname'">
-                                        {{err.defaultMessage}}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Tài khoản <span
-                                        class="validate">*</span></label>
-                                <input ng-model="form.username" type="text" class="form-control">
-                                <div ng-repeat="err in validationErrors">
-                                    <span class="validate"
-                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Username'">
-                                        {{err.defaultMessage}}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Mật khẩu <span
-                                        class="validate">*</span></label>
-                                <input ng-model="form.password" type="text" class="form-control">
-                                <div ng-repeat="err in validationErrors">
-                                    <span class="validate"
-                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Password'">
-                                        {{err.defaultMessage}}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Số điện thoại <span
-                                        class="validate">*</span></label>
-                                <input ng-model="form.phone" type="text" class="form-control">
-                                <div ng-repeat="err in validationErrors">
-                                    <span class="validate"
-                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Phone'">
-                                        {{err.defaultMessage}}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Email <span class="validate">*</span></label>
-                                <input ng-model="form.email" type="text" class="form-control">
-                                <div ng-repeat="err in validationErrors">
-                                    <span class="validate"
-                                        ng-if="err.objectName == 'employeeRequest' && err.field == 'Email'">
-                                        {{err.defaultMessage}}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Chức vụ <span
-                                        class="validate">*</span></label>
-                                <select class="form-select" id="vaitro">
-                                    <option ng-repeat="vaitro in listRole" value="{{vaitro.id}}"> {{vaitro.name}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for class="form-label label--ctsp">Giới tính <span
-                                        class="validate">*</span></label>
-                                <input id="gtNam" name="gioitinh" type="radio" value="true" checked>Nam
-                                <input id="gtNu" name="gioitinh" type="radio" value="false">Nữ                           
-                            </div>
-             
+                            <div class="row">
 
-                            <div class="col-md-12">
-                                <button ng-click="add()" class="btn btn-primary">Lưu</button>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Tên nhân viên <span
+                                            class="validate">*</span></label>
+                                    <input ng-model="form.fullname" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'employeeRequest' && err.field == 'Fullname'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Tài khoản <span
+                                            class="validate">*</span></label>
+                                    <input ng-model="form.username" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'employeeRequest' && err.field == 'Username'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Mật khẩu <span
+                                            class="validate">*</span></label>
+                                    <input ng-model="form.password" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'employeeRequest' && err.field == 'Password'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Số điện thoại <span
+                                            class="validate">*</span></label>
+                                    <input ng-model="form.phone" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'employeeRequest' && err.field == 'Phone'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Email <span
+                                            class="validate">*</span></label>
+                                    <input ng-model="form.email" type="text" class="form-control">
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate"
+                                            ng-if="err.objectName == 'employeeRequest' && err.field == 'Email'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Chức vụ <span
+                                            class="validate">*</span></label>
+                                    <select class="form-select" id="vaitro">
+                                        <option ng-repeat="vaitro in listRole" value="{{vaitro.id}}"> {{vaitro.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for class="form-label label--ctsp">Giới tính <span
+                                            class="validate">*</span></label>
+                                    <input id="gtNam" name="gioitinh" type="radio" value="true" checked>Nam
+                                    <input id="gtNu" name="gioitinh" type="radio" value="false">Nữ
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <button ng-click="add()" class="btn btn-primary">Lưu</button>
+                                </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+        </form>
 
     </section>
 </main>

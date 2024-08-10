@@ -1,4 +1,4 @@
-window.NhanVienController = function ($scope, $http, $rootScope, AuthService) {
+window.NhanVienController = function ($scope, $http, $routeParams, $rootScope, AuthService) {
     document.getElementById('header-wrapper').style.display = 'block';
 
     const url = "http://localhost:8080/api/employee";
@@ -20,7 +20,26 @@ window.NhanVienController = function ($scope, $http, $rootScope, AuthService) {
         },
         get count() {
             return Math.ceil(1.0 * $scope.list.length / this.size);
+        },
+        first() {
+            this.page = 0;
+        },
+        prev() {
+            this.page--;
+            if (this.page < 0) {
+                this.last();
+            }
+        },
+        next() {
+            this.page++;
+            if (this.page >= this.count) {
+                this.first();
+            }
+        },
+        last() {
+            this.page = this.count - 1;
         }
+        
     }
 
     const urlRole = "http://localhost:8080/api/role";
@@ -179,13 +198,7 @@ window.NhanVienController = function ($scope, $http, $rootScope, AuthService) {
     $scope.detail = function () {
         let id = $routeParams.id;
         $http.get("http://localhost:8080/api/employee/" + id).then(function (resp) {
-            $scope.form = resp.data;
-            if (resp.data.role.id == 1) {
-                document.getElementById("qly").selected = true
-            } else {
-                document.getElementById("nv").selected = true
-            }
-
+            
             $scope.form = resp.data;
             if (resp.data.gender == true) {
                 document.getElementById("gtNam").checked = true;
@@ -194,41 +207,13 @@ window.NhanVienController = function ($scope, $http, $rootScope, AuthService) {
 
             }
 
-            $scope.form = resp.data;
-            if (resp.data.status == 0) {
-                document.getElementById("lam").selected = true
-            } else {
-                document.getElementById("nghi").selected = true
-            }
-        })
-    }
-
-    $scope.chitiet = function (id) {
-        $http.get("http://localhost:8080/api/employee/" + id).then(function (resp) {
-            $scope.form = resp.data;
             if (resp.data.role.id == 1) {
-                $scope.vaiTro = "Quản lý"
+                document.getElementById("qly").selected = true
             } else {
-                $scope.vaiTro = "Nhân viên"
+                document.getElementById("nv").selected = true
             }
 
-            $scope.form = resp.data;
-            if (resp.data.gender == true) {
-                $scope.gioiTinh = "Nam"
-            } else {
-                $scope.gioiTinh = "Nữ"
-
-            }
-
-            $scope.form = resp.data;
-            if (resp.data.status == 0) {
-                $scope.trangThai = "Đang hoạt động";
-            } else {
-                $scope.trangThai = "Dừng hoạt động";
-            }
         })
-
-        $scope.isChiTiet = !$scope.isChiTiet;
     }
 
 };
