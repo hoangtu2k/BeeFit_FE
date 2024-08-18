@@ -23,24 +23,60 @@
                                 role="tab" aria-controls="register" aria-selected="true">Đăng ký</a>
                         </li>
                     </ul>
-                    <div class="tab-content">                     
+                    <div class="tab-content">
                         <div class="tab-pane fade show active" id="register" role="tabpanel"
                             aria-labelledby="register-tab-2">
                             <form>
                                 <div class="form-group">
-                                    <label for="register-email">Địa chỉ email của bạn *</label>
-                                    <input type="email" class="form-control" id="register-email"
+                                    <label for="register-email">Địa chỉ email của bạn <span class="text-danger">*</span></label>
+                                    <input ng-model="email" type="email" class="form-control" id="register-email"
                                         name="register-email" required>
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate text-danger"
+                                            ng-if="err.objectName == 'registerForm' && err.field == 'Email'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
-                                    <label for="register-password">Mật khẩu *</label>
-                                    <input type="password" class="form-control" id="register-password"
-                                        name="register-password" required>
+                                    <label for="register-account">Tên tài khoản <span class="text-danger">*</span></label>
+                                    <input ng-model="username" type="text" class="form-control" id="register-account"
+                                        name="register-account" required>
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate text-danger"
+                                            ng-if="err.objectName == 'registerForm' && err.field == 'Username'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div><!-- End .form-group -->
+
+                                <div class="form-group">
+                                    <label for="register-name">Tên của bạn <span class="text-danger">*</span></label>
+                                    <input ng-model="fullname" type="text" class="form-control" id="register-name"
+                                        name="register-name" required>
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate text-danger"
+                                            ng-if="err.objectName == 'registerForm' && err.field == 'Fullname'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
+                                </div><!-- End .form-group -->
+
+                                <div class="form-group">
+                                    <label for="register-password">Mật khẩu <span class="text-danger">*</span></label>
+                                    <input ng-model="password" type="password" class="form-control"
+                                        id="register-password" name="register-password" required>
+                                    <div ng-repeat="err in validationErrors">
+                                        <span class="validate text-danger"
+                                            ng-if="err.objectName == 'registerForm' && err.field == 'Password'">
+                                            {{err.defaultMessage}}
+                                        </span>
+                                    </div>
                                 </div><!-- End .form-group -->
 
                                 <div class="form-footer">
-                                    <button class="btn btn-outline-primary-2">
+                                    <button ng-click="register()" class="btn btn-outline-primary-2">
                                         <span>Đăng ký</span>
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
