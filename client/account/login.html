@@ -2,9 +2,8 @@
     <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Login</li>
+                <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
             </ol>
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
@@ -17,18 +16,18 @@
                     <ul class="nav nav-pills nav-fill" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="login-tab-2" data-toggle="tab" href="#/login" role="tab"
-                                aria-controls="login" aria-selected="false">Sign In</a>
+                                aria-controls="login" aria-selected="false">Đăng nhập</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="register-tab-2" data-toggle="tab" href="#/register"
-                                role="tab" aria-controls="register" aria-selected="true">Register</a>
+                                role="tab" aria-controls="register" aria-selected="true">Đăng ký</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab-2">
                             <form>
                                 <div class="form-group">
-                                    <label for="CustomerEmail">Username *</label>
+                                    <label for="CustomerEmail">Tên tài khoản *</label>
                                     <input ng-model="username" name="customer[email]" id="CustomerEmail" type="text" class="form-control" required>
                                     <div ng-repeat="err in validationErrors">
                                         <p ng-if="err.objectName == 'loginRequest' && err.field == 'username'"
@@ -37,7 +36,7 @@
                                 </div><!-- End .form-group -->
 
                                 <div class="form-group">
-                                    <label for="singin-password">Password *</label>
+                                    <label for="singin-password">Mật khẩu *</label>
                                     <input ng-model="password" name="customer[password]" id="singin-password" type="password" class="form-control" required>
                                         <div ng-repeat="err in validationErrors">
                                             <p ng-if="err.objectName == 'loginRequest' && err.field == 'password'" class="help-block text-danger">
@@ -52,25 +51,16 @@
                                         <i class="icon-long-arrow-right"></i>
                                     </button>
 
-                                    <div class="custom-control custom-checkbox">
+                                    <!-- <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input"
                                             id="signin-remember">
                                         <label class="custom-control-label" for="signin-remember">Remember
                                             Me</label>
-                                    </div><!-- End .custom-checkbox -->
+                                    </div> -->
 
-                                    <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                    <a href="#" class="forgot-link">Quên mật khẩu?</a>
                                 </div><!-- End .form-footer -->
                             </form>
-                            <div class="form-choice">
-                                <p class="text-center">or sign in with</p>                                      
-                                    <div class="justify-content-center">
-                                        <a href="#" class="btn btn-login btn-g">
-                                            <i class="icon-google"></i>
-                                            Login With Google
-                                        </a>
-                                    </div><!-- End .col-6 -->                                                                                  
-                            </div><!-- End .form-choice -->
                         </div><!-- .End .tab-pane -->                      
                     </div><!-- End .tab-content -->
                 </div><!-- End .form-tab -->
