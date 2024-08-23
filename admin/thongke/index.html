@@ -39,7 +39,7 @@
                     <i class="bi bi-currency-dollar"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>{{ngay.doanhThu == null ? 0 : ngay.doanhThu | currency:'':0}} VNĐ</h6>                 
+                    <h6>{{ngay.doanhThu == null ? 0 : ngay.doanhThu | currency:'':0}} VNĐ</h6>
                   </div>
                 </div>
               </div>
@@ -59,7 +59,8 @@
                   </div>
                   <div class="ps-3">
                     <h6>{{thang.soLuong}} đơn hàng</h6>
-                    <span class="text-success small pt-1 fw-bold">{{thang.doanhThu == null ? 0 : thang.doanhThu | currency:'':0}} VNĐ</span>
+                    <span class="text-success small pt-1 fw-bold">{{thang.doanhThu == null ? 0 : thang.doanhThu |
+                      currency:'':0}} VNĐ</span>
                   </div>
                 </div>
               </div>
@@ -67,6 +68,47 @@
 
           </div><!-- End Customers Card -->
 
+          <div class="col-12">
+            <div class="card">
+
+              <div class="card-body">
+                <h5 class="card-title">Biểu đồ thống kê</h5>
+
+                <div style="display: inline-flex;">
+                  <span style="padding: 5px;">Từ ngày</span>
+                  <input type="date" id="tungay" class="form-control" style="width: 200px;">
+                  <span style="padding: 5px;">Đến ngày</span>
+                  <input type="date" id="denngay" class="form-control" style="width: 200px;">
+                </div>
+                <div class="custom-radio">
+                  <form>
+                    <input type="radio" id="hoadon" name="radio-group1" checked>
+                    <label for="hoadon">Hóa đơn</label>
+                    <input type="radio" id="sanpham" name="radio-group1">
+                    <label for="sanpham">Sản phẩm</label>
+                  </form>
+                </div>
+                <div style="padding-top: 10px;">
+                  <button ng-click="thongKe()" class="btn btn-primary">Thống kê</button>
+                </div>
+                <div style="display: none;padding: 5px; font-weight: bold;" id="tkhd">
+                  Tổng số lượng chờ xác nhận : {{hdstatus[0].numberOfBillsStatus0}} <br>
+                  Tổng số lượng chờ giao : {{hdstatus[0].numberOfBillsStatus1}}<br>
+                  Tổng số lượng đang giao : {{hdstatus[0].numberOfBillsStatus2}}<br>
+                  Tổng số lượng đã giao : {{hdstatus[0].numberOfBillsStatus3}}<br>
+                  Tổng số lượng đã hủy : {{hdstatus[0].numberOfBillsStatus4}}
+                </div>
+                <div style="display: none;padding: 5px; font-weight: bold;" id="tksp">
+                  Tổng số lượng đã bán : {{tongSL}}<br>
+                  Tổng doanh thu : {{tongDT | currency:'':0}} VNĐ
+                </div>
+    
+                <canvas id="myChart" width="400" height="200"></canvas>
+
+              </div>
+
+            </div>
+          </div>
 
           <!-- Top Selling -->
           <div class="col-12">

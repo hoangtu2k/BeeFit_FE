@@ -37,10 +37,10 @@
                                     ({{countall}})</button>
                                 <button ng-click="getStatus(0)" class="btn btn-outline-primary-2">Chờ xác nhận
                                     ({{choxacnhan}})</button>
-                                <button ng-click="getStatus(2)" class="btn btn-outline-primary-2">Chờ lấy hàng
+                                    <button ng-click="getStatus(1)" class="btn btn-outline-primary-2">Chờ giao hàng
+                                        ({{danggiaohang}})</button>
+                                <button ng-click="getStatus(2)" class="btn btn-outline-primary-2">Đang giao hàng
                                     ({{chogiaohang}})</button>
-                                <button ng-click="getStatus(1)" class="btn btn-outline-primary-2">Đang giao hàng
-                                    ({{danggiaohang}})</button>
                                 <button ng-click="getStatus(3)" class="btn btn-outline-primary-2">Đã giao hàng
                                     ({{dagiaohang}})</button>
                                 <button ng-click="getStatus(4)" class="btn btn-outline-primary-2">Đã hủy
@@ -94,7 +94,7 @@
                                             <td colspan="10" style="text-align: center;">
                                                 <center>
                                                     <img style="width: 100px;height: 100px;"
-                                                        src="./assets/images/empty-folder.png">
+                                                        src="./assets/images/empty-cart.png">
                                                     <h3>Không có đơn hàng nào</h3>
                                                 </center>
                                             </td>
