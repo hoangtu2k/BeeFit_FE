@@ -116,7 +116,9 @@ app.factory("AuthInterceptor", function ($location, AuthService) {
         (parseInt(AuthService.getRole()) === 2 &&
           $location.path().startsWith("/employee/view")) ||
         (parseInt(AuthService.getRole()) === 2 &&
-          $location.path().startsWith("/chart/view"))
+          $location.path().startsWith("/chart/view")) ||
+          (parseInt(AuthService.getRole()) === 2 &&
+            $location.path().startsWith("/voucher/view"))
       ) {
         $location.path("/403");
       }

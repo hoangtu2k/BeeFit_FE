@@ -492,57 +492,7 @@ window.DetailController = function ($http, $scope, $routeParams, $location, $roo
 
           });
       } else {
-        $http
-          .get("http://localhost:8080/api/product/" + id)
-          .then(function (response) {
-            var unitPrice = 0;
-            if (response.data.discount > 0) {
-              unitPrice =
-                response.data.price -
-                response.data.price * (response.data.discount * 0.01);
-              $scope.unitPrice = unitPrice;
-            } else {
-              unitPrice = response.data.price;
-              $scope.unitPrice = unitPrice;
-            }
-
-            var index = CartService.findItemIndexById(id, selectedVal, selectedVal1);
-
-
-            if (index == -1) {
-              var cartAdd = {
-                idProduct: response.data,
-                idColor: parseInt(selectedVal),
-                idSize: parseInt(selectedVal1),
-                quantity: parseInt(soLuong),
-                unitPrice: unitPrice
-              }
-              CartService.addToCart(cartAdd);
-
-            }
-            else {
-
-              var cartUpdate = {
-                idProduct: response.data,
-                idColor: parseInt(selectedVal),
-                idSize: parseInt(selectedVal1),
-                quantity: parseInt(CartService.getCartItemAtIndex(index).quantity) + parseInt(soLuong),
-                unitPrice: unitPrice
-              }
-              CartService.updateCartItem(index, cartUpdate);
-
-            }
-
-            Swal.fire("Đã thêm vào giỏ !!", "", "success");
-            $rootScope.tongTienIndex1 = 0;
-            for (let i = 0; i < $rootScope.listCartIndex1.length; i++) {
-              $rootScope.tongTienIndex1 +=
-                $rootScope.listCartIndex1[i].unitPrice * $rootScope.listCartIndex1[i].quantity;
-            }
-
-
-          })
-
+        location.href = '#/login'
       }
 
     };

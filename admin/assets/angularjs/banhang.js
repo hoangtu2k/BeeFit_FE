@@ -302,7 +302,7 @@ window.BanHangController = function ($scope, $http, $location, $routeParams, $ro
     $scope.listItem = [];
     idBill = id;
     document.getElementById("chitiet").style.display = "block";
-    document.getElementById("search-bar").style.display = "block";
+    //document.getElementById("search-bar").style.display = "block";
     $scope.hoadon = {};
     $http
       .get("http://localhost:8080/api/bill/getbycode/" + code)
