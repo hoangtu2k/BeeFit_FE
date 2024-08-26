@@ -160,8 +160,10 @@
                                 <div class="filter-items">
 
                                     <div class="filter-item">
-                                        <select class="custom-select" id="danhmuc">
+                                        <select class="custom-select" id="danhmuc" ng-click="filter()">
                                             <option value="">Tất cả danh mục</option>
+                                            <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}">
+                                                {{danhmuc.name}}</option>
                                         </select>
                                     </div><!-- End .filter-item -->
 
@@ -170,58 +172,129 @@
                         </div><!-- End .widget -->
 
                         <div class="widget widget-collapsible">
-                            <h3 class="widget-title">Size</h3><!-- End .widget-title -->
+                            <h3 class="widget-title">Kích Thước</h3><!-- End .widget-title -->
 
                             <div class="collapse show" id="widget-2">
                                 <div class="widget-body">
                                     <div class="filter-items">
 
-                                        <div class="row">
-                                            <div ng-repeat="kt in listSize" class="filter-item col-auto">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input id="Size{{kt.id}}" value="{{kt.id}}" type="checkbox"
-                                                        name="SizeRadioGroup" class="custom-control-input">
-                                                    <label class="custom-control-label"
-                                                        for="Size{{kt.id}}">{{kt.name}}</label>
-                                                </div><!-- End .custom-checkbox -->
-                                            </div><!-- End .filter-item -->
-                                        </div>
+                                        <div class="filter-item">
+                                            <select class="custom-select" id="kichthuoc" ng-click="filter()">
+                                                <option value="">Tất cả kích Thước</option>
+                                                <option ng-repeat="kt in listSize" value="{{kt.id}}">
+                                                    {{kt.name}}</option>
+                                            </select>
+                                        </div><!-- End .filter-item -->
 
                                     </div><!-- End .filter-items -->
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
+
                         </div><!-- End .widget -->
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Màu sắc</h3><!-- End .widget-title -->
 
-                            <div class="collapse show" id="widget-3">
+                            <div class="collapse show" id="widget-2">
                                 <div class="widget-body">
-                                    <div class="radio-button">
+                                    <div class="filter-items">
 
-                                    </div>
-                                </div>
-                            </div>
+                                        <div class="filter-item">
+                                            <select class="custom-select" id="mausac" ng-click="filter()">
+                                                <option value="">Tất cả màu sắc</option>
+                                                <option ng-repeat="ms in listColor" value="{{ms.id}}">
+                                                    {{ms.name}}</option>
+                                            </select>
+                                        </div><!-- End .filter-item -->
+
+                                    </div><!-- End .filter-items -->
+                                </div><!-- End .widget-body -->
+                            </div><!-- End .collapse -->
 
                         </div><!-- End .widget -->
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">Thương hiệu</h3><!-- End .widget-title -->
 
-                            <div class="collapse show" id="widget-4">
+                            <div class="collapse show" id="widget-2">
                                 <div class="widget-body">
                                     <div class="filter-items">
 
                                         <div class="filter-item">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-1">
-                                                <label class="custom-control-label" for="brand-1">Next</label>
-                                            </div><!-- End .custom-checkbox -->
+                                            <select class="custom-select" id="thuonghieu" ng-click="filter()">
+                                                <option value="">Tất cả thương hiệu</option>
+                                                <option ng-repeat="th in listBrand" value="{{th.id}}">
+                                                    {{th.name}}</option>
+                                            </select>
                                         </div><!-- End .filter-item -->
 
                                     </div><!-- End .filter-items -->
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
+
+                        </div><!-- End .widget -->
+
+                        <div class="widget widget-collapsible">
+                            <h3 class="widget-title">Thiết kế</h3><!-- End .widget-title -->
+
+                            <div class="collapse show" id="widget-2">
+                                <div class="widget-body">
+                                    <div class="filter-items">
+
+                                        <div class="filter-item">
+                                            <select class="custom-select" id="thietke" ng-click="filter()">
+                                                <option value="">Tất cả thiết kế</option>
+                                                <option ng-repeat="tk in listDesign" value="{{tk.id}}">
+                                                    {{tk.name}}</option>
+                                            </select>
+                                        </div><!-- End .filter-item -->
+
+                                    </div><!-- End .filter-items -->
+                                </div><!-- End .widget-body -->
+                            </div><!-- End .collapse -->
+
+                        </div><!-- End .widget -->
+
+                        <div class="widget widget-collapsible">
+                            <h3 class="widget-title">Kiểu tay</h3><!-- End .widget-title -->
+
+                            <div class="collapse show" id="widget-2">
+                                <div class="widget-body">
+                                    <div class="filter-items">
+
+                                        <div class="filter-item">
+                                            <select class="custom-select" id="kieutay" ng-click="filter()">
+                                                <option value="">Tất cả kiểu tay</option>
+                                                <option ng-repeat="kt in listHandType" value="{{kt.id}}">
+                                                    {{kt.name}}</option>
+                                            </select>
+                                        </div><!-- End .filter-item -->
+
+                                    </div><!-- End .filter-items -->
+                                </div><!-- End .widget-body -->
+                            </div><!-- End .collapse -->
+
+                        </div><!-- End .widget -->
+
+                        <div class="widget widget-collapsible">
+                            <h3 class="widget-title">Kiểu cổ</h3><!-- End .widget-title -->
+
+                            <div class="collapse show" id="widget-2">
+                                <div class="widget-body">
+                                    <div class="filter-items">
+
+                                        <div class="filter-item">
+                                            <select class="custom-select" id="kieuco" ng-click="filter()">
+                                                <option value="">Tất cả kiểu cổ</option>
+                                                <option ng-repeat="kc in listNeckType" value="{{kc.id}}">
+                                                    {{kc.name}}</option>
+                                            </select>
+                                        </div><!-- End .filter-item -->
+
+                                    </div><!-- End .filter-items -->
+                                </div><!-- End .widget-body -->
+                            </div><!-- End .collapse -->
+
                         </div><!-- End .widget -->
 
                     </div><!-- End .sidebar sidebar-shop -->
